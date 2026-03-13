@@ -11,7 +11,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -21,6 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.Validator
+import woowacourse.kanban.board.model.ProfileState
+import woowacourse.kanban.board.model.TaskState
 
 @Preview(showBackground = true)
 @Composable
@@ -33,8 +34,8 @@ fun Modal() {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var tags by remember { mutableStateOf("") }
-    var state by remember { mutableIntStateOf(0) }
-    var profile by remember { mutableIntStateOf(0) }
+    var state by remember { mutableStateOf(TaskState.TODO) }
+    var profileState by remember { mutableStateOf(ProfileState.DINO) }
 
     val isTitleEmpty by remember {
         derivedStateOf {
@@ -77,9 +78,9 @@ fun Modal() {
             )
             ButtonSection(
                 state = state,
-                profile = profile,
+                profileState = profileState,
                 onStateClick = { state = it },
-                onProfileClick = { profile = it },
+                onProfileClick = { profileState = it },
             )
             Footer(
                 isButtonEnabled = Validator.checkButtonEnable(isTitleEmpty, isNotValidTag),

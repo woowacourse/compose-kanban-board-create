@@ -21,18 +21,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kanbanboard.composeapp.generated.resources.Res
-import kanbanboard.composeapp.generated.resources.profile
 import org.jetbrains.compose.resources.painterResource
 import woowacourse.kanban.board.Blue50
 import woowacourse.kanban.board.Blue80
 import woowacourse.kanban.board.Gray20
 import woowacourse.kanban.board.Gray70
+import woowacourse.kanban.board.model.ProfileState
 
 @Composable
-fun ProfileButton(text: String, state: Int, id: Int, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    val backgroundColor = if (state == id) Blue80 else Color.Transparent
-    val borderColor = if (state == id) Blue50 else Gray70
+fun ProfileButton(
+    currentState: ProfileState,
+    myState: ProfileState,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    val backgroundColor = if (currentState == myState) Blue80 else Color.Transparent
+    val borderColor = if (currentState == myState) Blue50 else Gray70
 
     Box(
         modifier = modifier
@@ -47,13 +52,13 @@ fun ProfileButton(text: String, state: Int, id: Int, onClick: () -> Unit, modifi
             horizontalArrangement = Arrangement.Start,
         ) {
             Image(
-                painter = painterResource(Res.drawable.profile),
+                painter = painterResource(myState.icon),
                 contentDescription = "프로필 이미지",
                 modifier = modifier.size(24.dp),
             )
             Spacer(modifier = modifier.width(12.dp))
             Text(
-                text = text,
+                text = myState.text,
                 modifier = Modifier.fillMaxWidth(),
                 fontSize = 16.sp,
                 color = Gray20,

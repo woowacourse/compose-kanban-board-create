@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -18,22 +18,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.ComponentText
 import woowacourse.kanban.board.Gray20
+import woowacourse.kanban.board.model.ProfileState
+import woowacourse.kanban.board.model.TaskState
 
 @Composable
 @Preview(showBackground = true)
 private fun ButtonSectionPreview() {
-    var state by remember { mutableIntStateOf(0) }
-    var profile by remember { mutableIntStateOf(0) }
+    var state by remember { mutableStateOf(TaskState.TODO) }
+    var profileState by remember { mutableStateOf(ProfileState.DINO) }
     ButtonSection(
-        state = state,
-        profile = profile,
+        state = TaskState.TODO,
+        profileState = profileState,
         onStateClick = { state = it },
-        onProfileClick = { profile = it },
+        onProfileClick = { profileState = it },
     )
 }
 
 @Composable
-fun ButtonSection(modifier: Modifier = Modifier, state: Int, profile: Int, onStateClick: (Int) -> Unit, onProfileClick: (Int) -> Unit) {
+fun ButtonSection(
+    modifier: Modifier = Modifier,
+    state: TaskState,
+    profileState: ProfileState,
+    onStateClick: (TaskState) -> Unit,
+    onProfileClick: (ProfileState) -> Unit,
+) {
 
     Column(
         modifier = modifier
@@ -52,9 +60,9 @@ fun ButtonSection(modifier: Modifier = Modifier, state: Int, profile: Int, onSta
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            StateButton(text = ComponentText.STATE_BUTTON_TODO, state, onClick = { onStateClick(0) }, id = 0)
-            StateButton(text = ComponentText.STATE_BUTTON_PROGRESS, state, onClick = { onStateClick(1) }, id = 1)
-            StateButton(text = ComponentText.STATE_BUTTON_DONE, state, onClick = { onStateClick(2) }, id = 2)
+            StateButton(currentState = state, myState = TaskState.TODO, onClick = { onStateClick(TaskState.TODO) })
+            StateButton(currentState = state, myState = TaskState.PROGRESS, onClick = { onStateClick(TaskState.PROGRESS) })
+            StateButton(currentState = state, myState = TaskState.DONE, onClick = { onStateClick(TaskState.DONE) })
         }
         Text(
             text = ComponentText.PROFILE_BUTTON_LABEL,
@@ -67,8 +75,8 @@ fun ButtonSection(modifier: Modifier = Modifier, state: Int, profile: Int, onSta
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            ProfileButton("다이노", profile, onClick = { onProfileClick(0) }, id = 0)
-            ProfileButton("페임스", profile, onClick = { onProfileClick(1) }, id = 1)
+            ProfileButton(currentState = profileState, myState = ProfileState.DINO, onClick = { onProfileClick(ProfileState.DINO) })
+            ProfileButton(currentState = profileState, myState = ProfileState.PAMES, onClick = { onProfileClick(ProfileState.PAMES) })
         }
     }
 }

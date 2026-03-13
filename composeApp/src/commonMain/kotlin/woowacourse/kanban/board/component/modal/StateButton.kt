@@ -21,12 +21,19 @@ import woowacourse.kanban.board.Blue50
 import woowacourse.kanban.board.Blue80
 import woowacourse.kanban.board.Gray20
 import woowacourse.kanban.board.Gray70
+import woowacourse.kanban.board.model.TaskState
 
 @Composable
-fun StateButton(text: String, state: Int, onClick: () -> Unit, id: Int, modifier: Modifier = Modifier) {
-    val backgroundColor = if (state == id) Blue80 else Color.Transparent
-    val borderColor = if (state == id) Blue50 else Gray70
-    val textColor = if (state == id) Blue50 else Gray20
+fun StateButton(
+    currentState: TaskState,
+    myState: TaskState,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    val backgroundColor = if (currentState == myState) Blue80 else Color.Transparent
+    val borderColor = if (currentState == myState) Blue50 else Gray70
+    val textColor = if (currentState == myState) Blue50 else Gray20
 
     Box(
         modifier = modifier
@@ -43,7 +50,7 @@ fun StateButton(text: String, state: Int, onClick: () -> Unit, id: Int, modifier
 
     ) {
         Text(
-            text = text,
+            text = myState.text,
             textAlign = TextAlign.Center,
             modifier = modifier.fillMaxWidth(),
             fontSize = 16.sp,

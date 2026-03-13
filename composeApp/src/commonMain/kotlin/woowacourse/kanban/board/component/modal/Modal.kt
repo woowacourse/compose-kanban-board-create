@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.Validator
 import woowacourse.kanban.board.model.ProfileState
 import woowacourse.kanban.board.model.TaskState
+import woowacourse.kanban.board.model.TextInputState
 
 @Preview(showBackground = true)
 @Composable
@@ -49,6 +50,23 @@ fun Modal() {
         }
     }
 
+    val titleInputState = TextInputState(
+        value = title,
+        onChange = { title = it },
+        isError = isTitleEmpty
+    )
+
+    val descriptionInputState = TextInputState(
+        value = description,
+        onChange = { description = it }
+    )
+
+    val tagsInputState = TextInputState(
+        value = tags,
+        onChange = { tags = it },
+        isError = isNotValidTag
+    )
+
     Card(
         modifier = Modifier
             .width(800.dp)
@@ -67,14 +85,9 @@ fun Modal() {
             Header()
             HorizontalDivider()
             TextInputSection(
-                title = title,
-                description = description,
-                tags = tags,
-                onTitleChange = { title = it },
-                onDescriptionChange = { description = it },
-                onTagsChange = { tags = it },
-                isTitleEmpty = isTitleEmpty,
-                isNotValidTag = isNotValidTag,
+                titleInputState = titleInputState,
+                descriptionInputState = descriptionInputState,
+                tagsInputState = tagsInputState
             )
             ButtonSection(
                 state = state,

@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.ComponentText
 import woowacourse.kanban.board.Validator
+import woowacourse.kanban.board.model.TextInputState
 
 @Preview(showBackground = true)
 @Composable
@@ -35,45 +36,56 @@ private fun TextInputSectionPreview() {
             Validator.checkNotValidTags(tags)
         }
     }
+    val titleInputState = TextInputState(
+        value = title,
+        onChange = { title = it },
+        isError = isTitleEmpty
+    )
+
+    val descriptionInputState = TextInputState(
+        value = description,
+        onChange = { description = it }
+    )
+
+    val tagsInputState = TextInputState(
+        value = tags,
+        onChange = { tags = it },
+        isError = isNotValidTag
+    )
 
     Column {
         TextInput(
             label = ComponentText.TITLE_LABEL,
-            value = title,
+            value = titleInputState.value,
             placeholder = ComponentText.TITLE_PLACEHOLDER,
-            onTextChange = { title = it },
-            isError = isTitleEmpty,
+            onTextChange = titleInputState.onChange,
+            isError = titleInputState.isError,
             errorText = ComponentText.TITLE_ERROR,
         )
         TextInput(
             label = ComponentText.DESCRIPTION_LABEL,
-            value = description,
+            value = descriptionInputState.value,
             singleLine = false,
             modifier = Modifier.height(200.dp),
             placeholder = ComponentText.DESCRIPTION_PLACEHOLDER,
-            onTextChange = { description = it },
+            onTextChange = descriptionInputState.onChange,
         )
         TextInput(
             label = ComponentText.TAG_LABEL,
-            value = tags,
+            value = tagsInputState.value,
             placeholder = ComponentText.TAG_PLACEHOLDER,
-            onTextChange = { tags = it },
+            onTextChange = tagsInputState.onChange,
             supportingText = ComponentText.TAG_SUPPORTING,
-            isError = isNotValidTag,
+            isError = tagsInputState.isError,
             errorText = ComponentText.TAG_ERROR,
         )
     }
 }
 @Composable
 fun TextInputSection(
-    title: String,
-    description: String,
-    tags: String,
-    onTitleChange: (String) -> Unit,
-    onDescriptionChange: (String) -> Unit,
-    onTagsChange: (String) -> Unit,
-    isTitleEmpty: Boolean,
-    isNotValidTag: Boolean,
+    titleInputState: TextInputState,
+    descriptionInputState: TextInputState,
+    tagsInputState: TextInputState,
     modifier: Modifier = Modifier,
 ) {
 
@@ -85,27 +97,27 @@ fun TextInputSection(
     ) {
         TextInput(
             label = ComponentText.TITLE_LABEL,
-            value = title,
+            value = titleInputState.value,
             placeholder = ComponentText.TITLE_PLACEHOLDER,
-            onTextChange = onTitleChange,
-            isError = isTitleEmpty,
+            onTextChange = titleInputState.onChange,
+            isError = titleInputState.isError,
             errorText = ComponentText.TITLE_ERROR,
         )
         TextInput(
             label = ComponentText.DESCRIPTION_LABEL,
-            value = description,
+            value = descriptionInputState.value,
             singleLine = false,
             modifier = Modifier.height(200.dp),
             placeholder = ComponentText.DESCRIPTION_PLACEHOLDER,
-            onTextChange = onDescriptionChange,
+            onTextChange = descriptionInputState.onChange,
         )
         TextInput(
             label = ComponentText.TAG_LABEL,
-            value = tags,
+            value = tagsInputState.value,
             placeholder = ComponentText.TAG_PLACEHOLDER,
-            onTextChange = onTagsChange,
+            onTextChange = tagsInputState.onChange,
             supportingText = ComponentText.TAG_SUPPORTING,
-            isError = isNotValidTag,
+            isError = tagsInputState.isError,
             errorText = ComponentText.TAG_ERROR,
         )
     }

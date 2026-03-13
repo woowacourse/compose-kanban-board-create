@@ -28,6 +28,7 @@ import woowacourse.kanban.board.Gray40
 import woowacourse.kanban.board.Gray70
 import woowacourse.kanban.board.Red50
 import woowacourse.kanban.board.Validator
+import woowacourse.kanban.board.model.TextInputValue
 
 @Preview(showBackground = true)
 @Composable
@@ -42,34 +43,30 @@ private fun TextInputPreview() {
 
     Column {
         TextInput(
-            label = ComponentText.TITLE_LABEL,
+            textInputValue = TextInputValue.TITLE,
             value = title,
-            placeholder = ComponentText.TITLE_PLACEHOLDER,
             onTextChange = { title = it },
             isError = isTitleEmpty,
-            errorText = ComponentText.TITLE_ERROR,
         )
     }
 }
 
 @Composable
 fun TextInput(
-    label: String,
+    textInputValue: TextInputValue,
     value: String,
-    placeholder: String,
     modifier: Modifier = Modifier,
     singleLine: Boolean = true,
     onTextChange: (String) -> Unit,
     supportingText: String? = null,
     isError: Boolean = false,
-    errorText: String = "",
 ) {
     val borderColor = if (isError) Red50 else Gray70
     val textColor = if (isError) Red50 else Gray20
 
     Column {
         Text(
-            text = label,
+            text = textInputValue.label,
             fontSize = 14.sp,
             color = Gray20,
             fontWeight = FontWeight.Bold,
@@ -81,7 +78,7 @@ fun TextInput(
             singleLine = singleLine,
             placeholder = {
                 Text(
-                    text = placeholder,
+                    text = textInputValue.placeholder,
                     color = Gray40,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
@@ -99,7 +96,7 @@ fun TextInput(
             supportingText = {
                 if (isError) {
                     Text(
-                        text = errorText,
+                        text = textInputValue.errorText,
                         color = textColor,
                     )
                 } else if (supportingText != null) {

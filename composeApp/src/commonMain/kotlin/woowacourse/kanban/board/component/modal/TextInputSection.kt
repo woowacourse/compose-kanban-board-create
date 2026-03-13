@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.ComponentText
 import woowacourse.kanban.board.Validator
 import woowacourse.kanban.board.model.TextInputState
+import woowacourse.kanban.board.model.TextInputValue
 
 @Preview(showBackground = true)
 @Composable
@@ -55,29 +56,24 @@ private fun TextInputSectionPreview() {
 
     Column {
         TextInput(
-            label = ComponentText.TITLE_LABEL,
+            textInputValue = TextInputValue.TITLE,
             value = titleInputState.value,
-            placeholder = ComponentText.TITLE_PLACEHOLDER,
             onTextChange = titleInputState.onChange,
             isError = titleInputState.isError,
-            errorText = ComponentText.TITLE_ERROR,
         )
         TextInput(
-            label = ComponentText.DESCRIPTION_LABEL,
+            textInputValue = TextInputValue.DESCRIPTION,
             value = descriptionInputState.value,
             singleLine = false,
             modifier = Modifier.height(200.dp),
-            placeholder = ComponentText.DESCRIPTION_PLACEHOLDER,
             onTextChange = descriptionInputState.onChange,
         )
         TextInput(
-            label = ComponentText.TAG_LABEL,
+            textInputValue = TextInputValue.TAGS,
             value = tagsInputState.value,
-            placeholder = ComponentText.TAG_PLACEHOLDER,
             onTextChange = tagsInputState.onChange,
             supportingText = ComponentText.TAG_SUPPORTING,
             isError = tagsInputState.isError,
-            errorText = ComponentText.TAG_ERROR,
         )
     }
 }
@@ -96,29 +92,24 @@ fun TextInputSection(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         TextInput(
-            label = ComponentText.TITLE_LABEL,
+            textInputValue = TextInputValue.TITLE,
             value = titleInputState.value,
-            placeholder = ComponentText.TITLE_PLACEHOLDER,
             onTextChange = titleInputState.onChange,
             isError = titleInputState.isError,
-            errorText = ComponentText.TITLE_ERROR,
         )
         TextInput(
-            label = ComponentText.DESCRIPTION_LABEL,
+            textInputValue = TextInputValue.DESCRIPTION,
             value = descriptionInputState.value,
             singleLine = false,
             modifier = Modifier.height(200.dp),
-            placeholder = ComponentText.DESCRIPTION_PLACEHOLDER,
             onTextChange = descriptionInputState.onChange,
         )
         TextInput(
-            label = ComponentText.TAG_LABEL,
+            textInputValue = TextInputValue.TAGS,
             value = tagsInputState.value,
-            placeholder = ComponentText.TAG_PLACEHOLDER,
             onTextChange = tagsInputState.onChange,
             supportingText = ComponentText.TAG_SUPPORTING,
             isError = tagsInputState.isError,
-            errorText = ComponentText.TAG_ERROR,
         )
     }
 }

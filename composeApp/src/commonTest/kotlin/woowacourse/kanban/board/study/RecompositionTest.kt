@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.ui
+package woowacourse.kanban.board.study
 
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -42,7 +42,7 @@ class RecompositionTest {
     // value, label 변경 시 모두 validationCount 증가
     @Composable
     fun UsernameWithRemember(username: String, label: String) {
-        val isError = remember { (username.length in 2..5).also { validationCount++ } }
+        val isError = remember { (username.length in 2..5).not().also { validationCount++ } }
 
         TextField(
             value = username,
@@ -55,7 +55,7 @@ class RecompositionTest {
     // remember 의 키로 넣은 값만 수정되었을 때 validationCount 증가
     @Composable
     fun UsernameWithRememberKey(username: String, label: String) {
-        val isError = remember(username) { (username.length in 2..5).also { validationCount++ } }
+        val isError = remember(username) { (username.length in 2..5).not().also { validationCount++ } }
 
         TextField(
             value = username,
@@ -70,14 +70,14 @@ class RecompositionTest {
         setContent {
             Username(username = username, label = label)
         }
-
+        assertThat(validationCount).isEqualTo(1)
         username = "김컴포즈"
         waitForIdle()
-        assertThat(validationCount).isEqualTo(1)
+        assertThat(validationCount).isEqualTo(2)
 
         label = "바뀐 라벨"
         waitForIdle()
-        assertThat(validationCount).isEqualTo(2)
+        assertThat(validationCount).isEqualTo(3)
     }
 
     @Test
@@ -87,10 +87,12 @@ class RecompositionTest {
         }
 
         waitForIdle()
+        onNodeWithText("에러", useUnmergedTree = true).assertExists()
         assertThat(validationCount).isEqualTo(1)
-        username = "사무엘"
+        username = "사무엘사무엘"
         waitForIdle()
         assertThat(validationCount).isEqualTo(1)
+
         onNodeWithText("에러").assertExists()
     }
 
@@ -100,12 +102,13 @@ class RecompositionTest {
             UsernameWithRememberKey(username, label)
         }
 
+        assertThat(validationCount).isEqualTo(1)
         username = "김컴포즈"
         waitForIdle()
-        assertThat(validationCount).isEqualTo(1)
+        assertThat(validationCount).isEqualTo(2)
 
         label = "바뀐 라벨"
         waitForIdle()
-        assertThat(validationCount).isEqualTo(1)
+        assertThat(validationCount).isEqualTo(2)
     }
 }

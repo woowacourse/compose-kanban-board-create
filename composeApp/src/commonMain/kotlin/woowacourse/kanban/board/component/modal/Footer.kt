@@ -32,9 +32,9 @@ fun Footer(isButtonEnabled: Boolean, modifier: Modifier = Modifier) {
             .padding(horizontal = 24.dp),
     ) {
         HorizontalDivider()
-        Spacer(modifier = modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.End,
         ) {
@@ -43,7 +43,7 @@ fun Footer(isButtonEnabled: Boolean, modifier: Modifier = Modifier) {
                 contentColor = Gray20,
                 text = ComponentText.CANCEL_BUTTON,
             )
-            Spacer(modifier = modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(12.dp))
             FooterButton(
                 enabled = isButtonEnabled,
                 containerColor = Blue50,

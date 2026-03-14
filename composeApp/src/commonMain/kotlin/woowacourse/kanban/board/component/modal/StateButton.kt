@@ -52,7 +52,7 @@ fun StateButton(
         Text(
             text = myState.text,
             textAlign = TextAlign.Center,
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             fontSize = 16.sp,
             color = textColor,
             fontWeight = FontWeight.Normal,

@@ -41,7 +41,7 @@ fun Header(modifier: Modifier = Modifier) {
             fontWeight = FontWeight.Bold,
         )
         Icon(
-            modifier = modifier
+            modifier = Modifier
                 .clickable {},
             imageVector = Icons.Default.Close,
             contentDescription = "닫기",

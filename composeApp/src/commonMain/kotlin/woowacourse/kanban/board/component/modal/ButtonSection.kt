@@ -36,11 +36,11 @@ private fun ButtonSectionPreview() {
 
 @Composable
 fun ButtonSection(
-    modifier: Modifier = Modifier,
     state: TaskState,
     profileState: ProfileState,
     onStateClick: (TaskState) -> Unit,
     onProfileClick: (ProfileState) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
 
     Column(
@@ -56,7 +56,7 @@ fun ButtonSection(
             color = Gray20,
         )
         FlowRow(
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
@@ -71,7 +71,7 @@ fun ButtonSection(
             color = Gray20,
         )
         FlowRow(
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {

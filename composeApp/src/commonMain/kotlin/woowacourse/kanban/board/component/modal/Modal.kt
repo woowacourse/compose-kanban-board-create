@@ -31,7 +31,7 @@ private fun ModalPreview() {
 }
 
 @Composable
-fun Modal() {
+fun Modal(modifier: Modifier = Modifier) {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var tags by remember { mutableStateOf("") }
@@ -68,7 +68,7 @@ fun Modal() {
     )
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .width(800.dp)
             .padding(50.dp),
         colors = CardDefaults.cardColors(

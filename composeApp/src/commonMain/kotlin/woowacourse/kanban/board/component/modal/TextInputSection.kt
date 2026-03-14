@@ -58,6 +58,7 @@ private fun TextInputSectionPreview() {
         TextInput(
             textInputValue = TextInputValue.TITLE,
             value = titleInputState.value,
+            modifier = Modifier.height(100.dp),
             onTextChange = titleInputState.onChange,
             isError = titleInputState.isError,
         )
@@ -72,6 +73,7 @@ private fun TextInputSectionPreview() {
             textInputValue = TextInputValue.TAGS,
             value = tagsInputState.value,
             onTextChange = tagsInputState.onChange,
+            modifier = Modifier.height(100.dp),
             supportingText = ComponentText.TAG_SUPPORTING,
             isError = tagsInputState.isError,
         )
@@ -94,6 +96,7 @@ fun TextInputSection(
         TextInput(
             textInputValue = TextInputValue.TITLE,
             value = titleInputState.value,
+            modifier = Modifier.height(100.dp),
             onTextChange = titleInputState.onChange,
             isError = titleInputState.isError,
         )
@@ -107,6 +110,7 @@ fun TextInputSection(
         TextInput(
             textInputValue = TextInputValue.TAGS,
             value = tagsInputState.value,
+            modifier = Modifier.height(100.dp),
             onTextChange = tagsInputState.onChange,
             supportingText = ComponentText.TAG_SUPPORTING,
             isError = tagsInputState.isError,

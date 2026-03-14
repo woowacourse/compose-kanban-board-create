@@ -2,6 +2,8 @@ package woowacourse.kanban.board.component.modal
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.OutlinedTextField
@@ -55,16 +57,18 @@ private fun TextInputPreview() {
 fun TextInput(
     textInputValue: TextInputValue,
     value: String,
+    onTextChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     singleLine: Boolean = true,
-    onTextChange: (String) -> Unit,
     supportingText: String? = null,
     isError: Boolean = false,
 ) {
     val borderColor = if (isError) Red50 else Gray70
     val textColor = if (isError) Red50 else Gray20
 
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         Text(
             text = textInputValue.label,
             fontSize = 14.sp,
@@ -73,8 +77,9 @@ fun TextInput(
         )
         OutlinedTextField(
             value = value,
-            modifier = modifier
-                .fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
             singleLine = singleLine,
             placeholder = {
                 Text(

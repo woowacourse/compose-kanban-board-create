@@ -16,17 +16,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.ComponentText
 import woowacourse.kanban.board.Validator
+import woowacourse.kanban.board.model.TextInputState
 
 @Composable
 fun TextInputSection(
-    title: String,
-    description: String,
-    tags: String,
-    onTitleChange: (String) -> Unit,
-    onDescriptionChange: (String) -> Unit,
-    onTagsChange: (String) -> Unit,
-    isTitleEmpty: Boolean,
-    isNotValidTag: Boolean,
+    titleState: TextInputState,
+    descriptionState: TextInputState,
+    tagsState: TextInputState,
     modifier: Modifier = Modifier,
 ) {
 
@@ -38,27 +34,27 @@ fun TextInputSection(
     ) {
         TextInput(
             label = ComponentText.TITLE_LABEL,
-            value = title,
+            value = titleState.value,
             placeholder = ComponentText.TITLE_PLACEHOLDER,
-            onTextChange = onTitleChange,
-            isError = isTitleEmpty,
+            onTextChange = titleState.onChange,
+            isError = titleState.isError,
             errorText = ComponentText.TITLE_ERROR,
         )
         TextInput(
             label = ComponentText.DESCRIPTION_LABEL,
-            value = description,
+            value = descriptionState.value,
             singleLine = false,
-            modifier = Modifier.height(200.dp),
             placeholder = ComponentText.DESCRIPTION_PLACEHOLDER,
-            onTextChange = onDescriptionChange,
+            onTextChange = descriptionState.onChange,
+            modifier = Modifier.height(200.dp),
         )
         TextInput(
             label = ComponentText.TAG_LABEL,
-            value = tags,
+            value = tagsState.value,
             placeholder = ComponentText.TAG_PLACEHOLDER,
-            onTextChange = onTagsChange,
+            onTextChange = tagsState.onChange,
             supportingText = ComponentText.TAG_SUPPORTING,
-            isError = isNotValidTag,
+            isError = tagsState.isError,
             errorText = ComponentText.TAG_ERROR,
         )
     }

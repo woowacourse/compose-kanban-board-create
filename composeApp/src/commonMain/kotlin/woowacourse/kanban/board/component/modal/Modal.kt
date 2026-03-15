@@ -21,26 +21,41 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.Validator
+import woowacourse.kanban.board.model.TextInputState
 
 @Composable
 fun Modal() {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var tags by remember { mutableStateOf("") }
-    var state by remember { mutableIntStateOf(0) }
-    var profile by remember { mutableIntStateOf(0) }
-
     val isTitleEmpty by remember {
         derivedStateOf {
             Validator.checkTitleIsEmpty(title)
         }
     }
-
     val isNotValidTag by remember {
         derivedStateOf {
             Validator.checkNotValidTags(tags)
         }
     }
+    val titleState = TextInputState(
+        value = title,
+        onChange = {title = it},
+        isError = isTitleEmpty
+    )
+    val descriptionState = TextInputState(
+        value = description,
+        onChange = { description = it }
+    )
+    val tagsState = TextInputState(
+        value = tags,
+        onChange = { tags = it },
+        isError = isNotValidTag
+    )
+
+
+    var state by remember { mutableIntStateOf(0) }
+    var profile by remember { mutableIntStateOf(0) }
 
     Card(
         modifier = Modifier
@@ -60,14 +75,9 @@ fun Modal() {
             Header()
             HorizontalDivider()
             TextInputSection(
-                title = title,
-                description = description,
-                tags = tags,
-                onTitleChange = { title = it },
-                onDescriptionChange = { description = it },
-                onTagsChange = { tags = it },
-                isTitleEmpty = isTitleEmpty,
-                isNotValidTag = isNotValidTag,
+                titleState = titleState,
+                descriptionState = descriptionState,
+                tagsState = tagsState
             )
             ButtonSection(
                 state = state,

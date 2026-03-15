@@ -7,7 +7,7 @@ data class Tags(val value: String) {
 
         fun isTagsValid(value: String): Boolean {
             if (value.isEmpty()) return true
-            val extractedTags = value.split(",")
+            val extractedTags = value.split(",").map { it.trim() }
             return isTagsCountValid(extractedTags) && isTagTextValid(extractedTags)
         }
 

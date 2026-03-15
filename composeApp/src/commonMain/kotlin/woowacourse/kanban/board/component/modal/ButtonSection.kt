@@ -33,7 +33,12 @@ private fun ButtonSectionPreview() {
 }
 
 @Composable
-fun ButtonSection(modifier: Modifier = Modifier, state: Int, profile: Int, onStateClick: (Int) -> Unit, onProfileClick: (Int) -> Unit) {
+fun ButtonSection(
+    state: Int, profile: Int,
+    onStateClick: (Int) -> Unit,
+    onProfileClick: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
 
     Column(
         modifier = modifier
@@ -52,9 +57,21 @@ fun ButtonSection(modifier: Modifier = Modifier, state: Int, profile: Int, onSta
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            StateButton(text = ComponentText.STATE_BUTTON_TODO, state, onClick = { onStateClick(0) }, id = 0)
-            StateButton(text = ComponentText.STATE_BUTTON_PROGRESS, state, onClick = { onStateClick(1) }, id = 1)
-            StateButton(text = ComponentText.STATE_BUTTON_DONE, state, onClick = { onStateClick(2) }, id = 2)
+            StateButton(
+                text = ComponentText.STATE_BUTTON_TODO,
+                state, onClick = { onStateClick(0) },
+                id = 0
+            )
+            StateButton(
+                text = ComponentText.STATE_BUTTON_PROGRESS,
+                state, onClick = { onStateClick(1) },
+                id = 1
+            )
+            StateButton(
+                text = ComponentText.STATE_BUTTON_DONE,
+                state,
+                onClick = { onStateClick(2) },
+                id = 2)
         }
         Text(
             text = ComponentText.PROFILE_BUTTON_LABEL,
@@ -67,8 +84,18 @@ fun ButtonSection(modifier: Modifier = Modifier, state: Int, profile: Int, onSta
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            ProfileButton("다이노", profile, onClick = { onProfileClick(0) }, id = 0)
-            ProfileButton("페임스", profile, onClick = { onProfileClick(1) }, id = 1)
+            ProfileButton(
+                "다이노",
+                profile,
+                onClick = { onProfileClick(0) },
+                id = 0
+            )
+            ProfileButton(
+                "페임스",
+                profile,
+                onClick = { onProfileClick(1) },
+                id = 1
+            )
         }
     }
 }

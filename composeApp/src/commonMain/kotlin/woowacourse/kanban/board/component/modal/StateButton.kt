@@ -23,7 +23,14 @@ import woowacourse.kanban.board.Gray20
 import woowacourse.kanban.board.Gray70
 
 @Composable
-fun StateButton(text: String, state: Int, onClick: () -> Unit, id: Int, modifier: Modifier = Modifier) {
+fun StateButton(
+    text: String,
+    state: Int,
+    onClick: () -> Unit,
+    id: Int,
+    modifier: Modifier = Modifier
+) {
+
     val backgroundColor = if (state == id) Blue80 else Color.Transparent
     val borderColor = if (state == id) Blue50 else Gray70
     val textColor = if (state == id) Blue50 else Gray20

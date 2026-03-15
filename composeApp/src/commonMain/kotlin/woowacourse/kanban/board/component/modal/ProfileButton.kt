@@ -29,7 +29,13 @@ import woowacourse.kanban.board.Blue80
 import woowacourse.kanban.board.Gray70
 
 @Composable
-fun ProfileButton(text: String, state: Int, id: Int, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun ProfileButton(
+    text: String,
+    state: Int,
+    id: Int,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val backgroundColor = if (state == id) Blue80 else Color.Transparent
     val borderColor = if (state == id) Blue50 else Gray70
 

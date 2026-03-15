@@ -12,7 +12,7 @@ import woowacourse.kanban.board.model.modal.Tags
 import woowacourse.kanban.board.model.modal.Title
 
 @OptIn(ExperimentalTestApi::class)
-class FooterTest {
+class FooterButtonTest {
 
     @Test
     fun `제목이 입력되면 생성 버튼이 활성화된다`() = runComposeUiTest {

@@ -20,21 +20,9 @@ import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.ComponentText
 
 @Composable
-@Preview(showBackground = true)
-private fun ButtonSectionPreview() {
-    var state by remember { mutableIntStateOf(0) }
-    var profile by remember { mutableIntStateOf(0) }
-    ButtonSection(
-        state = state,
-        profile = profile,
-        onStateClick = { state = it },
-        onProfileClick = { profile = it },
-    )
-}
-
-@Composable
 fun ButtonSection(
-    state: Int, profile: Int,
+    state: Int,
+    profile: Int,
     onStateClick: (Int) -> Unit,
     onProfileClick: (Int) -> Unit,
     modifier: Modifier = Modifier
@@ -98,4 +86,17 @@ fun ButtonSection(
             )
         }
     }
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun ButtonSectionPreview() {
+    var state by remember { mutableIntStateOf(0) }
+    var profile by remember { mutableIntStateOf(0) }
+    ButtonSection(
+        state = state,
+        profile = profile,
+        onStateClick = { state = it },
+        onProfileClick = { profile = it },
+    )
 }

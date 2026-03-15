@@ -22,12 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.Validator
 
-@Preview(showBackground = true)
-@Composable
-private fun ModalPreview() {
-    Modal()
-}
-
 @Composable
 fun Modal() {
     var title by remember { mutableStateOf("") }
@@ -86,4 +80,10 @@ fun Modal() {
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ModalPreview() {
+    Modal()
 }

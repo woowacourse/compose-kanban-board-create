@@ -28,29 +28,6 @@ import woowacourse.kanban.board.Gray70
 import woowacourse.kanban.board.Red50
 import woowacourse.kanban.board.Validator
 
-@Preview(showBackground = true)
-@Composable
-private fun TextInputPreview() {
-    var title by remember { mutableStateOf("") }
-
-    val isTitleEmpty by remember {
-        derivedStateOf {
-            Validator.checkTitleIsEmpty(title)
-        }
-    }
-
-    Column {
-        TextInput(
-            label = ComponentText.TITLE_LABEL,
-            value = title,
-            placeholder = ComponentText.TITLE_PLACEHOLDER,
-            onTextChange = { title = it },
-            isError = isTitleEmpty,
-            errorText = ComponentText.TITLE_ERROR,
-        )
-    }
-}
-
 @Composable
 fun TextInput(
     label: String,
@@ -114,6 +91,29 @@ fun TextInput(
                 focusedTextColor = textColor,
             ),
             onValueChange = onTextChange,
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TextInputPreview() {
+    var title by remember { mutableStateOf("") }
+
+    val isTitleEmpty by remember {
+        derivedStateOf {
+            Validator.checkTitleIsEmpty(title)
+        }
+    }
+
+    Column {
+        TextInput(
+            label = ComponentText.TITLE_LABEL,
+            value = title,
+            placeholder = ComponentText.TITLE_PLACEHOLDER,
+            onTextChange = { title = it },
+            isError = isTitleEmpty,
+            errorText = ComponentText.TITLE_ERROR,
         )
     }
 }

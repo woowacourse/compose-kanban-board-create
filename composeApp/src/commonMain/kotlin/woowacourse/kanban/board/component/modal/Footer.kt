@@ -18,12 +18,6 @@ import woowacourse.kanban.board.Blue50
 import woowacourse.kanban.board.ComponentText
 import woowacourse.kanban.board.Gray20
 
-@Preview(showBackground = true)
-@Composable
-private fun FooterPreview() {
-    Footer(true)
-}
-
 @Composable
 fun Footer(
     isButtonEnabled: Boolean,
@@ -56,4 +50,10 @@ fun Footer(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun FooterPreview() {
+    Footer(true)
 }

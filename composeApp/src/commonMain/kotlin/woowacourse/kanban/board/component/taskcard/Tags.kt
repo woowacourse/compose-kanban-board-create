@@ -14,9 +14,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.DefaultValue
 import woowacourse.kanban.board.Gray20
 import woowacourse.kanban.board.Gray80
+import woowacourse.kanban.board.model.modal.Tags
 
 @Preview(showBackground = true)
 @Composable
@@ -33,8 +33,8 @@ private fun TagsPreview() {
 fun Tags(
     tags: List<String>?,
     modifier: Modifier = Modifier,
-    maxTagCount: Int = DefaultValue.MAX_TAGS,
-    maxTagTextLength: Int = DefaultValue.TAG_MAX_TEXT_LENGTH,
+    maxTagCount: Int = Tags.MAX_TAGS,
+    maxTagTextLength: Int = Tags.TAG_MAX_TEXT_LENGTH,
 ) {
     if (!tags.isNullOrEmpty()) {
         FlowRow(

@@ -14,10 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import woowacourse.kanban.board.DefaultValue
 import woowacourse.kanban.board.Gray70
 import woowacourse.kanban.board.Gray80
 import woowacourse.kanban.board.model.TaskCardData
+import woowacourse.kanban.board.model.modal.Tags
 
 @Preview
 @Composable
@@ -36,8 +36,8 @@ private fun TaskCardPreview() {
 fun TaskCard(
     data: TaskCardData,
     modifier: Modifier = Modifier,
-    maxTagCount: Int = DefaultValue.MAX_TAGS,
-    maxTagTextLength: Int = DefaultValue.TAG_MAX_TEXT_LENGTH,
+    maxTagCount: Int = Tags.MAX_TAGS,
+    maxTagTextLength: Int = Tags.TAG_MAX_TEXT_LENGTH,
 ) {
     Card(
         modifier = modifier

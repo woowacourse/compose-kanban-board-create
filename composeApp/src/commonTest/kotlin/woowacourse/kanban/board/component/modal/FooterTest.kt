@@ -8,7 +8,8 @@ import androidx.compose.ui.test.runComposeUiTest
 import kotlin.test.Test
 import woowacourse.kanban.board.Blue50
 import woowacourse.kanban.board.ComponentText
-import woowacourse.kanban.board.Validator
+import woowacourse.kanban.board.model.modal.Tags
+import woowacourse.kanban.board.model.modal.Title
 
 @OptIn(ExperimentalTestApi::class)
 class FooterTest {
@@ -16,10 +17,10 @@ class FooterTest {
     @Test
     fun `제목이 입력되면 생성 버튼이 활성화된다`() = runComposeUiTest {
         val title = "제목"
-        val isTitleEmpty = Validator.checkTitleIsEmpty(title)
+        val isTitleValid = Title.isTitleValid(title)
         val tags = ""
-        val isNotValidTag = Validator.checkNotValidTags(tags)
-        val isButtonEnabled = Validator.checkButtonEnable(isTitleEmpty, isNotValidTag)
+        val isValidTag = Tags.isTagsValid(tags)
+        val isButtonEnabled = isTitleValid && isValidTag
 
         setContent {
             FooterButton(
@@ -35,10 +36,10 @@ class FooterTest {
     @Test
     fun `제목이 입력되지 않으면 생성 버튼이 비활성화된다`() = runComposeUiTest {
         val title = ""
-        val isTitleEmpty = Validator.checkTitleIsEmpty(title)
+        val isTitleValid = Title.isTitleValid(title)
         val tags = ""
-        val isNotValidTag = Validator.checkNotValidTags(tags)
-        val isButtonEnabled = Validator.checkButtonEnable(isTitleEmpty, isNotValidTag)
+        val isValidTag = Tags.isTagsValid(tags)
+        val isButtonEnabled = isTitleValid && isValidTag
 
         setContent {
             FooterButton(
@@ -54,10 +55,10 @@ class FooterTest {
     @Test
     fun `제목이 입력되고 태그가 5개 이상 입력되면 생성 버튼이 비활성화된다`() = runComposeUiTest {
         val title = "제목"
-        val isTitleEmpty = Validator.checkTitleIsEmpty(title)
+        val isTitleValid = Title.isTitleValid(title)
         val tags = "1,2,3,4,5,6"
-        val isNotValidTag = Validator.checkNotValidTags(tags)
-        val isButtonEnabled = Validator.checkButtonEnable(isTitleEmpty, isNotValidTag)
+        val isValidTag = Tags.isTagsValid(tags)
+        val isButtonEnabled = isTitleValid && isValidTag
 
         setContent {
             FooterButton(
@@ -73,10 +74,10 @@ class FooterTest {
     @Test
     fun `제목이 입력되고 5글자 초과인 태그가 입력되면 생성 버튼이 비활성화된다`() = runComposeUiTest {
         val title = "제목"
-        val isTitleEmpty = Validator.checkTitleIsEmpty(title)
+        val isTitleValid = Title.isTitleValid(title)
         val tags = "1,2,3,1234567899"
-        val isNotValidTag = Validator.checkNotValidTags(tags)
-        val isButtonEnabled = Validator.checkButtonEnable(isTitleEmpty, isNotValidTag)
+        val isValidTag = Tags.isTagsValid(tags)
+        val isButtonEnabled = isTitleValid && isValidTag
 
         setContent {
             FooterButton(
@@ -92,10 +93,10 @@ class FooterTest {
     @Test
     fun `제목이 입력되고 5글자 이하인 태그가 5개 이하로 입력되면 생성 버튼이 활성화된다`() = runComposeUiTest {
         val title = "제목"
-        val isTitleEmpty = Validator.checkTitleIsEmpty(title)
+        val isTitleValid = Title.isTitleValid(title)
         val tags = "1,2,3,123"
-        val isNotValidTag = Validator.checkNotValidTags(tags)
-        val isButtonEnabled = Validator.checkButtonEnable(isTitleEmpty, isNotValidTag)
+        val isValidTag = Tags.isTagsValid(tags)
+        val isButtonEnabled = isTitleValid && isValidTag
 
         setContent {
             FooterButton(

@@ -19,10 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import woowacourse.kanban.board.Validator
 import woowacourse.kanban.board.model.ProfileState
 import woowacourse.kanban.board.model.TaskState
 import woowacourse.kanban.board.model.TextInputState
+import woowacourse.kanban.board.model.modal.Tags
+import woowacourse.kanban.board.model.modal.Title
 
 @Preview(showBackground = true)
 @Composable
@@ -38,22 +39,22 @@ fun Modal(modifier: Modifier = Modifier) {
     var state by remember { mutableStateOf(TaskState.TODO) }
     var profileState by remember { mutableStateOf(ProfileState.DINO) }
 
-    val isTitleEmpty by remember {
+    val isTitleValid by remember {
         derivedStateOf {
-            Validator.checkTitleIsEmpty(title)
+            Title.isTitleValid(title)
         }
     }
 
-    val isNotValidTag by remember {
+    val isTagsValid by remember {
         derivedStateOf {
-            Validator.checkNotValidTags(tags)
+            Tags.isTagsValid(tags)
         }
     }
 
     val titleInputState = TextInputState(
         value = title,
         onChange = { title = it },
-        isError = isTitleEmpty
+        isError = isTitleValid.not()
     )
 
     val descriptionInputState = TextInputState(
@@ -64,7 +65,7 @@ fun Modal(modifier: Modifier = Modifier) {
     val tagsInputState = TextInputState(
         value = tags,
         onChange = { tags = it },
-        isError = isNotValidTag
+        isError = isTagsValid.not()
     )
 
     Card(
@@ -96,7 +97,7 @@ fun Modal(modifier: Modifier = Modifier) {
                 onProfileClick = { profileState = it },
             )
             Footer(
-                isButtonEnabled = Validator.checkButtonEnable(isTitleEmpty, isNotValidTag),
+                isButtonEnabled = isTitleValid && isTagsValid
             )
         }
     }

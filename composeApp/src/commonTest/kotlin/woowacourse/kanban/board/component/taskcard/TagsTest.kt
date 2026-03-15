@@ -6,6 +6,7 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
+import woowacourse.kanban.board.model.modal.Tags
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
@@ -16,8 +17,8 @@ class TagsTest {
         setContent {
             Tags(
                 tags = emptyList(),
-                maxTagCount = 5,
-                maxTagTextLength = 5,
+                maxTagCount = Tags.MAX_TAGS,
+                maxTagTextLength = Tags.TAG_MAX_TEXT_LENGTH,
                 modifier = Modifier.testTag("tags"),
             )
         }
@@ -29,8 +30,8 @@ class TagsTest {
         setContent {
             Tags(
                 tags = listOf("태그1", "태그2"),
-                maxTagCount = 5,
-                maxTagTextLength = 5,
+                maxTagCount = Tags.MAX_TAGS,
+                maxTagTextLength = Tags.TAG_MAX_TEXT_LENGTH,
                 modifier = Modifier.testTag("tags"),
             )
         }
@@ -44,7 +45,7 @@ class TagsTest {
             Tags(
                 tags = tags,
                 maxTagCount = 6,
-                maxTagTextLength = 5,
+                maxTagTextLength = Tags.TAG_MAX_TEXT_LENGTH,
             )
         }
         tags.forEach { tag ->

@@ -1,5 +1,7 @@
 package woowacourse.kanban.board.domain
 
+import woowacourse.kanban.board.util.parseByComma
+
 /**
  * Card 도메인 모델입니다.
  * 카드 생성 규칙을 적용합니다.
@@ -20,31 +22,23 @@ class CardData private constructor(
         private const val TAG_INVALID_FORMAT_MSG = "태그 형식이 올바르지 않습니다."
         private const val TAG_INVALID_RULE_MSG = "태그는 5자 이내로 5개까지만 등록할 수 있습니다."
 
-        fun isValidText(rawText: String): Boolean {
-            return rawText.trim().isNotBlank()
-        }
-
         fun getTitleInfo(): String {
             return TITLE_INVALID_FORMAT_MSG
-        }
-
-        fun parseTag(tempTags: String): List<String> {
-            return tempTags.trim().split(",")
         }
 
         fun isValidTag(rawText: String): Boolean {
             if (rawText.isBlank()) return true
 
-            val parsedText = parseTag(rawText)
-            return (parsedText.all { isValidText(it) } && parsedText.size <= MAX_TAG_COUNT)
+            val parsedText = parseByComma(rawText)
+            return (parsedText.all { it.isNotBlank() } && parsedText.size <= MAX_TAG_COUNT)
         }
 
         fun isValidTagInfo(rawText: String): String {
-            val parsedText = parseTag(rawText)
+            val parsedText = parseByComma(rawText)
 
-            if (isValidText(rawText) && parsedText.any { isValidText(it) == false }) return TAG_INVALID_FORMAT_MSG
+            if (rawText.isNotBlank() && parsedText.any { it.isBlank() }) return TAG_INVALID_FORMAT_MSG
 
-            if (isValidText(rawText) && parsedText.size > MAX_TAG_COUNT) return TAG_INVALID_RULE_MSG
+            if (rawText.isNotBlank() && parsedText.size > MAX_TAG_COUNT) return TAG_INVALID_RULE_MSG
 
             return TAG_VALID_FORMAT_MSG
         }

@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.domain.CardData
 import woowacourse.kanban.board.domain.TaskState
+import woowacourse.kanban.board.util.parseByComma
 
 @Composable
 fun CardCreationPanel(
@@ -50,13 +51,13 @@ fun CardCreationPanel(
     var taskTitle by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var tempTags by remember { mutableStateOf("") }
-    val tags = CardData.parseTag(tempTags)
+    val tags = parseByComma(tempTags)
     var state by remember { mutableStateOf(TaskState.TO_DO) }
     var manager by remember { mutableStateOf("다이노") }
     var tagInfoText by remember { mutableStateOf("5자 이내의 태그를 최대 5개까지 등록할 수 있습니다.") }
     val createEnabled by remember {
         derivedStateOf {
-            CardData.isValidText(taskTitle) && CardData.isValidTag(tempTags)
+            taskTitle.isNotBlank() && CardData.isValidTag(tempTags)
         }
     }
 
@@ -83,9 +84,9 @@ fun CardCreationPanel(
                     onTextChange = {
                         taskTitle = it
                     },
-                    showAdditionalInfo = !CardData.isValidText(taskTitle),
+                    showAdditionalInfo = taskTitle.isBlank(),
                     infoText = CardData.getTitleInfo(),
-                    isError = !CardData.isValidText(taskTitle),
+                    isError = taskTitle.isBlank(),
                 )
 
                 CardCreationPanelSection(

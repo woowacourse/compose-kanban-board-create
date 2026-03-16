@@ -1,9 +1,11 @@
 package woowacourse.kanban.board.model
 
-import woowacourse.kanban.board.constant.ERROR_TAG
-
-class Tags(val tags: List<String> = listOf(), val maxTagSize: Int = 5) {
+class Tags(val tags: List<String> = listOf()) {
     init {
-        require(tags.size <= maxTagSize) { throw IllegalArgumentException("$ERROR_TAG 테그의 개수는 ${maxTagSize}개 이하로 작성해야 합니다.") }
+        require(tags.size <= MAX_TAG_SIZE) { "..." }
+    }
+
+    companion object {
+        private const val MAX_TAG_SIZE = 5
     }
 }

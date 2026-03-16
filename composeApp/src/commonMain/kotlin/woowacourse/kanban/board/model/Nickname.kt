@@ -5,6 +5,6 @@ import woowacourse.kanban.board.constant.ERROR_TAG
 @JvmInline
 value class Nickname(val nickname: String) {
     init {
-        require(nickname.isNotBlank()) { throw IllegalArgumentException("$ERROR_TAG 닉네임이 비어있으면 안됩니다.") }
+        require(nickname.isNotBlank()) { "$ERROR_TAG 닉네임이 비어있으면 안됩니다." }
     }
 }

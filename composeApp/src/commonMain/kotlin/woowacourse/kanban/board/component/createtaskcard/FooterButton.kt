@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.component.modal
+package woowacourse.kanban.board.component.createtaskcard
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button

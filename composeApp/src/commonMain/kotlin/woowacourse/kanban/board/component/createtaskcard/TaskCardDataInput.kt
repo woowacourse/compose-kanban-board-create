@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.component.modal
+package woowacourse.kanban.board.component.createtaskcard
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

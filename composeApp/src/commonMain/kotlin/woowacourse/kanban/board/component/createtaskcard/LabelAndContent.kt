@@ -69,8 +69,8 @@ fun LabelAndStateButtonPreview() {
         stateOptions.forEach { option ->
             StateButton(
                 option = option,
-                selectedState = selectedState,
-                onClick = { selectedState = it }
+                isSelected = selectedState == option,
+                onClick = { selectedState = option },
             )
         }
     }

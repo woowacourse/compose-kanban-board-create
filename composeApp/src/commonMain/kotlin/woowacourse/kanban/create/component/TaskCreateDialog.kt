@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,6 +33,9 @@ fun TaskCreateDialog(modifier: Modifier = Modifier) {
 
     var isTitleError by remember { mutableStateOf(false) }
     var isTagError by remember { mutableStateOf(false) }
+
+    var selectedStatusIndex by remember { mutableIntStateOf(0) }
+    var selectedCoachIndex by remember { mutableIntStateOf(0) }
 
     val statuses = listOf(
         "To Do",
@@ -90,18 +94,16 @@ fun TaskCreateDialog(modifier: Modifier = Modifier) {
                 },
                 isError = isTagError,
             )
-            CommonButtonColumn(
-                header = "상태 *",
-                items = statuses,
-            ) { status, isSelected, onClick, index ->
-                StatusButton(status = status, isSelected = isSelected, onClick = onClick, index = index)
-            }
-            CommonButtonColumn(
-                header = "담당자 *",
-                items = names,
-            ) { name, isSelected, onClick, index ->
-                CoachButton(name = name, isSelected = isSelected, onClick = onClick, index = index)
-            }
+            StatusSelector(
+                statuses = statuses,
+                selectedIndex = selectedStatusIndex,
+                onSelectChange = { selectedStatusIndex = it },
+            )
+            CoachSelector(
+                coaches = names,
+                selectedIndex = selectedCoachIndex,
+                onSelectChange = { selectedCoachIndex = it },
+            )
             HorizontalDivider()
             FooterRow(
                 onCancel = { },

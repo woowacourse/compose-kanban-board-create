@@ -163,8 +163,8 @@ fun TaskCardDataInput() {
                 stateOptions.forEach { option ->
                     StateButton(
                         option = option,
-                        selectedState = selectedState,
-                        onClick = { selectedState = it }
+                        isSelected = selectedState == option,
+                        onClick = { selectedState = option },
                     )
                 }
             }
@@ -176,8 +176,8 @@ fun TaskCardDataInput() {
                 managerOptions.forEach { manager ->
                     ManagerButton(
                         option = manager,
-                        selectedOption = selectedManager,
-                        onClick = { selectedManager = it }
+                        isSelected = selectedManager == manager,
+                        onClick = { selectedManager = manager }
                     )
                 }
             }
@@ -242,8 +242,8 @@ fun ButtonPreview(){
             stateOptions.forEach { option ->
                 StateButton(
                     option = option,
-                    selectedState = selectedState,
-                    onClick = { selectedState = it }
+                    isSelected = selectedState == option,
+                    onClick = { selectedState = option },
                 )
             }
         }
@@ -254,8 +254,8 @@ fun ButtonPreview(){
             managerOptions.forEach { manager ->
                 ManagerButton(
                     option = manager,
-                    selectedOption = selectedManager,
-                    onClick = { selectedManager = it }
+                    isSelected = selectedManager == manager,
+                    onClick = { selectedManager = manager }
                 )
             }
         }

@@ -26,7 +26,6 @@ import woowacourse.kanban.board.ComponentText
 import woowacourse.kanban.board.Gray20
 import woowacourse.kanban.board.Gray70
 import woowacourse.kanban.board.Red50
-import woowacourse.kanban.board.Validator
 
 @Composable
 fun TextInput(
@@ -93,7 +92,7 @@ private fun TextInputPreview() {
 
     val isTitleEmpty by remember {
         derivedStateOf {
-            Validator.checkTitleIsEmpty(title)
+            title.isBlank()
         }
     }
 

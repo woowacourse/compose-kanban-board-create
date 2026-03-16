@@ -46,7 +46,7 @@ fun FooterRow(
             textColor = Color.White,
             backgroundColor = if (isCreateError) Color(CREATE_BG_ERROR) else Color(CREATE_BG),
             onClick = onCreate,
-            disabled = isCreateError,
+            enabled = !isCreateError,
         )
     }
 }
@@ -57,7 +57,7 @@ fun FooterButton(
     text: String,
     backgroundColor: Color,
     textColor: Color,
-    disabled: Boolean = false,
+    enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
     Box(
@@ -71,7 +71,7 @@ fun FooterButton(
             .background(backgroundColor)
             .clickable(
                 onClick = onClick,
-                enabled = disabled,
+                enabled = enabled,
             ),
 
     ) {

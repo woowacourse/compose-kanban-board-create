@@ -48,22 +48,30 @@ import woowacourse.kanban.board.ComponentText.TAG_PLACEHOLDER
 import woowacourse.kanban.board.ComponentText.TAG_SUPPORTING
 import woowacourse.kanban.board.ComponentText.TITLE_ERROR
 import woowacourse.kanban.board.ComponentText.TITLE_PLACEHOLDER
+import woowacourse.kanban.board.DefaultValue
 import woowacourse.kanban.board.Gray20
-import woowacourse.kanban.board.Validator
 
 @Composable
 fun TaskCardDataInput() {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var tags by remember { mutableStateOf("") }
-    val isTitleEmpty by remember {
+    val isNotValidTitle by remember {
         derivedStateOf {
-            Validator.checkTitleIsEmpty(title)
+            title.isBlank()
         }
     }
-    val isNotValidTag by remember {
+    val isNotValidTags by remember {
         derivedStateOf {
-            Validator.checkNotValidTags(tags)
+            if(tags.isBlank()){
+                return@derivedStateOf false
+            }
+            val extractTags = tags.split(",").map { it.trim() }
+
+            extractTags.size > DefaultValue.MAX_TAGS ||
+                    extractTags.any { tag ->
+                tag.isEmpty() || tag.length > DefaultValue.TAG_MAX_TEXT_LENGTH
+            }
         }
     }
 
@@ -127,7 +135,7 @@ fun TaskCardDataInput() {
                     placeholder = TITLE_PLACEHOLDER,
                     onTextChange = { title = it },
                     singleLine = true,
-                    isError = isTitleEmpty,
+                    isError = isNotValidTitle,
                     errorText = TITLE_ERROR
                 )
             }
@@ -155,7 +163,7 @@ fun TaskCardDataInput() {
                     modifier = Modifier,
                     singleLine = true,
                     supportingText = TAG_SUPPORTING,
-                    isError = isNotValidTag,
+                    isError = isNotValidTags,
                     errorText = TAG_ERROR,
                 )
             }
@@ -207,7 +215,7 @@ fun TaskCardDataInput() {
                     Spacer(modifier = Modifier.width(12.dp))
 
                     FooterButton(
-                        enabled = !isTitleEmpty && !isNotValidTag,
+                        enabled =  !isNotValidTitle && !isNotValidTags ,
                         containerColor = Blue50,
                         text = ComponentText.CREATE_BUTTON,
                     )

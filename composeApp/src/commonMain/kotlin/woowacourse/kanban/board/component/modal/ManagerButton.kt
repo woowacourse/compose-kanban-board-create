@@ -29,7 +29,7 @@ import woowacourse.kanban.board.Blue80
 import woowacourse.kanban.board.Gray70
 
 @Composable
-fun ProfileButton(
+fun ManagerButton(
     option: String,
     selectedOption: String,
     onClick: (String) -> Unit,
@@ -41,10 +41,10 @@ fun ProfileButton(
             .clip(RoundedCornerShape(10.dp))
             .border(
                 width = 1.dp,
-                color = if (selectedOption == option) Blue80 else Color.Transparent,
+                color = if (selectedOption == option) Blue50 else Color.Transparent,
                 shape = RoundedCornerShape(10.dp))
-            .background(color = if(selectedOption == option) Blue50 else Gray70)
-            .clickable { onClick }
+            .background(color = if(selectedOption == option) Blue80 else Gray70)
+            .clickable { onClick(option) }
             .padding(horizontal = 16.dp, vertical = 20.dp),
     ) {
         Row(

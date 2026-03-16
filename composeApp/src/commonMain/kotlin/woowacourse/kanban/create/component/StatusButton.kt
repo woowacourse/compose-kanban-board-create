@@ -29,20 +29,35 @@ fun StatusButton(
     onClick: () -> Unit,
     index: Int,
 ) {
-    val selectedModifier = modifier.border(width = 2.dp, color = Color(PRIMARY_BORDER), shape = RoundedCornerShape(10.dp))
-    val unSelectedModifier = modifier.border(width = 2.dp, color = Color(STATUS_BORDER_SELECTED), shape = RoundedCornerShape(10.dp))
-        .background(Color(STATUS_BG_SELECTED))
+    val selectedModifier =
+        Modifier.border(
+            width = 2.dp,
+            color = Color(STATUS_BORDER_SELECTED),
+            shape = RoundedCornerShape(10.dp),
+        )
+            .background(Color(STATUS_BG_SELECTED))
+
+
+    val unSelectedModifier =
+        Modifier.border(
+            width = 2.dp,
+            color = Color(PRIMARY_BORDER),
+            shape = RoundedCornerShape(10.dp),
+        )
+
     Box(
-        modifier =
-        if (!isSelected) {
-            selectedModifier
-        } else {
-            unSelectedModifier
-        }.clickable(
-            onClick = onClick,
-        ).testTag(
-            tag = if (isSelected) "selected$index" else "unselected$index",
-        ),
+        modifier = modifier.then(
+            if (isSelected)
+                selectedModifier
+            else
+                unSelectedModifier,
+        )
+            .clickable(
+                onClick = onClick,
+            )
+            .testTag(
+                tag = if (isSelected) "selected$index" else "unselected$index",
+            ),
         contentAlignment = Alignment.Center,
     ) {
         Text(
@@ -56,6 +71,6 @@ fun StatusButton(
                 Color(STATUS_TEXT_SELECTED)
             },
 
-        )
+            )
     }
 }

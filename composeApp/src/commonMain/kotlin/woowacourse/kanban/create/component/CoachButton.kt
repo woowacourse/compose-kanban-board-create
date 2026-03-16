@@ -35,32 +35,53 @@ fun CoachButton(
     onClick: () -> Unit,
     index: Int,
 ) {
-    val selectedModifier = modifier.border(
-        width = 2.dp, color = Color(PRIMARY_BORDER), shape = RoundedCornerShape(10.dp),
-    )
-    val unSelectedModifier = modifier.border(
-        width = 2.dp, color = Color(COACH_BORDER_SELECTED), shape = RoundedCornerShape(10.dp),
-    ).background(color = Color(COACH_BG_SELECTED))
+    val selectedModifier =
+        Modifier.border(
+            width = 2.dp,
+            color = Color(COACH_BORDER_SELECTED),
+            shape = RoundedCornerShape(10.dp),
+        )
+            .background(color = Color(COACH_BG_SELECTED))
+
+    val unSelectedModifier =
+        Modifier.border(
+            width = 2.dp,
+            color = Color(PRIMARY_BORDER),
+            shape = RoundedCornerShape(10.dp),
+        )
 
     Box(
-        modifier = if (!isSelected) {
-            selectedModifier
-        } else {
-            unSelectedModifier
-        }.clickable(
-            onClick = onClick,
-        ).testTag(
-            tag = if (isSelected) "selected$index" else "unselected$index",
-        ),
+        modifier = modifier.then(
+            if (isSelected) selectedModifier
+            else unSelectedModifier,
+        )
+            .clickable(
+                onClick = onClick,
+            )
+            .testTag(
+                tag = if (isSelected) "selected$index" else "unselected$index",
+            ),
 
-    ) {
+        ) {
         Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp),
+            modifier = Modifier.padding(
+                horizontal = 16.dp,
+                vertical = 20.dp,
+            ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "코치 프로필 아이콘", tint = Color(COACH_ICON_TINT))
+            Icon(
+                imageVector = Icons.Default.AccountCircle,
+                contentDescription = "코치 프로필 아이콘",
+                tint = Color(COACH_ICON_TINT),
+            )
             Spacer(modifier = Modifier.width(12.dp))
-            Text(name, fontWeight = FontWeight.W500, fontSize = 14.sp, color = Color(PRIMARY_SUB_TEXT))
+            Text(
+                name,
+                fontWeight = FontWeight.W500,
+                fontSize = 14.sp,
+                color = Color(PRIMARY_SUB_TEXT),
+            )
         }
     }
 }

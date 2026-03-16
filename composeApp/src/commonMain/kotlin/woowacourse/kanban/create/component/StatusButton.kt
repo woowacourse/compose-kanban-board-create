@@ -37,7 +37,6 @@ fun StatusButton(
         )
             .background(Color(STATUS_BG_SELECTED))
 
-
     val unSelectedModifier =
         Modifier.border(
             width = 2.dp,
@@ -71,6 +70,6 @@ fun StatusButton(
                 Color(STATUS_TEXT_SELECTED)
             },
 
-            )
+        )
     }
 }

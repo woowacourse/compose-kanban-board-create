@@ -39,11 +39,10 @@ fun CommonTextColumn(
             Spacer(modifier = Modifier.height(4.dp))
             HintText(
                 hintText =
-                    if (isError) errorHintText
-                    else hintText,
+                if (isError) errorHintText
+                else hintText,
                 isErrorText = isError,
             )
-
         }
     }
 }

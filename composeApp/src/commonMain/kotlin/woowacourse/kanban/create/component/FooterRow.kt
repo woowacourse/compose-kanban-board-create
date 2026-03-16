@@ -74,7 +74,7 @@ fun FooterButton(
                 enabled = disabled,
             ),
 
-        ) {
+    ) {
         Text(
             text,
             color = textColor,

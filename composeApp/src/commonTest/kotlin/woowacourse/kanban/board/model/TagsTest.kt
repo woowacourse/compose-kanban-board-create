@@ -2,8 +2,8 @@ package woowacourse.kanban.board.model
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import kotlin.test.Test
-import org.junit.Assert
 import kotlin.test.assertEquals
+import org.junit.Assert
 
 @OptIn(ExperimentalTestApi::class)
 class TagsTest {

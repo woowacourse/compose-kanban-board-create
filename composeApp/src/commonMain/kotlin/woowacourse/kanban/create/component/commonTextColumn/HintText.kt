@@ -24,5 +24,4 @@ fun HintText(
         fontSize = 12.sp,
         color = if (isErrorText) Color(TEXT_FIELD_ERROR) else Color(TEXT_FIELD_HINT),
     )
-
 }

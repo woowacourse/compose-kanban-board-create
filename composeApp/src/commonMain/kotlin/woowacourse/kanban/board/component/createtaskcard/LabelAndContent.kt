@@ -26,7 +26,6 @@ import woowacourse.kanban.board.ComponentText.STATE_BUTTON_TODO
 import woowacourse.kanban.board.ComponentText.TITLE_ERROR
 import woowacourse.kanban.board.ComponentText.TITLE_LABEL
 import woowacourse.kanban.board.ComponentText.TITLE_PLACEHOLDER
-import woowacourse.kanban.board.Validator
 
 @Composable
 fun LabelAndContent (
@@ -85,7 +84,7 @@ fun LabelAndTextFieldPreview() {
     var title by remember { mutableStateOf("") }
     val isTitleEmpty by remember {
         derivedStateOf {
-            Validator.checkTitleIsEmpty(title)
+            title.isEmpty()
         }
     }
 

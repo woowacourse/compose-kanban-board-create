@@ -1,3 +1,6 @@
+package woowacourse.kanban.create
+
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onNodeWithTag
@@ -6,9 +9,8 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import kotlin.test.Test
-import woowacourse.kanban.create.component.CoachButton
-import woowacourse.kanban.create.component.CommonButtonColumn
-import woowacourse.kanban.create.component.StatusButton
+import woowacourse.kanban.create.component.CoachSelector
+import woowacourse.kanban.create.component.StatusSelector
 import woowacourse.kanban.create.component.TaskCreateDialog
 
 @OptIn(ExperimentalTestApi::class)
@@ -16,21 +18,25 @@ class DialogTest {
 
     @Test
     fun `상태 버튼을 클릭 했을 때 다른 상태 버튼은 선택되지 않아야 한다`() = runComposeUiTest {
+        var selectedStatusIndex = mutableIntStateOf(0)
 
         // given
-        val statuses = listOf(
-            "To Do",
-            "In Progress",
-            "Done",
-        )
+        val statuses =
+            listOf(
+                "To Do",
+                "In Progress",
+                "Done",
+            )
 
         setContent {
-            CommonButtonColumn(
-                header = "상태 *",
-                items = statuses,
-            ) { status, isSelected, onClick, index ->
-                StatusButton(status = status, isSelected = isSelected, onClick = onClick, index = index)
-            }
+            StatusSelector(
+                statuses = statuses,
+                selectedIndex = selectedStatusIndex.value,
+                onSelectChange = {
+                    selectedStatusIndex.value =
+                        it
+                },
+            )
         }
 
         // when
@@ -44,19 +50,22 @@ class DialogTest {
 
     @Test
     fun `담당자 버튼을 클릭 했을 때 다른 상태 버튼은 선택되지 않아야 한다`() = runComposeUiTest {
+        var selectedCoachIndex = mutableIntStateOf(0)
         // given
-        val names = listOf(
-            "다이노",
-            "페임스",
-        )
+        val names =
+            listOf(
+                "다이노",
+                "페임스",
+            )
 
         setContent {
-            CommonButtonColumn(
-                header = "담당자",
-                items = names,
-            ) { name, isSelected, onClick, index ->
-                CoachButton(name = name, isSelected = isSelected, onClick = onClick, index = index)
-            }
+            CoachSelector(
+                coaches = names,
+                selectedIndex = selectedCoachIndex.value,
+                onSelectChange = {
+                    selectedCoachIndex.value = it
+                },
+            )
         }
 
         onNodeWithTag("selected0").assertExists()

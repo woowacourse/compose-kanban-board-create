@@ -55,4 +55,20 @@ class TagsTest {
             Tags(tags)
         }
     }
+
+    @Test
+    fun `태그의 내용이 5자 초과면 오류가 발생한다`() {
+        // given
+        val tags =
+            listOf(
+                "일이삼사오육",
+                "일이삼사오",
+                "일이",
+            )
+        // when
+        // then
+        Assert.assertThrows(IllegalArgumentException::class.java) {
+            Tags(tags)
+        }
+    }
 }

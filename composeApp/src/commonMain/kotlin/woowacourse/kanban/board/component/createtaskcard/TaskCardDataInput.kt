@@ -31,8 +31,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.constant.ColorPalette
+import woowacourse.kanban.board.constant.DescriptionConst
 import woowacourse.kanban.board.constant.HeaderAndFooterConst
+import woowacourse.kanban.board.constant.ProfileButtonConst
+import woowacourse.kanban.board.constant.StateButtonConst
+import woowacourse.kanban.board.constant.TagsConst
 import woowacourse.kanban.board.constant.TagsMaxValue
+import woowacourse.kanban.board.constant.TitleConst
 
 @Composable
 fun TaskCardDataInput() {
@@ -51,23 +56,23 @@ fun TaskCardDataInput() {
             }
             val extractTags = tags.split(",").map { it.trim() }
 
-            extractTags.size > TagsMaxValue.MAX_TAGS ||
+            extractTags.size > TagsConst.MAX_TAGS ||
                     extractTags.any { tag ->
-                tag.isEmpty() || tag.length > TagsMaxValue.TAG_MAX_TEXT_LENGTH
+                tag.isEmpty() || tag.length > TagsConst.TAG_MAX_TEXT_LENGTH
             }
         }
     }
 
     val stateOptions = listOf(
-        HeaderAndFooterConst.STATE_BUTTON_TODO,
-        HeaderAndFooterConst.STATE_BUTTON_PROGRESS,
-        HeaderAndFooterConst.STATE_BUTTON_DONE
+        StateButtonConst.STATE_BUTTON_TODO,
+        StateButtonConst.STATE_BUTTON_PROGRESS,
+        StateButtonConst.STATE_BUTTON_DONE
     )
     var selectedState by remember { mutableStateOf(stateOptions[0]) }
 
     val managerOptions = listOf(
-        HeaderAndFooterConst.PROFILE_BUTTON_DINO,
-        HeaderAndFooterConst.PROFILE_BUTTON_PAMES
+        ProfileButtonConst.PROFILE_BUTTON_DINO,
+        ProfileButtonConst.PROFILE_BUTTON_PAMES
     )
     var selectedManager by remember { mutableStateOf(managerOptions[0]) }
 
@@ -110,49 +115,49 @@ fun TaskCardDataInput() {
             HorizontalDivider()
 
             LabelAndContent(
-                label = HeaderAndFooterConst.TITLE_LABEL,
+                label = TitleConst.TITLE_LABEL,
                 modifier = Modifier,
             ) {
                 TextInput(
                     value = title,
-                    placeholder = HeaderAndFooterConst.TITLE_PLACEHOLDER,
+                    placeholder = TitleConst.TITLE_PLACEHOLDER,
                     onTextChange = { title = it },
                     singleLine = true,
                     isError = isNotValidTitle,
-                    errorText = HeaderAndFooterConst.TITLE_ERROR
+                    errorText = TitleConst.TITLE_ERROR
                 )
             }
 
             LabelAndContent(
-                label = HeaderAndFooterConst.DESCRIPTION_LABEL,
+                label = DescriptionConst.DESCRIPTION_LABEL,
                 modifier = Modifier,
             ) {
                 TextInput(
                     value = description,
-                    placeholder = HeaderAndFooterConst.DESCRIPTION_PLACEHOLDER,
+                    placeholder = DescriptionConst.DESCRIPTION_PLACEHOLDER,
                     onTextChange = { description = it },
                     modifier = Modifier.height(200.dp),
                 )
             }
 
             LabelAndContent(
-                label = HeaderAndFooterConst.TAG_LABEL,
+                label = TagsConst.TAG_LABEL,
                 modifier = Modifier,
             ) {
                 TextInput(
                     value = tags,
-                    placeholder = HeaderAndFooterConst.TAG_PLACEHOLDER,
+                    placeholder = TagsConst.TAG_PLACEHOLDER,
                     onTextChange = { tags = it },
                     modifier = Modifier,
                     singleLine = true,
-                    supportingText = HeaderAndFooterConst.TAG_SUPPORTING,
+                    supportingText = TagsConst.TAG_SUPPORTING,
                     isError = isNotValidTags,
-                    errorText = HeaderAndFooterConst.TAG_ERROR,
+                    errorText = TagsConst.TAG_ERROR,
                 )
             }
 
             LabelAndContent(
-                label = HeaderAndFooterConst.STATE_BUTTON_LABEL,
+                label = StateButtonConst.STATE_BUTTON_LABEL,
                 modifier = Modifier,
             ) {
                 stateOptions.forEach { option ->
@@ -165,7 +170,7 @@ fun TaskCardDataInput() {
             }
 
             LabelAndContent(
-                label = HeaderAndFooterConst.PROFILE_BUTTON_LABEL,
+                label = ProfileButtonConst.PROFILE_BUTTON_LABEL,
                 modifier = Modifier
             ) {
                 managerOptions.forEach { manager ->
@@ -217,10 +222,10 @@ private fun TaskCardDataInputPreview() {
 //@Preview(showBackground = true)
 @Composable
 fun ButtonPreview(){
-    val stateOptions = listOf(HeaderAndFooterConst.STATE_BUTTON_TODO, HeaderAndFooterConst.STATE_BUTTON_PROGRESS, HeaderAndFooterConst.STATE_BUTTON_DONE)
+    val stateOptions = listOf(StateButtonConst.STATE_BUTTON_TODO, StateButtonConst.STATE_BUTTON_PROGRESS, StateButtonConst.STATE_BUTTON_DONE)
     var selectedState by remember { mutableStateOf(stateOptions[0]) }
 
-    val managerOptions = listOf(HeaderAndFooterConst.PROFILE_BUTTON_DINO, HeaderAndFooterConst.PROFILE_BUTTON_PAMES)
+    val managerOptions = listOf(ProfileButtonConst.PROFILE_BUTTON_DINO, ProfileButtonConst.PROFILE_BUTTON_PAMES)
     var selectedManager by remember { mutableStateOf(managerOptions[0]) }
 
     Column(
@@ -231,7 +236,7 @@ fun ButtonPreview(){
         verticalArrangement = Arrangement.spacedBy(24.dp),
     ){
         LabelAndContent(
-            label = HeaderAndFooterConst.STATE_BUTTON_LABEL,
+            label = StateButtonConst.STATE_BUTTON_LABEL,
             modifier = Modifier,
         ) {
             stateOptions.forEach { option ->
@@ -243,7 +248,7 @@ fun ButtonPreview(){
             }
         }
         LabelAndContent(
-            label = HeaderAndFooterConst.PROFILE_BUTTON_LABEL,
+            label = ProfileButtonConst.PROFILE_BUTTON_LABEL,
             modifier = Modifier
         ) {
             managerOptions.forEach { manager ->

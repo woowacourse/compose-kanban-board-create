@@ -30,22 +30,21 @@ import woowacourse.kanban.board.Gray70
 
 @Composable
 fun ProfileButton(
-    text: String,
-    state: Int,
-    id: Int,
-    onClick: () -> Unit,
+    option: String,
+    selectedOption: String,
+    onClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val backgroundColor = if (state == id) Blue80 else Color.Transparent
-    val borderColor = if (state == id) Blue50 else Gray70
-
     Box(
         modifier = modifier
             .width(200.dp)
             .clip(RoundedCornerShape(10.dp))
-            .border(1.dp, color = borderColor, shape = RoundedCornerShape(10.dp))
-            .background(color = backgroundColor)
-            .clickable { onClick() }
+            .border(
+                width = 1.dp,
+                color = if (selectedOption == option) Blue80 else Color.Transparent,
+                shape = RoundedCornerShape(10.dp))
+            .background(color = if(selectedOption == option) Blue50 else Gray70)
+            .clickable { onClick }
             .padding(horizontal = 16.dp, vertical = 20.dp),
     ) {
         Row(
@@ -58,7 +57,7 @@ fun ProfileButton(
             )
             Spacer(modifier = modifier.width(12.dp))
             Text(
-                text = text,
+                text = option,
                 modifier = Modifier.fillMaxWidth(),
                 fontSize = 16.sp,
                 color = Color(0xFF364153),

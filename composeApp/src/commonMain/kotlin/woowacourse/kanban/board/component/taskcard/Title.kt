@@ -7,7 +7,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.Gray10
+import woowacourse.kanban.board.constant.ColorPalette
 
 @Preview(showBackground = true)
 @Composable
@@ -24,7 +24,7 @@ fun Title(title: String?, modifier: Modifier = Modifier) {
             text = title,
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
-            color = Gray10,
+            color = ColorPalette.Gray10,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = modifier,

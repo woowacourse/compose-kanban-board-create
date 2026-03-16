@@ -16,10 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.Blue50
-import woowacourse.kanban.board.Blue80
-import woowacourse.kanban.board.Gray20
-import woowacourse.kanban.board.Gray70
+import woowacourse.kanban.board.constant.ColorPalette
 
 @Composable
 fun StateButton(
@@ -34,10 +31,10 @@ fun StateButton(
             .clip(RoundedCornerShape(10.dp))
             .border(
                 1.dp,
-                color = if (selectedState == option) Blue50 else Gray70,
+                color = if (selectedState == option) ColorPalette.Blue50 else ColorPalette.Gray70,
                 shape = RoundedCornerShape(10.dp),
             )
-            .background(color = if (selectedState == option) Blue80 else Gray70)
+            .background(color = if (selectedState == option) ColorPalette.Blue80 else ColorPalette.Gray70)
             .clickable { onClick(option) }
             .padding(horizontal = 50.dp, vertical = 14.dp),
 
@@ -47,7 +44,7 @@ fun StateButton(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             fontSize = 16.sp,
-            color = if (selectedState == option) Blue50 else Gray20,
+            color = if (selectedState == option) ColorPalette.Blue50 else ColorPalette.Gray20,
             fontWeight = FontWeight.Normal,
         )
     }

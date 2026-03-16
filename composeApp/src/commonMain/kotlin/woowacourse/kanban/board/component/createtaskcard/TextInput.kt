@@ -22,10 +22,8 @@ import androidx.compose.ui.unit.sp
 import kanbanboard.composeapp.generated.resources.Res
 import kanbanboard.composeapp.generated.resources.icon
 import org.jetbrains.compose.resources.painterResource
-import woowacourse.kanban.board.ComponentText
-import woowacourse.kanban.board.Gray20
-import woowacourse.kanban.board.Gray70
-import woowacourse.kanban.board.Red50
+import woowacourse.kanban.board.constant.ColorPalette
+import woowacourse.kanban.board.constant.TitleConst
 
 @Composable
 fun TextInput(
@@ -38,8 +36,8 @@ fun TextInput(
     isError: Boolean = false,
     errorText: String = "",
 ) {
-    val borderColor = if (isError) Red50 else Gray70
-    val textColor = if (isError) Red50 else Gray20
+    val borderColor = if (isError) ColorPalette.Red50 else ColorPalette.Gray70
+    val textColor = if (isError) ColorPalette.Red50 else ColorPalette.Gray20
 
     OutlinedTextField(
         value = value,
@@ -99,10 +97,10 @@ private fun TextInputPreview() {
     Column {
         TextInput(
             value = title,
-            placeholder = ComponentText.TITLE_PLACEHOLDER,
+            placeholder = TitleConst.TITLE_PLACEHOLDER,
             onTextChange = { title = it },
             isError = isTitleEmpty,
-            errorText = ComponentText.TITLE_ERROR,
+            errorText = TitleConst.TITLE_ERROR,
         )
     }
 }

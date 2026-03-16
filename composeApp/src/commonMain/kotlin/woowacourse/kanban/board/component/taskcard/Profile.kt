@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import kanbanboard.composeapp.generated.resources.Res
 import kanbanboard.composeapp.generated.resources.profile
 import org.jetbrains.compose.resources.painterResource
-import woowacourse.kanban.board.Gray20
+import woowacourse.kanban.board.constant.ColorPalette
 
 @Preview(showBackground = true)
 @Composable
@@ -39,7 +39,7 @@ fun Profile(nickname: String?, modifier: Modifier = Modifier) {
                 text = nickname,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-                color = Gray20,
+                color = ColorPalette.Gray20,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )

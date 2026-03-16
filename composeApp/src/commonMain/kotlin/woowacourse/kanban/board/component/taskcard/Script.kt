@@ -7,7 +7,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.Gray30
+import woowacourse.kanban.board.constant.ColorPalette
 
 @Preview(showBackground = true)
 @Composable
@@ -24,7 +24,7 @@ fun Script(script: String?, modifier: Modifier = Modifier) {
             text = script,
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal,
-            color = Gray30,
+            color = ColorPalette.Gray30,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             modifier = modifier,

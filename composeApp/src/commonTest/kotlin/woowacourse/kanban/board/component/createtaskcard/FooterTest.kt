@@ -6,9 +6,8 @@ import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
 import kotlin.test.Test
-import woowacourse.kanban.board.Blue50
-import woowacourse.kanban.board.ComponentText
-import woowacourse.kanban.board.Validator
+import woowacourse.kanban.board.constant.Blue50
+import woowacourse.kanban.board.constant.HeaderAndFooterConst
 
 @OptIn(ExperimentalTestApi::class)
 class FooterTest {
@@ -25,10 +24,10 @@ class FooterTest {
             FooterButton(
                 enabled = isButtonEnabled,
                 containerColor = Blue50,
-                text = ComponentText.CREATE_BUTTON,
+                text = HeaderAndFooterConst.CREATE_BUTTON,
             )
         }
-        onNodeWithText(ComponentText.CREATE_BUTTON)
+        onNodeWithText(HeaderAndFooterConst.CREATE_BUTTON)
             .assertIsEnabled()
     }
 
@@ -44,10 +43,10 @@ class FooterTest {
             FooterButton(
                 enabled = isButtonEnabled,
                 containerColor = Blue50,
-                text = ComponentText.CREATE_BUTTON,
+                text = HeaderAndFooterConst.CREATE_BUTTON,
             )
         }
-        onNodeWithText(ComponentText.CREATE_BUTTON)
+        onNodeWithText(HeaderAndFooterConst.CREATE_BUTTON)
             .assertIsNotEnabled()
     }
 
@@ -63,10 +62,10 @@ class FooterTest {
             FooterButton(
                 enabled = isButtonEnabled,
                 containerColor = Blue50,
-                text = ComponentText.CREATE_BUTTON,
+                text = HeaderAndFooterConst.CREATE_BUTTON,
             )
         }
-        onNodeWithText(ComponentText.CREATE_BUTTON)
+        onNodeWithText(HeaderAndFooterConst.CREATE_BUTTON)
             .assertIsNotEnabled()
     }
 
@@ -82,10 +81,10 @@ class FooterTest {
             FooterButton(
                 enabled = isButtonEnabled,
                 containerColor = Blue50,
-                text = ComponentText.CREATE_BUTTON,
+                text = HeaderAndFooterConst.CREATE_BUTTON,
             )
         }
-        onNodeWithText(ComponentText.CREATE_BUTTON)
+        onNodeWithText(HeaderAndFooterConst.CREATE_BUTTON)
             .assertIsNotEnabled()
     }
 
@@ -101,10 +100,10 @@ class FooterTest {
             FooterButton(
                 enabled = isButtonEnabled,
                 containerColor = Blue50,
-                text = ComponentText.CREATE_BUTTON,
+                text = HeaderAndFooterConst.CREATE_BUTTON,
             )
         }
-        onNodeWithText(ComponentText.CREATE_BUTTON)
+        onNodeWithText(HeaderAndFooterConst.CREATE_BUTTON)
             .assertIsEnabled()
     }
 }

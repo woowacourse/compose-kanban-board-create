@@ -19,13 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.ComponentText.STATE_BUTTON_DONE
-import woowacourse.kanban.board.ComponentText.STATE_BUTTON_LABEL
-import woowacourse.kanban.board.ComponentText.STATE_BUTTON_PROGRESS
-import woowacourse.kanban.board.ComponentText.STATE_BUTTON_TODO
-import woowacourse.kanban.board.ComponentText.TITLE_ERROR
-import woowacourse.kanban.board.ComponentText.TITLE_LABEL
-import woowacourse.kanban.board.ComponentText.TITLE_PLACEHOLDER
+import woowacourse.kanban.board.constant.StateButtonConst
+import woowacourse.kanban.board.constant.TitleConst
 
 @Composable
 fun LabelAndContent (
@@ -60,11 +55,15 @@ fun LabelAndContent (
 @Composable
 fun LabelAndStateButtonPreview() {
 
-    val stateOptions = listOf(STATE_BUTTON_TODO, STATE_BUTTON_PROGRESS, STATE_BUTTON_DONE)
+    val stateOptions = listOf(
+        StateButtonConst.STATE_BUTTON_TODO,
+        StateButtonConst.STATE_BUTTON_PROGRESS,
+        StateButtonConst.STATE_BUTTON_DONE
+    )
     var selectedState by remember { mutableStateOf(stateOptions[0]) }
 
     LabelAndContent(
-        label = STATE_BUTTON_LABEL,
+        label = StateButtonConst.STATE_BUTTON_LABEL,
         modifier = Modifier,
     ) {
         stateOptions.forEach { option ->
@@ -89,16 +88,16 @@ fun LabelAndTextFieldPreview() {
     }
 
     LabelAndContent(
-        label = TITLE_LABEL,
+        label = TitleConst.TITLE_LABEL,
         modifier = Modifier,
     ) {
         TextInput(
             value = title,
-            placeholder = TITLE_PLACEHOLDER,
+            placeholder = TitleConst.TITLE_PLACEHOLDER,
             onTextChange = { title = it },
             singleLine = true,
             isError = isTitleEmpty,
-            errorText = TITLE_ERROR
+            errorText = TitleConst.TITLE_ERROR
         )
     }
 }

@@ -21,8 +21,8 @@ import woowacourse.kanban.board.constant.ColorPalette
 @Composable
 fun StateButton(
     option: String,
-    selectedState: String,
-    onClick: (String) -> Unit,
+    isSelected: Boolean,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -31,11 +31,11 @@ fun StateButton(
             .clip(RoundedCornerShape(10.dp))
             .border(
                 1.dp,
-                color = if (selectedState == option) ColorPalette.Blue50 else ColorPalette.Gray70,
+                color = if (isSelected) ColorPalette.Blue50 else ColorPalette.Gray70,
                 shape = RoundedCornerShape(10.dp),
             )
-            .background(color = if (selectedState == option) ColorPalette.Blue80 else ColorPalette.Gray70)
-            .clickable { onClick(option) }
+            .background(color = if (isSelected) ColorPalette.Blue80 else ColorPalette.Gray70)
+            .clickable { onClick() }
             .padding(horizontal = 50.dp, vertical = 14.dp),
 
         ) {
@@ -44,7 +44,7 @@ fun StateButton(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             fontSize = 16.sp,
-            color = if (selectedState == option) ColorPalette.Blue50 else ColorPalette.Gray20,
+            color = if (isSelected) ColorPalette.Blue50 else ColorPalette.Gray20,
             fontWeight = FontWeight.Normal,
         )
     }

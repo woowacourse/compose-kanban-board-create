@@ -29,8 +29,8 @@ import woowacourse.kanban.board.constant.ColorPalette
 @Composable
 fun ManagerButton(
     option: String,
-    selectedOption: String,
-    onClick: (String) -> Unit,
+    isSelected: Boolean,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -39,10 +39,10 @@ fun ManagerButton(
             .clip(RoundedCornerShape(10.dp))
             .border(
                 width = 1.dp,
-                color = if (selectedOption == option) ColorPalette.Blue50 else Color.Transparent,
+                color = if (isSelected) ColorPalette.Blue50 else Color.Transparent,
                 shape = RoundedCornerShape(10.dp))
-            .background(color = if(selectedOption == option) ColorPalette.Blue80 else ColorPalette.Gray70)
-            .clickable { onClick(option) }
+            .background(color = if(isSelected) ColorPalette.Blue80 else ColorPalette.Gray70)
+            .clickable { onClick() }
             .padding(horizontal = 16.dp, vertical = 20.dp),
     ) {
         Row(

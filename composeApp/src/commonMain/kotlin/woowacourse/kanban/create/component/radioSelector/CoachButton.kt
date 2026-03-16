@@ -1,4 +1,4 @@
-package woowacourse.kanban.create.component
+package woowacourse.kanban.create.component.radioSelector
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

@@ -18,7 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import woowacourse.kanban.create.component.commonTextColumn.CommonTextColumn
+import woowacourse.kanban.create.component.createTextInput.CreateTextInput
+import woowacourse.kanban.create.component.radioSelector.CoachButton
+import woowacourse.kanban.create.component.radioSelector.RadioSelector
+import woowacourse.kanban.create.component.radioSelector.StatusButton
 
 @Composable
 @Preview(
@@ -48,7 +51,13 @@ fun TaskCreateDialog(modifier: Modifier = Modifier) {
         "페임스",
     )
 
-    Column(modifier = modifier.background(color = Color.White).size(width = 672.dp, height = 900.dp)) {
+    Column(
+        modifier = modifier.background(color = Color.White)
+            .size(
+                width = 672.dp,
+                height = 900.dp,
+            ),
+    ) {
         DialogBar(
             modifier = Modifier.padding(
                 vertical = 28.dp,
@@ -61,7 +70,7 @@ fun TaskCreateDialog(modifier: Modifier = Modifier) {
             modifier = Modifier.padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
-            CommonTextColumn(
+            CreateTextInput(
                 title = "제목 *",
                 placeHolder = "태스크 제목을 입력하세요",
                 height = 48.dp,
@@ -72,7 +81,7 @@ fun TaskCreateDialog(modifier: Modifier = Modifier) {
                 },
                 isError = isTitleError,
             )
-            CommonTextColumn(
+            CreateTextInput(
                 modifier = Modifier,
                 title = "설명",
                 placeHolder = "태스크에 대한 자세한 설명을 입력하세요",
@@ -81,7 +90,7 @@ fun TaskCreateDialog(modifier: Modifier = Modifier) {
                 value = contentInputValue,
                 onChangeValue = { newTextValue -> contentInputValue = newTextValue },
             )
-            CommonTextColumn(
+            CreateTextInput(
                 modifier = Modifier,
                 title = "태그",
                 placeHolder = "태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)",
@@ -94,16 +103,28 @@ fun TaskCreateDialog(modifier: Modifier = Modifier) {
                 },
                 isError = isTagError,
             )
-            StatusSelector(
-                statuses = statuses,
-                selectedIndex = selectedStatusIndex,
-                onSelectChange = { selectedStatusIndex = it },
-            )
-            CoachSelector(
-                coaches = names,
-                selectedIndex = selectedCoachIndex,
-                onSelectChange = { selectedCoachIndex = it },
-            )
+            RadioSelector(
+                header = "상태 *",
+                items = statuses,
+            ) { index ->
+                StatusButton(
+                    status = statuses[index],
+                    isSelected = selectedStatusIndex == index,
+                    onClick = { selectedStatusIndex = index },
+                    index = index,
+                )
+            }
+            RadioSelector(
+                header = "담당자 *",
+                items = names,
+            ) { index ->
+                CoachButton(
+                    name = names[index],
+                    isSelected = selectedCoachIndex == index,
+                    onClick = { selectedCoachIndex = index },
+                    index = index,
+                )
+            }
             HorizontalDivider()
             FooterRow(
                 onCancel = { },

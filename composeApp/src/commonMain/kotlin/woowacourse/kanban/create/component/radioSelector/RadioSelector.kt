@@ -1,4 +1,4 @@
-package woowacourse.kanban.create.component
+package woowacourse.kanban.create.component.radioSelector
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,28 +8,27 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import woowacourse.kanban.create.component.HeaderText
 
 @Composable
-fun CoachSelector(
+fun RadioSelector(
     modifier: Modifier = Modifier,
-    coaches: List<String>,
-    selectedIndex: Int,
-    onSelectChange: (Int) -> Unit,
+    header: String,
+    items: List<String>,
+    itemContent: @Composable (index: Int) -> Unit,
 ) {
+
     Column(modifier) {
-        HeaderText(title = "담당자 *")
+        HeaderText(title = header)
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            items(coaches.size) { index ->
-                CoachButton(
-                    name = coaches[index],
-                    isSelected = selectedIndex == index,
-                    onClick = { onSelectChange(index) },
-                    index = index,
-                )
+            items(
+                items.size,
+            ) { index ->
+                itemContent(index)
             }
         }
     }

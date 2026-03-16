@@ -9,9 +9,10 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import kotlin.test.Test
-import woowacourse.kanban.create.component.CoachSelector
-import woowacourse.kanban.create.component.StatusSelector
 import woowacourse.kanban.create.component.TaskCreateDialog
+import woowacourse.kanban.create.component.radioSelector.CoachButton
+import woowacourse.kanban.create.component.radioSelector.RadioSelector
+import woowacourse.kanban.create.component.radioSelector.StatusButton
 
 @OptIn(ExperimentalTestApi::class)
 class DialogTest {
@@ -21,22 +22,24 @@ class DialogTest {
         var selectedStatusIndex = mutableIntStateOf(0)
 
         // given
-        val statuses =
-            listOf(
-                "To Do",
-                "In Progress",
-                "Done",
-            )
+        val statuses = listOf(
+            "To Do",
+            "In Progress",
+            "Done",
+        )
 
         setContent {
-            StatusSelector(
-                statuses = statuses,
-                selectedIndex = selectedStatusIndex.value,
-                onSelectChange = {
-                    selectedStatusIndex.value =
-                        it
-                },
-            )
+            RadioSelector(
+                header = "상태 *",
+                items = statuses,
+            ) { index ->
+                StatusButton(
+                    status = statuses[index],
+                    isSelected = selectedStatusIndex.value == index,
+                    onClick = { selectedStatusIndex.value = index },
+                    index = index,
+                )
+            }
         }
 
         // when
@@ -52,20 +55,23 @@ class DialogTest {
     fun `담당자 버튼을 클릭 했을 때 다른 상태 버튼은 선택되지 않아야 한다`() = runComposeUiTest {
         var selectedCoachIndex = mutableIntStateOf(0)
         // given
-        val names =
-            listOf(
-                "다이노",
-                "페임스",
-            )
+        val names = listOf(
+            "다이노",
+            "페임스",
+        )
 
         setContent {
-            CoachSelector(
-                coaches = names,
-                selectedIndex = selectedCoachIndex.value,
-                onSelectChange = {
-                    selectedCoachIndex.value = it
-                },
-            )
+            RadioSelector(
+                header = "담당자",
+                items = names,
+            ) { index ->
+                CoachButton(
+                    name = names[index],
+                    isSelected = selectedCoachIndex.value == index,
+                    onClick = { selectedCoachIndex.value = index },
+                    index = index,
+                )
+            }
         }
 
         onNodeWithTag("selected0").assertExists()

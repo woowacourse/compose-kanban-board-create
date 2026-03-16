@@ -1,4 +1,4 @@
-package woowacourse.kanban.create.component.commonTextColumn
+package woowacourse.kanban.create.component.createTextInput
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import woowacourse.kanban.create.component.HeaderText
 
 @Composable
-fun CommonTextColumn(
+fun CreateTextInput(
     modifier: Modifier = Modifier,
     title: String,
     placeHolder: String,
@@ -26,7 +26,7 @@ fun CommonTextColumn(
     Column(modifier = modifier) {
         HeaderText(title = title)
         Spacer(modifier = Modifier.height(8.dp))
-        ComnTextField(
+        CreateTextField(
             value = value,
             onChangeValue = onChangeValue,
             isError = isError,

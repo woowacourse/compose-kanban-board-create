@@ -1,4 +1,4 @@
-package woowacourse.kanban.create.component.commonTextColumn
+package woowacourse.kanban.create.component.createTextInput
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +28,7 @@ import woowacourse.kanban.TEXT_FIELD_ERROR
 import woowacourse.kanban.TEXT_FIELD_PLACEHOLDER
 
 @Composable
-fun ComnTextField(
+fun CreateTextField(
     modifier: Modifier = Modifier,
     value: String,
     onChangeValue: (String) -> Unit,
@@ -38,9 +38,7 @@ fun ComnTextField(
     placeHolderAlignment: Alignment,
     errorPlaceholder: String = "이건,,,,올바르지 않은 형식입니다,,,,,,,,,",
 ) {
-
     BasicTextField(
-
         value = value,
         onValueChange = onChangeValue,
         modifier = modifier.fillMaxWidth()

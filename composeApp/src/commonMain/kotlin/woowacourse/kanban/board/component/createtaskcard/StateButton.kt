@@ -26,7 +26,7 @@ fun StateButton(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(200.dp)
             .clip(RoundedCornerShape(10.dp))
             .border(

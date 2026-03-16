@@ -15,11 +15,11 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.constant.PRIMARY_BORDER
-import woowacourse.kanban.board.constant.PRIMARY_SUB_TEXT
-import woowacourse.kanban.board.constant.STATUS_BG_SELECTED
-import woowacourse.kanban.board.constant.STATUS_BORDER_SELECTED
-import woowacourse.kanban.board.constant.STATUS_TEXT_SELECTED
+import woowacourse.kanban.PRIMARY_BORDER
+import woowacourse.kanban.PRIMARY_SUB_TEXT
+import woowacourse.kanban.STATUS_BG_SELECTED
+import woowacourse.kanban.STATUS_BORDER_SELECTED
+import woowacourse.kanban.STATUS_TEXT_SELECTED
 
 @Composable
 fun StatusButton(

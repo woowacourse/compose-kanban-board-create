@@ -21,11 +21,11 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.constant.COACH_BG_SELECTED
-import woowacourse.kanban.board.constant.COACH_BORDER_SELECTED
-import woowacourse.kanban.board.constant.COACH_ICON_TINT
-import woowacourse.kanban.board.constant.PRIMARY_BORDER
-import woowacourse.kanban.board.constant.PRIMARY_SUB_TEXT
+import woowacourse.kanban.COACH_BG_SELECTED
+import woowacourse.kanban.COACH_BORDER_SELECTED
+import woowacourse.kanban.COACH_ICON_TINT
+import woowacourse.kanban.PRIMARY_BORDER
+import woowacourse.kanban.PRIMARY_SUB_TEXT
 
 @Composable
 fun CoachButton(

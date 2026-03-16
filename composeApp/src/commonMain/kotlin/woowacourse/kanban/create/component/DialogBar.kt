@@ -16,8 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.constant.CLOSE_ICON_TINT
-import woowacourse.kanban.board.constant.HEADER_TEXT
+import woowacourse.kanban.CLOSE_ICON_TINT
+import woowacourse.kanban.HEADER_TEXT
 
 @Preview(showBackground = true)
 @Composable

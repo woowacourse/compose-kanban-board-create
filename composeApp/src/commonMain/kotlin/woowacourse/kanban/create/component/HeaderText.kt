@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.constant.HEADER_TEXT
+import woowacourse.kanban.HEADER_TEXT
 
 @Composable
 fun HeaderText(

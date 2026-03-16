@@ -17,7 +17,7 @@ class CardDataTest {
                 title = "   ",
                 content = "내용",
                 tags = listOf("태그1"),
-                accountName = "테스트 계정",
+                managerName = "테스트 계정",
             )
         }
     }
@@ -29,33 +29,33 @@ class CardDataTest {
                 title = "제목",
                 content = "내용",
                 tags = listOf("태그1"),
-                accountName = "    ",
+                managerName = "    ",
             )
         }
     }
 
     @Test
-    fun `내용이 있으면 hasContent 리턴 값은 true이다`() {
+    fun `내용이 있으면 hasDescription 리턴 값은 true이다`() {
         val cardData = CardData.create(
             title = "제목",
             content = "내용",
             tags = emptyList(),
-            accountName = "테스트 계정",
+            managerName = "테스트 계정",
         )
 
-        assertTrue(cardData.hasContent())
+        assertTrue(cardData.hasDescription())
     }
 
     @Test
-    fun `내용이 공백이면 hasContent 리턴 값은 false이다`() {
+    fun `내용이 공백이면 hasDescription 리턴 값은 false이다`() {
         val cardData = CardData.create(
             title = "제목",
             content = "   ",
             tags = emptyList(),
-            accountName = "테스트 계정",
+            managerName = "테스트 계정",
         )
 
-        assertFalse(cardData.hasContent())
+        assertFalse(cardData.hasDescription())
     }
 
     @Test
@@ -64,7 +64,7 @@ class CardDataTest {
             title = "제목",
             content = "내용",
             tags = listOf(" 태그1 ", "  태그2  "),
-            accountName = "테스트 계정",
+            managerName = "테스트 계정",
         )
 
         assertEquals(listOf("태그1", "태그2"), cardData.tags)
@@ -76,7 +76,7 @@ class CardDataTest {
             title = "제목",
             content = "내용",
             tags = listOf("태그1", "   ", "", "  "),
-            accountName = "테스트 계정",
+            managerName = "테스트 계정",
         )
 
         assertEquals(listOf("태그1"), cardData.tags)
@@ -89,7 +89,7 @@ class CardDataTest {
                 title = "제목",
                 content = "내용",
                 tags = listOf("태그1", "태그2", "태그3", "태그4", "태그5", "태그6"),
-                accountName = "테스트 계정",
+                managerName = "테스트 계정",
             )
         }
     }
@@ -101,7 +101,7 @@ class CardDataTest {
                 title = "제목",
                 content = "내용",
                 tags = listOf("우아한테크코스", "안드로이드8기", "칸반보드리팩터링"),
-                accountName = "테스트 계정",
+                managerName = "테스트 계정",
             )
         }
     }
@@ -112,7 +112,7 @@ class CardDataTest {
             title = "제목",
             content = "내용",
             tags = listOf("태그1", "   "),
-            accountName = "테스트 계정",
+            managerName = "테스트 계정",
         )
 
         assertTrue(cardData.hasTag())
@@ -124,7 +124,7 @@ class CardDataTest {
             title = "제목",
             content = "내용",
             tags = listOf("   ", ""),
-            accountName = "테스트 계정",
+            managerName = "테스트 계정",
         )
 
         assertFalse(cardData.hasTag())

@@ -55,10 +55,10 @@ fun Card(
             modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Kanban Card Title" },
         )
 
-        if (cardData.hasContent()) {
+        if (cardData.hasDescription()) {
             CardContent(
                 modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Kanban Card Content" },
-                content = cardData.content
+                content = cardData.description
             )
         }
 

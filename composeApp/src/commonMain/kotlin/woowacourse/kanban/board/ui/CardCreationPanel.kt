@@ -48,7 +48,7 @@ fun CardCreationPanel(
     onShowCardCreationPanel: (Boolean) -> Unit,
 ) {
     var taskTitle by remember { mutableStateOf("") }
-    var contents by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
     var tempTags by remember { mutableStateOf("") }
     val tags = CardData.parseTag(tempTags)
     var state by remember { mutableStateOf(TaskState.TO_DO) }
@@ -91,8 +91,8 @@ fun CardCreationPanel(
                 CardCreationPanelSection(
                     title = "설명",
                     placeholder = "태스크에 대한 자세한 설명을 입력하세요",
-                    value = contents,
-                    onTextChange = { contents = it },
+                    value = description,
+                    onTextChange = { description = it },
                 )
 
                 CardCreationPanelSection(
@@ -127,7 +127,7 @@ fun CardCreationPanel(
                         onAddItem(
                             CardData.create(
                                 taskTitle,
-                                contents,
+                                description,
                                 tags,
                                 manager,
                             ),

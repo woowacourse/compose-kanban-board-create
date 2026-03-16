@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.domain.CardData
+import woowacourse.kanban.board.domain.TaskState
 
 @Composable
 fun CardCreationPanel(
@@ -50,7 +51,7 @@ fun CardCreationPanel(
     var contents by remember { mutableStateOf("") }
     var tempTags by remember { mutableStateOf("") }
     val tags = CardData.parseTag(tempTags)
-    var state by remember { mutableStateOf("To Do") }
+    var state by remember { mutableStateOf(TaskState.TO_DO) }
     var manager by remember { mutableStateOf("다이노") }
     var tagInfoText by remember { mutableStateOf("5자 이내의 태그를 최대 5개까지 등록할 수 있습니다.") }
     val createEnabled by remember {
@@ -225,8 +226,8 @@ private fun CardCreationPanelSection(
 
 @Composable
 private fun CardCreationPanelStateSection(
-    selectedState: String,
-    onStateChange: (String) -> Unit,
+    selectedState: TaskState,
+    onStateChange: (TaskState) -> Unit,
 ) {
     Column() {
         TitleText("상태 *")
@@ -236,23 +237,23 @@ private fun CardCreationPanelStateSection(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             StateButton(
-                text = "To Do",
-                isSelected = selectedState == "To Do",
-                onClick = { onStateChange("To Do") },
+                text = TaskState.TO_DO.label,
+                isSelected = selectedState == TaskState.TO_DO,
+                onClick = { onStateChange(TaskState.TO_DO) },
                 modifier = Modifier.width(200.dp).height(52.dp),
 
                 )
             StateButton(
-                text = "In Progress",
-                isSelected = selectedState == "In Progress",
-                onClick = { onStateChange("In Progress") },
+                text = TaskState.IN_PROGRESS.label,
+                isSelected = selectedState == TaskState.IN_PROGRESS,
+                onClick = { onStateChange(TaskState.IN_PROGRESS) },
                 modifier = Modifier.width(200.dp).height(52.dp),
 
                 )
             StateButton(
-                text = "Done",
-                isSelected = selectedState == "Done",
-                onClick = { onStateChange("Done") },
+                text = TaskState.DONE.label,
+                isSelected = selectedState == TaskState.DONE,
+                onClick = { onStateChange(TaskState.DONE) },
                 modifier = Modifier.width(200.dp).height(52.dp),
 
                 )

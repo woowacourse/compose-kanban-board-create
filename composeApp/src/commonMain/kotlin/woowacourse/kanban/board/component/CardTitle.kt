@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.model.Title
 
 @Composable
-fun Title(
+fun CardTitle(
     title: Title,
     modifier: Modifier = Modifier,
 ) {

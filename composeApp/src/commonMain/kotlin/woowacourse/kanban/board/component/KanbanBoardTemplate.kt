@@ -41,7 +41,7 @@ fun KanbanBoardTemplate(board: BoardData) {
     ) {
         Column {
             // 제목
-            Title(title = board.title, modifier = Modifier.padding(vertical = 8.dp).testTag("제목"))
+            CardTitle(title = board.title, modifier = Modifier.padding(vertical = 8.dp).testTag("제목"))
 
             // 중간 내용
             if (board.content.isNotBlank()) {

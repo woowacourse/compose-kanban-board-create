@@ -30,7 +30,6 @@ import woowacourse.kanban.board.Validator
 
 @Composable
 fun TextInput(
-    label: String,
     value: String,
     placeholder: String,
     onTextChange: (String) -> Unit,
@@ -43,56 +42,48 @@ fun TextInput(
     val borderColor = if (isError) Red50 else Gray70
     val textColor = if (isError) Red50 else Gray20
 
-    Column {
-        Text(
-            text = label,
-            fontSize = 14.sp,
-            color = Color(0xFF364153),
-            fontWeight = FontWeight.Bold,
-        )
-        OutlinedTextField(
-            value = value,
-            modifier = modifier
-                .fillMaxWidth(),
-            singleLine = singleLine,
-            placeholder = {
-                Text(
-                    text = placeholder,
-                    color = Color(0xFFAAAAAA),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
+    OutlinedTextField(
+        value = value,
+        modifier = modifier
+            .fillMaxWidth(),
+        singleLine = singleLine,
+        placeholder = {
+            Text(
+                text = placeholder,
+                color = Color(0xFFAAAAAA),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+            )
+        },
+        trailingIcon = {
+            if (isError) {
+                Image(
+                    painter = painterResource(Res.drawable.icon),
+                    contentDescription = "에러 아이콘",
+                    modifier = Modifier.size(20.dp),
                 )
-            },
-            trailingIcon = {
-                if (isError) {
-                    Image(
-                        painter = painterResource(Res.drawable.icon),
-                        contentDescription = "에러 아이콘",
-                        modifier = Modifier.size(20.dp),
-                    )
-                }
-            },
-            supportingText = {
-                if (isError) {
-                    Text(
-                        text = errorText,
-                        color = textColor,
-                    )
-                } else if (supportingText != null) {
-                    Text(text = supportingText)
-                }
-            },
-            colors = OutlinedTextFieldDefaults.colors(
-                unfocusedBorderColor = borderColor,
-                focusedBorderColor = borderColor,
-                unfocusedContainerColor = Color.Transparent,
-                focusedContainerColor = Color.Transparent,
-                unfocusedTextColor = textColor,
-                focusedTextColor = textColor,
-            ),
-            onValueChange = onTextChange,
-        )
-    }
+            }
+        },
+        supportingText = {
+            if (isError) {
+                Text(
+                    text = errorText,
+                    color = textColor,
+                )
+            } else if (supportingText != null) {
+                Text(text = supportingText)
+            }
+        },
+        colors = OutlinedTextFieldDefaults.colors(
+            unfocusedBorderColor = borderColor,
+            focusedBorderColor = borderColor,
+            unfocusedContainerColor = Color.Transparent,
+            focusedContainerColor = Color.Transparent,
+            unfocusedTextColor = textColor,
+            focusedTextColor = textColor,
+        ),
+        onValueChange = onTextChange,
+    )
 }
 
 @Preview(showBackground = true)
@@ -108,7 +99,6 @@ private fun TextInputPreview() {
 
     Column {
         TextInput(
-            label = ComponentText.TITLE_LABEL,
             value = title,
             placeholder = ComponentText.TITLE_PLACEHOLDER,
             onTextChange = { title = it },

@@ -13,51 +13,47 @@ class CardData private constructor(
     val tags: List<String>,
     val manager: String,
 ) {
+    fun hasDescription(): Boolean = description.isNotBlank()
+
+    fun hasTag(): Boolean = tags.isNotEmpty()
+
     companion object {
         private const val MAX_TAG_COUNT = 5
         private const val MAX_TAG_LENGTH = 5
 
-        private const val TITLE_INVALID_FORMAT_MSG = "제목을 입력해 주세요."
-        private const val TAG_VALID_FORMAT_MSG = "5자 이내의 태그를 최대 5개까지 등록할 수 있습니다."
-        private const val TAG_INVALID_FORMAT_MSG = "태그 형식이 올바르지 않습니다."
-        private const val TAG_INVALID_RULE_MSG = "태그는 5자 이내로 5개까지만 등록할 수 있습니다."
-
-        fun getTitleInfo(): String {
-            return TITLE_INVALID_FORMAT_MSG
+        fun isValidTitle(rawText: String): TitleError {
+            if (rawText.isBlank()) return TitleError.EMPTY
+            return TitleError.NONE
         }
 
-        fun isValidTag(rawText: String): Boolean {
-            if (rawText.isBlank()) return true
+        fun isValidTag(rawText: String): TagError {
+            if (rawText.isBlank()) return TagError.NONE
 
             val parsedText = parseByComma(rawText)
-            return (parsedText.all { it.isNotBlank() } && parsedText.size <= MAX_TAG_COUNT)
-        }
 
-        fun isValidTagInfo(rawText: String): String {
-            val parsedText = parseByComma(rawText)
-
-            if (rawText.isNotBlank() && parsedText.any { it.isBlank() }) return TAG_INVALID_FORMAT_MSG
-
-            if (rawText.isNotBlank() && parsedText.size > MAX_TAG_COUNT) return TAG_INVALID_RULE_MSG
-
-            return TAG_VALID_FORMAT_MSG
+            return when {
+                parsedText.any { it.isBlank() } -> TagError.INVALID_FORMAT
+                parsedText.any { it.length > MAX_TAG_LENGTH } -> TagError.TOO_LONG
+                parsedText.size > MAX_TAG_COUNT -> TagError.TOO_MANY
+                else -> TagError.NONE
+            }
         }
 
         /**
          * [CardData] 객체 생성 팩토리 메서드입니다.
          * @param title 필수 | 제목
-         * @param content 본문
+         * @param description 본문
          * @param tags 태그
          * @param managerName 필수 | 계정명
          * @throws IllegalArgumentException 기능 요구사항을 충족하지 않을 경우 예외를 던집니다.
          */
         fun create(
             title: String,
-            content: String,
+            description: String,
             tags: List<String>,
             managerName: String,
         ): CardData {
-            require(title.isNotBlank()) { "[Card] 제목은 필수 입력 항목입니다." }
+            require(isValidTitle(title) == TitleError.NONE) { "[Card] 제목은 필수 입력 항목입니다." }
             require(managerName.isNotBlank()) { "[Card] 계정명은 필수 입력 항목입니다." }
 
             val normalizedTags = tags
@@ -69,22 +65,10 @@ class CardData private constructor(
 
             return CardData(
                 title = title,
-                description = content,
+                description = description,
                 tags = normalizedTags,
                 manager = managerName,
             )
         }
     }
-
-    /**
-     * 카드 내용 존재 여부를 리턴합니다.
-     * @return 내용이 공백이 아니면 true 리턴.
-     */
-    fun hasDescription(): Boolean = description.isNotBlank()
-
-    /**
-     * 태그 존재 여부를 리턴합니다
-     * @return 태그가 있다면 true 리턴.
-     */
-    fun hasTag(): Boolean = tags.isNotEmpty()
 }

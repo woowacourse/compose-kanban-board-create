@@ -15,7 +15,7 @@ class CardDataTest {
         assertFailsWith<IllegalArgumentException> {
             CardData.create(
                 title = "   ",
-                content = "내용",
+                description = "내용",
                 tags = listOf("태그1"),
                 managerName = "테스트 계정",
             )
@@ -27,7 +27,7 @@ class CardDataTest {
         assertFailsWith<IllegalArgumentException> {
             CardData.create(
                 title = "제목",
-                content = "내용",
+                description = "내용",
                 tags = listOf("태그1"),
                 managerName = "    ",
             )
@@ -38,7 +38,7 @@ class CardDataTest {
     fun `내용이 있으면 hasDescription 리턴 값은 true이다`() {
         val cardData = CardData.create(
             title = "제목",
-            content = "내용",
+            description = "내용",
             tags = emptyList(),
             managerName = "테스트 계정",
         )
@@ -50,7 +50,7 @@ class CardDataTest {
     fun `내용이 공백이면 hasDescription 리턴 값은 false이다`() {
         val cardData = CardData.create(
             title = "제목",
-            content = "   ",
+            description = "   ",
             tags = emptyList(),
             managerName = "테스트 계정",
         )
@@ -62,7 +62,7 @@ class CardDataTest {
     fun `태그의 앞뒤 공백은 제거된다`() {
         val cardData = CardData.create(
             title = "제목",
-            content = "내용",
+            description = "내용",
             tags = listOf(" 태그1 ", "  태그2  "),
             managerName = "테스트 계정",
         )
@@ -74,7 +74,7 @@ class CardDataTest {
     fun `공백으로만 구성된 태그는 제거된다`() {
         val cardData = CardData.create(
             title = "제목",
-            content = "내용",
+            description = "내용",
             tags = listOf("태그1", "   ", "", "  "),
             managerName = "테스트 계정",
         )
@@ -87,7 +87,7 @@ class CardDataTest {
         assertFailsWith<IllegalArgumentException> {
             CardData.create(
                 title = "제목",
-                content = "내용",
+                description = "내용",
                 tags = listOf("태그1", "태그2", "태그3", "태그4", "태그5", "태그6"),
                 managerName = "테스트 계정",
             )
@@ -99,7 +99,7 @@ class CardDataTest {
         assertFailsWith<IllegalArgumentException> {
             CardData.create(
                 title = "제목",
-                content = "내용",
+                description = "내용",
                 tags = listOf("우아한테크코스", "안드로이드8기", "칸반보드리팩터링"),
                 managerName = "테스트 계정",
             )
@@ -110,7 +110,7 @@ class CardDataTest {
     fun `태그가 있으면 hasTag 리턴 값은 true이다`() {
         val cardData = CardData.create(
             title = "제목",
-            content = "내용",
+            description = "내용",
             tags = listOf("태그1", "   "),
             managerName = "테스트 계정",
         )
@@ -122,7 +122,7 @@ class CardDataTest {
     fun `태그가 비어 있으면 hasTag 리턴 값은 false이다`() {
         val cardData = CardData.create(
             title = "제목",
-            content = "내용",
+            description = "내용",
             tags = listOf("   ", ""),
             managerName = "테스트 계정",
         )
@@ -131,13 +131,28 @@ class CardDataTest {
     }
 
     @Test
-    fun `잘못된 태그가 주어질 시 false가 반환된다`() {
-        assertFalse(CardData.isValidTag(",..."))
+    fun `제목이 비어 있는 경우 TitleError_EMPTY 를 반환한다`() {
+        // given
+        val title = "   "
+        // when
+        val result = CardData.isValidTitle(title)
+        // then
+        assertEquals(TitleError.EMPTY, result)
     }
 
     @Test
-    fun `잘못된 태그가 주어질 시 에러메시지가 반환된다`() {
-        assertEquals("태그 형식이 올바르지 않습니다.", CardData.isValidTagInfo(",..."))
-        assertEquals("태그는 5자 이내로 5개까지만 등록할 수 있습니다.", CardData.isValidTagInfo("태그1,태그2,태그3,태그4,태그5,태그6"))
+    fun `잘못된 태그가 주어질 시 그에 따른 TagError 를 반환한다`() {
+        // given
+        val invalidFormatTags = "tag,,"
+        val tooLongTags = "tagggg"
+        val tooManyTags = "t1,t2,t3,t4,t5,t6"
+        // when
+        val result1 = CardData.isValidTag(invalidFormatTags)
+        val result2 = CardData.isValidTag(tooLongTags)
+        val result3 = CardData.isValidTag(tooManyTags)
+        // then
+        assertEquals(TagError.INVALID_FORMAT, result1)
+        assertEquals(TagError.TOO_LONG, result2)
+        assertEquals(TagError.TOO_MANY, result3)
     }
 }

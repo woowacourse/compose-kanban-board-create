@@ -39,7 +39,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.domain.CardData
+import woowacourse.kanban.board.domain.TagError
 import woowacourse.kanban.board.domain.TaskState
+import woowacourse.kanban.board.domain.TitleError
 import woowacourse.kanban.board.util.parseByComma
 
 @Composable
@@ -51,13 +53,16 @@ fun CardCreationPanel(
     var taskTitle by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var tempTags by remember { mutableStateOf("") }
-    val tags = parseByComma(tempTags)
     var state by remember { mutableStateOf(TaskState.TO_DO) }
     var manager by remember { mutableStateOf("다이노") }
     var tagInfoText by remember { mutableStateOf("5자 이내의 태그를 최대 5개까지 등록할 수 있습니다.") }
+
+    var titleError by remember { mutableStateOf(TitleError.EMPTY) }
+    var tagError by remember { mutableStateOf(TagError.NONE) }
+
     val createEnabled by remember {
         derivedStateOf {
-            taskTitle.isNotBlank() && CardData.isValidTag(tempTags)
+            titleError == TitleError.NONE && tagError == TagError.NONE
         }
     }
 
@@ -83,10 +88,11 @@ fun CardCreationPanel(
                     value = taskTitle,
                     onTextChange = {
                         taskTitle = it
+                        titleError = CardData.isValidTitle(it)
                     },
-                    showAdditionalInfo = taskTitle.isBlank(),
-                    infoText = CardData.getTitleInfo(),
-                    isError = taskTitle.isBlank(),
+                    showAdditionalInfo = titleError == TitleError.EMPTY,
+                    infoText = "제목을 입력해 주세요.",
+                    isError = titleError == TitleError.EMPTY,
                 )
 
                 CardCreationPanelSection(
@@ -102,11 +108,12 @@ fun CardCreationPanel(
                     value = tempTags,
                     onTextChange = {
                         tempTags = it
-                        tagInfoText = CardData.isValidTagInfo(tempTags)
+                        tagError = CardData.isValidTag(it)
+                        tagInfoText = getTagInfoMessage(tagError)
                     },
                     showAdditionalInfo = true,
                     infoText = tagInfoText,
-                    isError = !CardData.isValidTag(tempTags),
+                    isError = tagError != TagError.NONE,
                 )
 
                 CardCreationPanelStateSection(
@@ -129,7 +136,7 @@ fun CardCreationPanel(
                             CardData.create(
                                 taskTitle,
                                 description,
-                                tags,
+                                parseByComma(tempTags),
                                 manager,
                             ),
                         )
@@ -441,4 +448,12 @@ private fun TitleText(
         lineHeight = 20.sp,
         letterSpacing = 0.15.sp,
     )
+}
+
+private fun getTagInfoMessage(tagError: TagError): String {
+    return when(tagError) {
+        TagError.NONE -> "5자 이내의 태그를 최대 5개까지 등록할 수 있습니다."
+        TagError.INVALID_FORMAT -> "태그 형식이 올바르지 않습니다."
+        TagError.TOO_MANY, TagError.TOO_LONG -> "태그는 5자 이내로 5개까지만 등록할 수 있습니다."
+    }
 }

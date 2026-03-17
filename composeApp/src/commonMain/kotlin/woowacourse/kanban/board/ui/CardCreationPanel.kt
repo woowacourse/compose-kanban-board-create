@@ -21,6 +21,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
@@ -117,11 +118,14 @@ private fun CardCreationPanelHeaderSection(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        Icon(
-            imageVector = Icons.Default.Close,
-            contentDescription = "닫기 아이콘",
-            modifier = Modifier.clickable { onCloseClick.invoke() },
-        )
+        IconButton(
+            onClick = onCloseClick,
+        ) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = "닫기 아이콘",
+            )
+        }
     }
 }
 
@@ -431,11 +435,6 @@ private fun ActionButton(
         onClick = { onClick() },
         enabled = enabled,
         modifier = Modifier,
-        elevation = ButtonDefaults.buttonElevation(
-            defaultElevation = elevation,
-            pressedElevation = elevation,
-            disabledElevation = elevation,
-        ),
         colors = ButtonDefaults.buttonColors(
             containerColor = buttonColor,
             contentColor = contentColor,

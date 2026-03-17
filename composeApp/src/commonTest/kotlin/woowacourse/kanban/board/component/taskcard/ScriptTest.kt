@@ -13,8 +13,8 @@ class ScriptTest {
     @Test
     fun `Script에 빈 값이 들어오면 Script 컴포넌트가 출력되지 않는다`() = runComposeUiTest {
         setContent {
-            Script(
-                script = "",
+            Description(
+                description = "",
                 modifier = Modifier.testTag("script"),
             )
         }
@@ -24,8 +24,8 @@ class ScriptTest {
     @Test
     fun `Script에 빈 값이 들어오지 않으면 Script 컴포넌트가 출력된다`() = runComposeUiTest {
         setContent {
-            Script(
-                script = "script",
+            Description(
+                description = "script",
                 modifier = Modifier.testTag("script"),
             )
         }

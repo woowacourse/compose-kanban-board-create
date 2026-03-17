@@ -16,15 +16,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.Gray70
 import woowacourse.kanban.board.Gray80
+import woowacourse.kanban.board.model.ProfileState
 import woowacourse.kanban.board.model.TaskCardData
+import woowacourse.kanban.board.model.TaskState
+import woowacourse.kanban.board.model.modal.Description
 import woowacourse.kanban.board.model.modal.Tags
+import woowacourse.kanban.board.model.modal.Title
 
 @Composable
 fun TaskCard(
     data: TaskCardData,
     modifier: Modifier = Modifier,
-    maxTagCount: Int = Tags.MAX_TAGS,
-    maxTagTextLength: Int = Tags.TAG_MAX_TEXT_LENGTH,
 ) {
     Card(
         modifier = modifier
@@ -40,18 +42,14 @@ fun TaskCard(
                 .padding(17.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Title(data.title)
-            Script(data.script)
-            Tags(
-                tags = data.tags,
-                maxTagCount = maxTagCount,
-                maxTagTextLength = maxTagTextLength,
-            )
+            Title(title = data.title.value)
+            Description(description = data.description.value)
+            Tags(tags = data.tags)
             HorizontalDivider(
                 thickness = 1.dp,
                 color = Gray80,
             )
-            Profile(data.nickname)
+            Profile(profile = data.profile)
         }
     }
 }
@@ -61,10 +59,11 @@ fun TaskCard(
 private fun TaskCardPreview() {
     TaskCard(
         data = TaskCardData(
-            title = "LazyColumn 컴포넌트 구현",
-            script = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
-            tags = listOf("컴포넌트", "성능"),
-            nickname = "다이노",
+            title = Title(value = "LazyColumn 컴포넌트 구현"),
+            description = Description(value ="세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다."),
+            tags = Tags(value = "컴포넌트,성능"),
+            task = TaskState.PROGRESS,
+            profile = ProfileState.DINO
         ),
     )
 }

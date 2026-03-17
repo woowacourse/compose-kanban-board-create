@@ -30,7 +30,7 @@ fun Modal(modifier: Modifier = Modifier) {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
     var tags by remember { mutableStateOf("") }
-    var state by remember { mutableStateOf(TaskState.TODO) }
+    var taskState by remember { mutableStateOf(TaskState.TODO) }
     var profileState by remember { mutableStateOf(ProfileState.DINO) }
 
     val isTitleValid by remember {
@@ -48,18 +48,18 @@ fun Modal(modifier: Modifier = Modifier) {
     val titleInputState = TextInputState(
         value = title,
         onChange = { title = it },
-        isError = isTitleValid.not()
+        isError = isTitleValid.not(),
     )
 
     val descriptionInputState = TextInputState(
         value = description,
-        onChange = { description = it }
+        onChange = { description = it },
     )
 
     val tagsInputState = TextInputState(
         value = tags,
         onChange = { tags = it },
-        isError = isTagsValid.not()
+        isError = isTagsValid.not(),
     )
 
     Card(
@@ -82,16 +82,16 @@ fun Modal(modifier: Modifier = Modifier) {
             TextInputSection(
                 titleInputState = titleInputState,
                 descriptionInputState = descriptionInputState,
-                tagsInputState = tagsInputState
+                tagsInputState = tagsInputState,
             )
             ButtonSection(
-                state = state,
+                state = taskState,
                 profileState = profileState,
-                onStateClick = { state = it },
+                onStateClick = { taskState = it },
                 onProfileClick = { profileState = it },
             )
             Footer(
-                isButtonEnabled = isTitleValid && isTagsValid
+                isButtonEnabled = isTitleValid && isTagsValid,
             )
         }
     }

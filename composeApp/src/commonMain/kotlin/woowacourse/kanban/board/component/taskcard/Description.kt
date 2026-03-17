@@ -10,10 +10,10 @@ import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.Gray30
 
 @Composable
-fun Script(script: String?, modifier: Modifier = Modifier) {
-    if (!script.isNullOrEmpty()) {
+fun Description(description: String, modifier: Modifier = Modifier) {
+    if (description.isNotEmpty()) {
         Text(
-            text = script,
+            text = description,
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal,
             color = Gray30,
@@ -26,8 +26,8 @@ fun Script(script: String?, modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-private fun ScriptPreview() {
-    Script(
-        script = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
+private fun DescriptionPreview() {
+    Description(
+        description = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
     )
 }

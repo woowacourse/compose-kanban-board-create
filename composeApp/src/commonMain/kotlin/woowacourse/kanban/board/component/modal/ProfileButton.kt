@@ -58,7 +58,7 @@ fun ProfileButton(
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
-                text = myState.text,
+                text = myState.nickname,
                 modifier = Modifier.fillMaxWidth(),
                 fontSize = 16.sp,
                 color = Gray20,

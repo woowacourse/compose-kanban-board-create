@@ -1,6 +1,9 @@
 package woowacourse.kanban.board.model.modal
 
 data class Tags(val value: String) {
+
+    fun getExtractedTags(): List<String> = value.split(",").map { it.trim() }
+
     companion object {
         const val MAX_TAGS = 5
         const val TAG_MAX_TEXT_LENGTH = 5

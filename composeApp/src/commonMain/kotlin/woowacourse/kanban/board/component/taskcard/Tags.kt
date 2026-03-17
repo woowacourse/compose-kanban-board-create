@@ -20,20 +20,18 @@ import woowacourse.kanban.board.model.modal.Tags
 
 @Composable
 fun Tags(
-    tags: List<String>?,
+    tags: Tags,
     modifier: Modifier = Modifier,
-    maxTagCount: Int = Tags.MAX_TAGS,
-    maxTagTextLength: Int = Tags.TAG_MAX_TEXT_LENGTH,
 ) {
-    if (!tags.isNullOrEmpty()) {
+    if (tags.value.isNotEmpty()) {
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
             modifier = modifier
                 .fillMaxWidth(),
         ) {
-            tags.take(maxTagCount).forEach { tag ->
-                TagBox(tag.take(maxTagTextLength))
+            tags.getExtractedTags().forEach { tag ->
+                TagBox(tag)
             }
         }
     }
@@ -60,10 +58,6 @@ private fun TagBox(filteredTag: String) {
 @Preview(showBackground = true)
 @Composable
 private fun TagsPreview() {
-    val tags = listOf("안녕", "하세요", "이건열글자넘는데열글자까지만나오나", "3", "4", "5", "이것도나오나이건나오면안되는데")
-    Tags(
-        tags = tags,
-        maxTagCount = 6,
-        maxTagTextLength = 10,
-    )
+    val tags = Tags(value = "")
+    Tags(tags = tags)
 }

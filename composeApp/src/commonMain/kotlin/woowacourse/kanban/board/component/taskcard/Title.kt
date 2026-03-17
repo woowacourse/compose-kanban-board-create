@@ -10,18 +10,16 @@ import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.Gray10
 
 @Composable
-fun Title(title: String?, modifier: Modifier = Modifier) {
-    if (!title.isNullOrEmpty()) {
-        Text(
-            text = title,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            color = Gray10,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = modifier,
-        )
-    }
+fun Title(title: String, modifier: Modifier = Modifier) {
+    Text(
+        text = title,
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Bold,
+        color = Gray10,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        modifier = modifier,
+    )
 }
 
 @Preview(showBackground = true)

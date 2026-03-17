@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +38,7 @@ import woowacourse.kanban.board.constant.ProfileButtonConst
 import woowacourse.kanban.board.constant.StateButtonConst
 import woowacourse.kanban.board.constant.TagsConst
 import woowacourse.kanban.board.constant.TagsMaxValue
+import woowacourse.kanban.board.constant.TestTags
 import woowacourse.kanban.board.constant.TitleConst
 import woowacourse.kanban.board.model.Manager
 import woowacourse.kanban.board.model.State
@@ -78,7 +80,8 @@ fun TaskCardDataInput() {
     Card(
         modifier = Modifier
             .width(800.dp)
-            .padding(50.dp),
+            .padding(50.dp)
+            .testTag(TestTags.MODAL_BODY),
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
         ),
@@ -86,7 +89,8 @@ fun TaskCardDataInput() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 24.dp),
+                .padding(vertical = 24.dp)
+                .testTag(TestTags.HEADER),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
@@ -115,7 +119,7 @@ fun TaskCardDataInput() {
 
             LabelAndContent(
                 label = TitleConst.TITLE_LABEL,
-                modifier = Modifier,
+                modifier = Modifier.testTag(TestTags.TITLE_INPUT),
             ) {
                 TextInput(
                     value = title,
@@ -129,25 +133,25 @@ fun TaskCardDataInput() {
 
             LabelAndContent(
                 label = DescriptionConst.DESCRIPTION_LABEL,
-                modifier = Modifier,
+                modifier = Modifier.testTag(TestTags.DESCRIPTION_INPUT),
             ) {
                 TextInput(
                     value = description,
                     placeholder = DescriptionConst.DESCRIPTION_PLACEHOLDER,
                     onTextChange = { description = it },
-                    modifier = Modifier.height(200.dp),
+                    modifier = Modifier
+                        .height(200.dp)
                 )
             }
 
             LabelAndContent(
                 label = TagsConst.TAG_LABEL,
-                modifier = Modifier,
+                modifier = Modifier.testTag(TestTags.TAGS_INPUT),
             ) {
                 TextInput(
                     value = tags,
                     placeholder = TagsConst.TAG_PLACEHOLDER,
                     onTextChange = { tags = it },
-                    modifier = Modifier,
                     singleLine = true,
                     supportingText = TagsConst.TAG_SUPPORTING,
                     isError = isNotValidTags,
@@ -157,26 +161,28 @@ fun TaskCardDataInput() {
 
             LabelAndContent(
                 label = StateButtonConst.STATE_BUTTON_LABEL,
-                modifier = Modifier,
+                modifier = Modifier.testTag(TestTags.STATE_BTN),
             ) {
                 stateOptions.forEach { option ->
                     StateButton(
                         option = option.value,
                         isSelected = selectedState == option,
                         onClick = { selectedState = option },
+                        modifier = Modifier.testTag("${option.value}${TestTags.BTN}")
                     )
                 }
             }
 
             LabelAndContent(
                 label = ProfileButtonConst.PROFILE_BUTTON_LABEL,
-                modifier = Modifier
+                modifier = Modifier.testTag(TestTags.MANAGER_BTN)
             ) {
                 managerOptions.forEach { manager ->
                     ManagerButton(
                         option = manager.value,
                         isSelected = selectedManager == manager,
-                        onClick = { selectedManager = manager }
+                        onClick = { selectedManager = manager },
+                        modifier = Modifier.testTag("${manager.value}${TestTags.BTN}")
                     )
                 }
             }
@@ -184,7 +190,8 @@ fun TaskCardDataInput() {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 24.dp),
+                    .padding(horizontal = 24.dp)
+                    .testTag(TestTags.FOOTER),
             ) {
                 HorizontalDivider()
                 Spacer(modifier = Modifier.height(8.dp))

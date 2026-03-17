@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,7 @@ import kanbanboard.composeapp.generated.resources.Res
 import kanbanboard.composeapp.generated.resources.icon
 import org.jetbrains.compose.resources.painterResource
 import woowacourse.kanban.board.constant.ColorPalette
+import woowacourse.kanban.board.constant.TestTags
 import woowacourse.kanban.board.constant.TitleConst
 
 @Composable
@@ -57,7 +59,8 @@ fun TextInput(
                 Image(
                     painter = painterResource(Res.drawable.icon),
                     contentDescription = "에러 아이콘",
-                    modifier = Modifier.size(20.dp),
+                    modifier = Modifier.size(20.dp)
+                        .testTag(TestTags.ERROR_ICON),
                 )
             }
         },
@@ -66,6 +69,7 @@ fun TextInput(
                 Text(
                     text = errorText,
                     color = textColor,
+                    modifier = Modifier.testTag(TestTags.ERROR_TEXT)
                 )
             } else if (supportingText != null) {
                 Text(text = supportingText)

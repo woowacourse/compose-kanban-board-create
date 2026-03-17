@@ -3,11 +3,10 @@ package woowacourse.kanban.board.component.createtaskcard
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
 import org.junit.Test
-import woowacourse.kanban.board.component.testconstan.TestText
+import woowacourse.kanban.board.testconstan.TestText
 import woowacourse.kanban.board.constant.ColorPalette
 import woowacourse.kanban.board.constant.HeaderAndFooterConst
 import woowacourse.kanban.board.model.Tags

@@ -12,16 +12,16 @@ import woowacourse.kanban.create.view.HeaderText
 
 @Composable
 fun CreateTextInput(
-    modifier: Modifier = Modifier,
     title: String,
     placeHolder: String,
-    placeHolderAlignment: Alignment = Alignment.CenterStart,
     height: Dp,
+    value: String,
+    onChangeValue: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    placeHolderAlignment: Alignment = Alignment.CenterStart,
     hintText: String = "",
     isError: Boolean = false,
     errorHintText: String = "태그 형식이 올바르지 않습니다.",
-    value: String,
-    onChangeValue: (String) -> Unit,
 ) {
     Column(modifier = modifier) {
         HeaderText(title = title)
@@ -39,8 +39,8 @@ fun CreateTextInput(
             Spacer(modifier = Modifier.height(4.dp))
             HintText(
                 hintText =
-                if (isError) errorHintText
-                else hintText,
+                    if (isError) errorHintText
+                    else hintText,
                 isErrorText = isError,
             )
         }

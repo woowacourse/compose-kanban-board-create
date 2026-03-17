@@ -1,6 +1,7 @@
 package woowacourse.kanban.create
 
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onNodeWithTag
@@ -93,9 +94,7 @@ class DialogTest {
             // given
             setContent {
                 val viewModel = TaskCreateViewModel()
-                TaskCreateDialog(
-                    viewModel = viewModel,
-                )
+                TaskCreateDialog(viewModel = viewModel, modifier = Modifier)
             }
             // when
             onNodeWithText("태스크 제목을 입력하세요").performTextInput("제목")
@@ -115,9 +114,7 @@ class DialogTest {
             setContent {
 
                 val viewModel = TaskCreateViewModel()
-                TaskCreateDialog(
-                    viewModel = viewModel,
-                )
+                TaskCreateDialog(viewModel = viewModel, modifier = Modifier)
             }
 
             // when
@@ -135,9 +132,7 @@ class DialogTest {
             // given
             setContent {
                 val viewModel = TaskCreateViewModel()
-                TaskCreateDialog(
-                    viewModel = viewModel,
-                )
+                TaskCreateDialog(viewModel = viewModel, modifier = Modifier)
             }
 
             // when

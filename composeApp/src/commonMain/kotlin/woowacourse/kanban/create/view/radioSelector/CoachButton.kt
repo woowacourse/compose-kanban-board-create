@@ -30,11 +30,11 @@ import woowacourse.kanban.PRIMARY_SUB_TEXT
 
 @Composable
 fun CoachButton(
-    modifier: Modifier = Modifier,
     isSelected: Boolean,
     name: String,
     onClick: () -> Unit,
     index: Int,
+    modifier: Modifier = Modifier,
 ) {
     val shape = RoundedCornerShape(10.dp)
 
@@ -51,7 +51,7 @@ fun CoachButton(
                     Modifier.border(
                         width = 2.dp,
                         color = Color(PRIMARY_BORDER),
-                        shape = shape
+                        shape = shape,
                     ),
             )
             .clickable(

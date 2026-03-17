@@ -29,13 +29,13 @@ import woowacourse.kanban.TEXT_FIELD_PLACEHOLDER
 
 @Composable
 fun CreateTextField(
-    modifier: Modifier = Modifier,
     value: String,
     onChangeValue: (String) -> Unit,
     isError: Boolean,
     height: Dp,
     placeHolder: String,
     placeHolderAlignment: Alignment,
+    modifier: Modifier = Modifier,
     errorPlaceholder: String = "이건,,,,올바르지 않은 형식입니다,,,,,,,,,",
 ) {
     BasicTextField(

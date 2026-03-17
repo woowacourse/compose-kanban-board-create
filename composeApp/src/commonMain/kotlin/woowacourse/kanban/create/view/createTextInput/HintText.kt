@@ -13,8 +13,8 @@ import woowacourse.kanban.TEXT_FIELD_HINT
 
 @Composable
 fun HintText(
-    modifier: Modifier = Modifier,
     hintText: String,
+    modifier: Modifier = Modifier,
     isErrorText: Boolean = false,
 ) {
     Text(

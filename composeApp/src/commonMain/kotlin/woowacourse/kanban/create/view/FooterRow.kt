@@ -23,10 +23,10 @@ import woowacourse.kanban.PRIMARY_TEXT
 
 @Composable
 fun FooterRow(
-    modifier: Modifier = Modifier,
     onCancel: () -> Unit,
     onCreate: () -> Unit,
     isCreateError: Boolean,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -53,12 +53,12 @@ fun FooterRow(
 
 @Composable
 fun FooterButton(
-    modifier: Modifier = Modifier,
     text: String,
     backgroundColor: Color,
     textColor: Color,
-    enabled: Boolean = true,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -74,7 +74,7 @@ fun FooterButton(
                 enabled = enabled,
             ),
 
-    ) {
+        ) {
         Text(
             text,
             color = textColor,

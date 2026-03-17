@@ -19,7 +19,7 @@ import woowacourse.kanban.create.view.radioSelector.RadioSelector
 import woowacourse.kanban.create.view.radioSelector.StatusButton
 
 @Composable
-fun TaskCreateDialog(modifier: Modifier = Modifier, viewModel: TaskCreateViewModel) {
+fun TaskCreateDialog(viewModel: TaskCreateViewModel, modifier: Modifier) {
     Column(
         modifier = modifier.background(color = Color.White)
             .size(

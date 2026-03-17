@@ -24,11 +24,11 @@ import woowacourse.kanban.STATUS_TEXT_SELECTED
 
 @Composable
 fun StatusButton(
-    modifier: Modifier = Modifier,
     status: String,
-    isSelected: Boolean = false,
     onClick: () -> Unit,
     index: Int,
+    modifier: Modifier = Modifier,
+    isSelected: Boolean = false,
 ) {
 
     val shape = RoundedCornerShape(10.dp)

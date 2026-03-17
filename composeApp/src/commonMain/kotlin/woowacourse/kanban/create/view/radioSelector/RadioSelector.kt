@@ -12,9 +12,9 @@ import woowacourse.kanban.create.view.HeaderText
 
 @Composable
 fun RadioSelector(
-    modifier: Modifier = Modifier,
     header: String,
     items: List<String>,
+    modifier: Modifier = Modifier,
     itemContent: @Composable (index: Int) -> Unit,
 ) {
 

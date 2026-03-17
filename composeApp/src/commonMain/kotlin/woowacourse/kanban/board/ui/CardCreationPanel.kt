@@ -143,7 +143,6 @@ private fun CardCreationPanelBodySection(
             value = uiState.taskTitle,
             onTextChange = {
                 uiState.taskTitle = it
-                uiState.titleError = CardData.isValidTitle(it)
             },
             showAdditionalInfo = uiState.titleError == TitleError.EMPTY,
             infoText = "제목을 입력해 주세요.",
@@ -163,8 +162,6 @@ private fun CardCreationPanelBodySection(
             value = uiState.tempTags,
             onTextChange = {
                 uiState.tempTags = it
-                uiState.tagError = CardData.isValidTag(it)
-                uiState.tagInfoText = getTagInfoMessage(uiState.tagError)
             },
             showAdditionalInfo = true,
             infoText = uiState.tagInfoText,
@@ -429,7 +426,6 @@ private fun ActionButton(
 ) {
     val contentColor = if (buttonText == "생성") Color.White else Color(0xFF364153)
     val buttonColor = if (buttonText == "생성") Color(0xFF4F39F6) else Color.White
-    val elevation = if (buttonText == "생성") 3.dp else 0.dp
 
     Button(
         onClick = { onClick() },
@@ -480,9 +476,13 @@ class CardCreationState {
     var tempTags by mutableStateOf("")
     var state by mutableStateOf(TaskState.TO_DO)
     var manager by mutableStateOf("다이노")
-    var tagInfoText by mutableStateOf("5자 이내의 태그를 최대 5개까지 등록할 수 있습니다.")
-    var titleError by mutableStateOf(TitleError.EMPTY)
-    var tagError by mutableStateOf(TagError.NONE)
+    val titleError: TitleError
+        get() = CardData.isValidTitle(taskTitle)
+    val tagError: TagError
+        get() = CardData.isValidTag(tempTags)
+    val tagInfoText: String
+        get() = getTagInfoMessage(tagError)
+
     val createEnabled by derivedStateOf {
         titleError == TitleError.NONE && tagError == TagError.NONE
     }

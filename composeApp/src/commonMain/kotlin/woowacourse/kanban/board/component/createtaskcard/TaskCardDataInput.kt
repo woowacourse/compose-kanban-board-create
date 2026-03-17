@@ -38,6 +38,10 @@ import woowacourse.kanban.board.constant.StateButtonConst
 import woowacourse.kanban.board.constant.TagsConst
 import woowacourse.kanban.board.constant.TagsMaxValue
 import woowacourse.kanban.board.constant.TitleConst
+import woowacourse.kanban.board.model.Manager
+import woowacourse.kanban.board.model.State
+import woowacourse.kanban.board.model.Tags
+import woowacourse.kanban.board.model.Title
 
 @Composable
 fun TaskCardDataInput() {
@@ -46,7 +50,7 @@ fun TaskCardDataInput() {
     var tags by remember { mutableStateOf("") }
     val isNotValidTitle by remember {
         derivedStateOf {
-            title.isBlank()
+            Title(title).isNotValidTitle()
         }
     }
     val isNotValidTags by remember {
@@ -54,25 +58,20 @@ fun TaskCardDataInput() {
             if(tags.isBlank()){
                 return@derivedStateOf false
             }
-            val extractTags = tags.split(",").map { it.trim() }
-
-            extractTags.size > TagsConst.MAX_TAGS ||
-                    extractTags.any { tag ->
-                tag.isEmpty() || tag.length > TagsConst.TAG_MAX_TEXT_LENGTH
-            }
+            Tags(tags).isNotValidTags()
         }
     }
 
     val stateOptions = listOf(
-        StateButtonConst.STATE_BUTTON_TODO,
-        StateButtonConst.STATE_BUTTON_PROGRESS,
-        StateButtonConst.STATE_BUTTON_DONE
+        State(StateButtonConst.STATE_BUTTON_TODO),
+        State(StateButtonConst.STATE_BUTTON_PROGRESS),
+        State(StateButtonConst.STATE_BUTTON_DONE)
     )
     var selectedState by remember { mutableStateOf(stateOptions[0]) }
 
     val managerOptions = listOf(
-        ProfileButtonConst.PROFILE_BUTTON_DINO,
-        ProfileButtonConst.PROFILE_BUTTON_PAMES
+        Manager(ProfileButtonConst.PROFILE_BUTTON_DINO),
+        Manager(ProfileButtonConst.PROFILE_BUTTON_PAMES)
     )
     var selectedManager by remember { mutableStateOf(managerOptions[0]) }
 
@@ -162,7 +161,7 @@ fun TaskCardDataInput() {
             ) {
                 stateOptions.forEach { option ->
                     StateButton(
-                        option = option,
+                        option = option.value,
                         isSelected = selectedState == option,
                         onClick = { selectedState = option },
                     )
@@ -175,7 +174,7 @@ fun TaskCardDataInput() {
             ) {
                 managerOptions.forEach { manager ->
                     ManagerButton(
-                        option = manager,
+                        option = manager.value,
                         isSelected = selectedManager == manager,
                         onClick = { selectedManager = manager }
                     )

@@ -42,7 +42,7 @@ fun LabelAndContent (
             color = Color(0xFF364153),
         )
         FlowRow(
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ){

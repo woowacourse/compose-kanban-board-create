@@ -9,7 +9,7 @@ import org.junit.Assert
 class TagsTest {
 
     @Test
-    fun `태그 정상 케이스`() {
+    fun `태그의 갯수가 5개 이하이며 태그의 내용도 5자 이하인 경우 오류가 발생하지 않아야 한다`() {
         // given
         val tags =
             listOf(
@@ -38,7 +38,7 @@ class TagsTest {
     }
 
     @Test
-    fun `태그의 개수가 5개 초과면 오류가 발생한다`() {
+    fun `태그의 개수가 5개 초과하면 오류가 발생한다`() {
         // given
         val tags =
             listOf(
@@ -57,7 +57,7 @@ class TagsTest {
     }
 
     @Test
-    fun `태그의 내용이 5자 초과면 오류가 발생한다`() {
+    fun `태그의 내용이 5자 초과하면 오류가 발생한다`() {
         // given
         val tags =
             listOf(

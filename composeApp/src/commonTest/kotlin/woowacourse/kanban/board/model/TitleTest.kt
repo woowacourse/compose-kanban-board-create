@@ -9,7 +9,7 @@ import org.junit.Test
 class TitleTest {
 
     @Test
-    fun `제목 정상 케이스`() {
+    fun `제목이 비어있지 않고 공백이지도 않은 경우 오류가 발생하지 않아야 한다`() {
         // given
         val title =
             "제목"
@@ -24,10 +24,10 @@ class TitleTest {
     }
 
     @Test
-    fun `제목이 비어있는 경우 오류가 발생함`() {
+    fun `제목이 비어 있는 경우 오류가 발생해야 한다`() {
         // given
         val title =
-            " "
+            ""
         // when
         // then
         Assert.assertThrows(IllegalArgumentException::class.java) {
@@ -36,7 +36,7 @@ class TitleTest {
     }
 
     @Test
-    fun `제목이 공백인 경우 오류가 발생함`() {
+    fun `제목이 공백으로만 이루어져 있는 경우 오류가 발생해야 한다`() {
         // given
         val title =
             " "

@@ -9,7 +9,7 @@ import org.junit.Test
 class NicknameTest {
 
     @Test
-    fun `닉네임 정상 케이스`() {
+    fun `닉네임이 비어있거나 공백이 아닌 경우 오류가 발생하지 않아야 한다`() {
         // given
         val nickname =
             "아오"
@@ -26,7 +26,7 @@ class NicknameTest {
     }
 
     @Test
-    fun `닉네임이 공백이라면 오류가 발생함`() {
+    fun `닉네임이 비어져있는 경우 오류가 발생해야 한다`() {
         // given
         val nickname =
             ""
@@ -38,7 +38,7 @@ class NicknameTest {
     }
 
     @Test
-    fun `닉네임에 빈 공간이 있다면 오류가 발생함`() {
+    fun `닉네임이 공백으로만 이루어진 경우 오류가 발생해야 한다`() {
         // given
         val nickname =
             " "

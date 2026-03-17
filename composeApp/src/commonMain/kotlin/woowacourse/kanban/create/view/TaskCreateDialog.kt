@@ -8,49 +8,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import woowacourse.kanban.create.model.TaskCreateState
 import woowacourse.kanban.create.view.createTextInput.CreateTextInput
 import woowacourse.kanban.create.view.radioSelector.CoachButton
 import woowacourse.kanban.create.view.radioSelector.RadioSelector
 import woowacourse.kanban.create.view.radioSelector.StatusButton
 
 @Composable
-@Preview(
-    showBackground = true,
-    widthDp = 672,
-    heightDp = 900,
-)
-fun TaskCreateDialog(modifier: Modifier = Modifier) {
-    var titleInputValue by remember { mutableStateOf("") }
-    var contentInputValue by remember { mutableStateOf("") }
-    var tagInputValue by remember { mutableStateOf("") }
-
-    var isTitleError by remember { mutableStateOf(false) }
-    var isTagError by remember { mutableStateOf(false) }
-
-    var selectedStatusIndex by remember { mutableIntStateOf(0) }
-    var selectedCoachIndex by remember { mutableIntStateOf(0) }
-
-    val statuses = listOf(
-        "To Do",
-        "In Progress",
-        "Done",
-    )
-
-    val names = listOf(
-        "다이노",
-        "페임스",
-    )
-
+fun TaskCreateDialog(modifier: Modifier = Modifier, state: TaskCreateState) {
     Column(
         modifier = modifier.background(color = Color.White)
             .size(
@@ -74,12 +43,12 @@ fun TaskCreateDialog(modifier: Modifier = Modifier) {
                 title = "제목 *",
                 placeHolder = "태스크 제목을 입력하세요",
                 height = 48.dp,
-                value = titleInputValue,
+                value = state.titleInputValue,
                 onChangeValue = { newTextValue ->
-                    titleInputValue = newTextValue
-                    if (isTitleError) isTitleError = false
+                    state.titleInputValue = newTextValue
+                    if (state.isTitleError) state.isTitleError = false
                 },
-                isError = isTitleError,
+                isError = state.isTitleError,
             )
             CreateTextInput(
                 modifier = Modifier,
@@ -87,8 +56,8 @@ fun TaskCreateDialog(modifier: Modifier = Modifier) {
                 placeHolder = "태스크에 대한 자세한 설명을 입력하세요",
                 height = 116.dp,
                 placeHolderAlignment = Alignment.TopStart,
-                value = contentInputValue,
-                onChangeValue = { newTextValue -> contentInputValue = newTextValue },
+                value = state.contentInputValue,
+                onChangeValue = { newTextValue -> state.contentInputValue = newTextValue },
             )
             CreateTextInput(
                 modifier = Modifier,
@@ -96,32 +65,32 @@ fun TaskCreateDialog(modifier: Modifier = Modifier) {
                 placeHolder = "태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)",
                 height = 44.dp,
                 hintText = "5자 이내의 태그를 최대 5개까지 등록할 수 있습니다.",
-                value = tagInputValue,
+                value = state.tagInputValue,
                 onChangeValue = { newTextValue ->
-                    tagInputValue = newTextValue
-                    if (isTagError) isTagError = false
+                    state.tagInputValue = newTextValue
+                    if (state.isTagError) state.isTagError = false
                 },
-                isError = isTagError,
+                isError = state.isTagError,
             )
             RadioSelector(
                 header = "상태 *",
-                items = statuses,
+                items = state.statuses,
             ) { index ->
                 StatusButton(
-                    status = statuses[index],
-                    isSelected = selectedStatusIndex == index,
-                    onClick = { selectedStatusIndex = index },
+                    status = state.statuses[index],
+                    isSelected = state.selectedStatusIndex == index,
+                    onClick = { state.selectedStatusIndex = index },
                     index = index,
                 )
             }
             RadioSelector(
                 header = "담당자 *",
-                items = names,
+                items = state.names,
             ) { index ->
                 CoachButton(
-                    name = names[index],
-                    isSelected = selectedCoachIndex == index,
-                    onClick = { selectedCoachIndex = index },
+                    name = state.names[index],
+                    isSelected = state.selectedCoachIndex == index,
+                    onClick = { state.selectedCoachIndex = index },
                     index = index,
                 )
             }
@@ -129,14 +98,14 @@ fun TaskCreateDialog(modifier: Modifier = Modifier) {
             FooterRow(
                 onCancel = { },
                 onCreate = {
-                    isTitleError = titleInputValue.isEmpty()
-                    val tags = tagInputValue.split(",")
-                    isTagError = tags.size > 5 || tags.any { it.length > 5 }
+                    state.isTitleError = state.titleInputValue.isEmpty()
+                    val tags = state.tagInputValue.split(",")
+                    state.isTagError = tags.size > 5 || tags.any { it.length > 5 }
 
-                    if (isTitleError) titleInputValue = ""
-                    if (isTagError) tagInputValue = ""
+                    if (state.isTitleError) state.titleInputValue = ""
+                    if (state.isTagError) state.tagInputValue = ""
                 },
-                isCreateError = isTitleError || isTagError,
+                isCreateError = state.isTitleError || state.isTagError,
             )
         }
     }

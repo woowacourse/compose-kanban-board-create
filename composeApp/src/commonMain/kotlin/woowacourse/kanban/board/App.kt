@@ -1,7 +1,7 @@
 package woowacourse.kanban.board
 
 import androidx.compose.runtime.Composable
-import woowacourse.kanban.create.component.TaskCreateDialog
+import woowacourse.kanban.create.view.TaskCreateDialog
 
 @Composable
 fun App() {

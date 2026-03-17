@@ -1,4 +1,4 @@
-package woowacourse.kanban.create.component.createTextInput
+package woowacourse.kanban.create.view.createTextInput
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import woowacourse.kanban.create.component.HeaderText
+import woowacourse.kanban.create.view.HeaderText
 
 @Composable
 fun CreateTextInput(

@@ -1,4 +1,4 @@
-package woowacourse.kanban.create.component.radioSelector
+package woowacourse.kanban.create.view.radioSelector
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,7 +8,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import woowacourse.kanban.create.component.HeaderText
+import woowacourse.kanban.create.view.HeaderText
 
 @Composable
 fun RadioSelector(

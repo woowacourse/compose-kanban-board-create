@@ -12,14 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import woowacourse.kanban.create.model.TaskCreateState
+import woowacourse.kanban.create.model.TaskCreateViewModel
 import woowacourse.kanban.create.view.createTextInput.CreateTextInput
 import woowacourse.kanban.create.view.radioSelector.CoachButton
 import woowacourse.kanban.create.view.radioSelector.RadioSelector
 import woowacourse.kanban.create.view.radioSelector.StatusButton
 
 @Composable
-fun TaskCreateDialog(modifier: Modifier = Modifier, state: TaskCreateState) {
+fun TaskCreateDialog(modifier: Modifier = Modifier, viewModel: TaskCreateViewModel) {
     Column(
         modifier = modifier.background(color = Color.White)
             .size(
@@ -43,12 +43,11 @@ fun TaskCreateDialog(modifier: Modifier = Modifier, state: TaskCreateState) {
                 title = "제목 *",
                 placeHolder = "태스크 제목을 입력하세요",
                 height = 48.dp,
-                value = state.titleInputValue,
+                value = viewModel.titleInputValue,
                 onChangeValue = { newTextValue ->
-                    state.titleInputValue = newTextValue
-                    if (state.isTitleError) state.isTitleError = false
+                    viewModel.onTitleChange(newTextValue)
                 },
-                isError = state.isTitleError,
+                isError = viewModel.isTitleError,
             )
             CreateTextInput(
                 modifier = Modifier,
@@ -56,8 +55,8 @@ fun TaskCreateDialog(modifier: Modifier = Modifier, state: TaskCreateState) {
                 placeHolder = "태스크에 대한 자세한 설명을 입력하세요",
                 height = 116.dp,
                 placeHolderAlignment = Alignment.TopStart,
-                value = state.contentInputValue,
-                onChangeValue = { newTextValue -> state.contentInputValue = newTextValue },
+                value = viewModel.contentInputValue,
+                onChangeValue = { newTextValue -> viewModel.onContentChange(newTextValue) },
             )
             CreateTextInput(
                 modifier = Modifier,
@@ -65,47 +64,39 @@ fun TaskCreateDialog(modifier: Modifier = Modifier, state: TaskCreateState) {
                 placeHolder = "태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)",
                 height = 44.dp,
                 hintText = "5자 이내의 태그를 최대 5개까지 등록할 수 있습니다.",
-                value = state.tagInputValue,
+                value = viewModel.tagInputValue,
                 onChangeValue = { newTextValue ->
-                    state.tagInputValue = newTextValue
-                    if (state.isTagError) state.isTagError = false
+                    viewModel.onTagChange(newTextValue)
                 },
-                isError = state.isTagError,
+                isError = viewModel.isTagError,
             )
             RadioSelector(
                 header = "상태 *",
-                items = state.statuses,
+                items = viewModel.statuses,
             ) { index ->
                 StatusButton(
-                    status = state.statuses[index],
-                    isSelected = state.selectedStatusIndex == index,
-                    onClick = { state.selectedStatusIndex = index },
+                    status = viewModel.statuses[index],
+                    isSelected = viewModel.selectedStatusIndex == index,
+                    onClick = { viewModel.onStatusSelect(index) },
                     index = index,
                 )
             }
             RadioSelector(
                 header = "담당자 *",
-                items = state.names,
+                items = viewModel.names,
             ) { index ->
                 CoachButton(
-                    name = state.names[index],
-                    isSelected = state.selectedCoachIndex == index,
-                    onClick = { state.selectedCoachIndex = index },
+                    name = viewModel.names[index],
+                    isSelected = viewModel.selectedCoachIndex == index,
+                    onClick = { viewModel.onCoachSelect(index) },
                     index = index,
                 )
             }
             HorizontalDivider()
             FooterRow(
                 onCancel = { },
-                onCreate = {
-                    state.isTitleError = state.titleInputValue.isEmpty()
-                    val tags = state.tagInputValue.split(",")
-                    state.isTagError = tags.size > 5 || tags.any { it.length > 5 }
-
-                    if (state.isTitleError) state.titleInputValue = ""
-                    if (state.isTagError) state.tagInputValue = ""
-                },
-                isCreateError = state.isTitleError || state.isTagError,
+                onCreate = { viewModel.onCardCreate() },
+                isCreateError = viewModel.isTitleError || viewModel.isTagError,
             )
         }
     }

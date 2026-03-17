@@ -47,109 +47,61 @@ import woowacourse.kanban.board.util.parseByComma
 @Composable
 fun CardCreationPanel(
     modifier: Modifier = Modifier,
-    onAddItem: (CardData) -> Unit,
     onShowCardCreationPanel: (Boolean) -> Unit,
+    onAddItem: (CardData) -> Unit,
 ) {
-    var taskTitle by remember { mutableStateOf("") }
-    var description by remember { mutableStateOf("") }
-    var tempTags by remember { mutableStateOf("") }
-    var state by remember { mutableStateOf(TaskState.TO_DO) }
-    var manager by remember { mutableStateOf("다이노") }
-    var tagInfoText by remember { mutableStateOf("5자 이내의 태그를 최대 5개까지 등록할 수 있습니다.") }
+    val uiState: CardCreationState = rememberCardCreationState()
 
-    var titleError by remember { mutableStateOf(TitleError.EMPTY) }
-    var tagError by remember { mutableStateOf(TagError.NONE) }
+    CardCreationPanelContent(
+        modifier = modifier,
+        uiState = uiState,
+        onCloseClick = { onShowCardCreationPanel(false) },
+        onCreateClick = {
+            onAddItem(
+                CardData.create(
+                    uiState.taskTitle,
+                    uiState.description,
+                    parseByComma(uiState.tempTags),
+                    uiState.manager,
+                ),
+            )
+        },
+    )
+}
 
-    val createEnabled by remember {
-        derivedStateOf {
-            titleError == TitleError.NONE && tagError == TagError.NONE
-        }
-    }
-
+@Composable
+fun CardCreationPanelContent(
+    modifier: Modifier = Modifier,
+    uiState: CardCreationState,
+    onCloseClick: () -> Unit,
+    onCreateClick: () -> Unit,
+) {
     OutlinedCard(
         modifier = modifier,
     ) {
         Column(
             modifier = Modifier.background(Color.White).width(672.dp),
         ) {
-            CardCreationPanelHeaderSection(
-                onShowCardCreationPanel = onShowCardCreationPanel,
-            )
+            CardCreationPanelHeaderSection(onCloseClick = onCloseClick)
 
             HorizontalDivider(modifier = Modifier.fillMaxWidth())
 
-            Column(
-                modifier = Modifier.padding(24.dp),
-                verticalArrangement = Arrangement.spacedBy(24.dp),
-            ) {
-                CardCreationPanelSection(
-                    title = "제목 *",
-                    placeholder = "태스크 제목을 입력하세요",
-                    value = taskTitle,
-                    onTextChange = {
-                        taskTitle = it
-                        titleError = CardData.isValidTitle(it)
-                    },
-                    showAdditionalInfo = titleError == TitleError.EMPTY,
-                    infoText = "제목을 입력해 주세요.",
-                    isError = titleError == TitleError.EMPTY,
-                )
+            CardCreationPanelBodySection(uiState = uiState)
 
-                CardCreationPanelSection(
-                    title = "설명",
-                    placeholder = "태스크에 대한 자세한 설명을 입력하세요",
-                    value = description,
-                    onTextChange = { description = it },
-                )
+            HorizontalDivider(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp))
 
-                CardCreationPanelSection(
-                    title = "태그",
-                    placeholder = "태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)",
-                    value = tempTags,
-                    onTextChange = {
-                        tempTags = it
-                        tagError = CardData.isValidTag(it)
-                        tagInfoText = getTagInfoMessage(tagError)
-                    },
-                    showAdditionalInfo = true,
-                    infoText = tagInfoText,
-                    isError = tagError != TagError.NONE,
-                )
-
-                CardCreationPanelStateSection(
-                    selectedState = state,
-                    onStateChange = { state = it },
-                )
-
-                CardCreationPanelManagerSection(
-                    selectedManager = manager,
-                    onManagerChange = { manager = it },
-                )
-
-                HorizontalDivider(modifier = Modifier.fillMaxWidth())
-
-                ActionButtonSection(
-                    createEnabled = createEnabled,
-                    onClick = { onShowCardCreationPanel(false) },
-                    onCreate = {
-                        onAddItem(
-                            CardData.create(
-                                taskTitle,
-                                description,
-                                parseByComma(tempTags),
-                                manager,
-                            ),
-                        )
-                    },
-                )
-            }
+            CardCreationPanelFooterSection(
+                uiState = uiState,
+                onCloseClick = onCloseClick,
+                onCreateClick = onCreateClick,
+            )
         }
     }
 }
 
 @Composable
 private fun CardCreationPanelHeaderSection(
-    onShowCardCreationPanel: (Boolean) -> Unit,
+    onCloseClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(vertical = 28.dp, horizontal = 24.dp),
@@ -168,9 +120,77 @@ private fun CardCreationPanelHeaderSection(
         Icon(
             imageVector = Icons.Default.Close,
             contentDescription = "닫기 아이콘",
-            modifier = Modifier.clickable { onShowCardCreationPanel(false) },
+            modifier = Modifier.clickable { onCloseClick.invoke() },
         )
     }
+}
+
+@Composable
+private fun CardCreationPanelBodySection(
+    uiState: CardCreationState,
+) {
+    Column(
+        modifier = Modifier.padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp),
+    ) {
+        CardCreationPanelSection(
+            title = "제목 *",
+            placeholder = "태스크 제목을 입력하세요",
+            value = uiState.taskTitle,
+            onTextChange = {
+                uiState.taskTitle = it
+                uiState.titleError = CardData.isValidTitle(it)
+            },
+            showAdditionalInfo = uiState.titleError == TitleError.EMPTY,
+            infoText = "제목을 입력해 주세요.",
+            isError = uiState.titleError == TitleError.EMPTY,
+        )
+
+        CardCreationPanelSection(
+            title = "설명",
+            placeholder = "태스크에 대한 자세한 설명을 입력하세요",
+            value = uiState.description,
+            onTextChange = { uiState.description = it },
+        )
+
+        CardCreationPanelSection(
+            title = "태그",
+            placeholder = "태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)",
+            value = uiState.tempTags,
+            onTextChange = {
+                uiState.tempTags = it
+                uiState.tagError = CardData.isValidTag(it)
+                uiState.tagInfoText = getTagInfoMessage(uiState.tagError)
+            },
+            showAdditionalInfo = true,
+            infoText = uiState.tagInfoText,
+            isError = uiState.tagError != TagError.NONE,
+        )
+
+        CardCreationPanelStateSection(
+            selectedState = uiState.state,
+            onStateChange = { uiState.state = it },
+        )
+
+        CardCreationPanelManagerSection(
+            selectedManager = uiState.manager,
+            onManagerChange = { uiState.manager = it },
+        )
+    }
+}
+
+@Composable
+private fun CardCreationPanelFooterSection(
+    uiState: CardCreationState,
+    onCloseClick: () -> Unit,
+    onCreateClick: () -> Unit,
+) {
+    ActionButtonSection(
+        modifier = Modifier.padding(horizontal = 24.dp).padding(bottom = 24.dp),
+        createEnabled = uiState.createEnabled,
+        onCancelClick = onCloseClick,
+        onCreateClick = onCreateClick,
+    )
 }
 
 @Composable
@@ -249,22 +269,19 @@ private fun CardCreationPanelStateSection(
                 isSelected = selectedState == TaskState.TO_DO,
                 onClick = { onStateChange(TaskState.TO_DO) },
                 modifier = Modifier.width(200.dp).height(52.dp),
-
-                )
+            )
             StateButton(
                 text = TaskState.IN_PROGRESS.label,
                 isSelected = selectedState == TaskState.IN_PROGRESS,
                 onClick = { onStateChange(TaskState.IN_PROGRESS) },
                 modifier = Modifier.width(200.dp).height(52.dp),
-
-                )
+            )
             StateButton(
                 text = TaskState.DONE.label,
                 isSelected = selectedState == TaskState.DONE,
                 onClick = { onStateChange(TaskState.DONE) },
                 modifier = Modifier.width(200.dp).height(52.dp),
-
-                )
+            )
         }
     }
 }
@@ -375,8 +392,8 @@ private fun ManagerButton(
 private fun ActionButtonSection(
     createEnabled: Boolean,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
-    onCreate: () -> Unit = {},
+    onCancelClick: () -> Unit = {},
+    onCreateClick: () -> Unit = {},
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -386,15 +403,15 @@ private fun ActionButtonSection(
         ActionButton(
             buttonText = "취소",
             enabled = true,
-            onClick = { onClick() },
+            onClick = { onCancelClick() },
         )
         Spacer(modifier = Modifier.width(12.dp))
         ActionButton(
             buttonText = "생성",
             enabled = createEnabled,
             onClick = {
-                onClick()
-                onCreate()
+                onCancelClick()
+                onCreateClick()
             },
         )
     }
@@ -451,9 +468,26 @@ private fun TitleText(
 }
 
 private fun getTagInfoMessage(tagError: TagError): String {
-    return when(tagError) {
+    return when (tagError) {
         TagError.NONE -> "5자 이내의 태그를 최대 5개까지 등록할 수 있습니다."
         TagError.INVALID_FORMAT -> "태그 형식이 올바르지 않습니다."
         TagError.TOO_MANY, TagError.TOO_LONG -> "태그는 5자 이내로 5개까지만 등록할 수 있습니다."
     }
 }
+
+class CardCreationState {
+    var taskTitle by mutableStateOf("")
+    var description by mutableStateOf("")
+    var tempTags by mutableStateOf("")
+    var state by mutableStateOf(TaskState.TO_DO)
+    var manager by mutableStateOf("다이노")
+    var tagInfoText by mutableStateOf("5자 이내의 태그를 최대 5개까지 등록할 수 있습니다.")
+    var titleError by mutableStateOf(TitleError.EMPTY)
+    var tagError by mutableStateOf(TagError.NONE)
+    val createEnabled by derivedStateOf {
+        titleError == TitleError.NONE && tagError == TagError.NONE
+    }
+}
+
+@Composable
+fun rememberCardCreationState(): CardCreationState = remember { CardCreationState() }

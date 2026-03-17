@@ -19,12 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.ComponentText
 
-@Preview(showBackground = true)
-@Composable
-fun HeaderPreview() {
-    Header()
-}
-
 @Composable
 fun Header(modifier: Modifier = Modifier) {
     Row(
@@ -47,4 +41,10 @@ fun Header(modifier: Modifier = Modifier) {
             contentDescription = "닫기",
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HeaderPreview() {
+    Header()
 }

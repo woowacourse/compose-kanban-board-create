@@ -22,19 +22,6 @@ import woowacourse.kanban.board.model.ProfileState
 import woowacourse.kanban.board.model.TaskState
 
 @Composable
-@Preview(showBackground = true)
-private fun ButtonSectionPreview() {
-    var state by remember { mutableStateOf(TaskState.TODO) }
-    var profileState by remember { mutableStateOf(ProfileState.DINO) }
-    ButtonSection(
-        state = TaskState.TODO,
-        profileState = profileState,
-        onStateClick = { state = it },
-        onProfileClick = { profileState = it },
-    )
-}
-
-@Composable
 fun ButtonSection(
     state: TaskState,
     profileState: ProfileState,
@@ -80,3 +67,17 @@ fun ButtonSection(
         }
     }
 }
+
+@Composable
+@Preview(showBackground = true)
+private fun ButtonSectionPreview() {
+    var state by remember { mutableStateOf(TaskState.TODO) }
+    var profileState by remember { mutableStateOf(ProfileState.DINO) }
+    ButtonSection(
+        state = TaskState.TODO,
+        profileState = profileState,
+        onStateClick = { state = it },
+        onProfileClick = { profileState = it },
+    )
+}
+

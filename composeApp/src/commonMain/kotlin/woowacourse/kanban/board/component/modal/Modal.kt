@@ -25,12 +25,6 @@ import woowacourse.kanban.board.model.TextInputState
 import woowacourse.kanban.board.model.modal.Tags
 import woowacourse.kanban.board.model.modal.Title
 
-@Preview(showBackground = true)
-@Composable
-private fun ModalPreview() {
-    Modal()
-}
-
 @Composable
 fun Modal(modifier: Modifier = Modifier) {
     var title by remember { mutableStateOf("") }
@@ -101,4 +95,10 @@ fun Modal(modifier: Modifier = Modifier) {
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ModalPreview() {
+    Modal()
 }

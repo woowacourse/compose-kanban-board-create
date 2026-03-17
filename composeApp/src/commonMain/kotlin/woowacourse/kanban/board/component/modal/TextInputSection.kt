@@ -20,6 +20,45 @@ import woowacourse.kanban.board.model.TextInputValue
 import woowacourse.kanban.board.model.modal.Tags
 import woowacourse.kanban.board.model.modal.Title
 
+@Composable
+fun TextInputSection(
+    titleInputState: TextInputState,
+    descriptionInputState: TextInputState,
+    tagsInputState: TextInputState,
+    modifier: Modifier = Modifier,
+) {
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        TextInput(
+            textInputValue = TextInputValue.TITLE,
+            value = titleInputState.value,
+            modifier = Modifier.height(100.dp),
+            onTextChange = titleInputState.onChange,
+            isError = titleInputState.isError,
+        )
+        TextInput(
+            textInputValue = TextInputValue.DESCRIPTION,
+            value = descriptionInputState.value,
+            singleLine = false,
+            modifier = Modifier.height(200.dp),
+            onTextChange = descriptionInputState.onChange,
+        )
+        TextInput(
+            textInputValue = TextInputValue.TAGS,
+            value = tagsInputState.value,
+            modifier = Modifier.height(100.dp),
+            onTextChange = tagsInputState.onChange,
+            supportingText = ComponentText.TAG_SUPPORTING,
+            isError = tagsInputState.isError,
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun TextInputSectionPreview() {
@@ -75,44 +114,6 @@ private fun TextInputSectionPreview() {
             value = tagsInputState.value,
             onTextChange = tagsInputState.onChange,
             modifier = Modifier.height(100.dp),
-            supportingText = ComponentText.TAG_SUPPORTING,
-            isError = tagsInputState.isError,
-        )
-    }
-}
-@Composable
-fun TextInputSection(
-    titleInputState: TextInputState,
-    descriptionInputState: TextInputState,
-    tagsInputState: TextInputState,
-    modifier: Modifier = Modifier,
-) {
-
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        TextInput(
-            textInputValue = TextInputValue.TITLE,
-            value = titleInputState.value,
-            modifier = Modifier.height(100.dp),
-            onTextChange = titleInputState.onChange,
-            isError = titleInputState.isError,
-        )
-        TextInput(
-            textInputValue = TextInputValue.DESCRIPTION,
-            value = descriptionInputState.value,
-            singleLine = false,
-            modifier = Modifier.height(200.dp),
-            onTextChange = descriptionInputState.onChange,
-        )
-        TextInput(
-            textInputValue = TextInputValue.TAGS,
-            value = tagsInputState.value,
-            modifier = Modifier.height(100.dp),
-            onTextChange = tagsInputState.onChange,
             supportingText = ComponentText.TAG_SUPPORTING,
             isError = tagsInputState.isError,
         )

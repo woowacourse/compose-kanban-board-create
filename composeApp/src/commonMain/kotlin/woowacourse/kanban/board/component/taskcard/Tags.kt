@@ -18,17 +18,6 @@ import woowacourse.kanban.board.Gray20
 import woowacourse.kanban.board.Gray80
 import woowacourse.kanban.board.model.modal.Tags
 
-@Preview(showBackground = true)
-@Composable
-private fun TagsPreview() {
-    val tags = listOf("안녕", "하세요", "이건열글자넘는데열글자까지만나오나", "3", "4", "5", "이것도나오나이건나오면안되는데")
-    Tags(
-        tags = tags,
-        maxTagCount = 6,
-        maxTagTextLength = 10,
-    )
-}
-
 @Composable
 fun Tags(
     tags: List<String>?,
@@ -66,4 +55,15 @@ private fun TagBox(filteredTag: String) {
             color = Gray20,
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TagsPreview() {
+    val tags = listOf("안녕", "하세요", "이건열글자넘는데열글자까지만나오나", "3", "4", "5", "이것도나오나이건나오면안되는데")
+    Tags(
+        tags = tags,
+        maxTagCount = 6,
+        maxTagTextLength = 10,
+    )
 }

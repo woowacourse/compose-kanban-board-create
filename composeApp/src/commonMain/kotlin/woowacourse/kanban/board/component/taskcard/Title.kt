@@ -9,14 +9,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.Gray10
 
-@Preview(showBackground = true)
-@Composable
-private fun TitlePreview() {
-    Title(
-        title = "너 무 긴 제 목너 무 긴 제 목너 무 긴 제 목너 무 긴 제 목너 무 긴 제 목너 무 긴 제 목너 무 긴 제 목너 무 긴 제 목너 무 긴 제 목",
-    )
-}
-
 @Composable
 fun Title(title: String?, modifier: Modifier = Modifier) {
     if (!title.isNullOrEmpty()) {
@@ -30,4 +22,12 @@ fun Title(title: String?, modifier: Modifier = Modifier) {
             modifier = modifier,
         )
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TitlePreview() {
+    Title(
+        title = "너 무 긴 제 목너 무 긴 제 목너 무 긴 제 목너 무 긴 제 목너 무 긴 제 목너 무 긴 제 목너 무 긴 제 목너 무 긴 제 목너 무 긴 제 목",
+    )
 }

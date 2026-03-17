@@ -29,27 +29,6 @@ import woowacourse.kanban.board.Red50
 import woowacourse.kanban.board.model.TextInputValue
 import woowacourse.kanban.board.model.modal.Title
 
-@Preview(showBackground = true)
-@Composable
-private fun TextInputPreview() {
-    var title by remember { mutableStateOf("") }
-
-    val isTitleValid by remember {
-        derivedStateOf {
-            Title.isTitleValid(title)
-        }
-    }
-
-    Column {
-        TextInput(
-            textInputValue = TextInputValue.TITLE,
-            value = title,
-            onTextChange = { title = it },
-            isError = isTitleValid.not(),
-        )
-    }
-}
-
 @Composable
 fun TextInput(
     textInputValue: TextInputValue,
@@ -114,6 +93,27 @@ fun TextInput(
                 focusedTextColor = textColor,
             ),
             onValueChange = onTextChange,
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TextInputPreview() {
+    var title by remember { mutableStateOf("") }
+
+    val isTitleValid by remember {
+        derivedStateOf {
+            Title.isTitleValid(title)
+        }
+    }
+
+    Column {
+        TextInput(
+            textInputValue = TextInputValue.TITLE,
+            value = title,
+            onTextChange = { title = it },
+            isError = isTitleValid.not(),
         )
     }
 }

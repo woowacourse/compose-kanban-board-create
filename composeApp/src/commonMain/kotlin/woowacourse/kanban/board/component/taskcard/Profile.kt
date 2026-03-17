@@ -19,12 +19,6 @@ import kanbanboard.composeapp.generated.resources.profile
 import org.jetbrains.compose.resources.painterResource
 import woowacourse.kanban.board.Gray20
 
-@Preview(showBackground = true)
-@Composable
-private fun ProfilePreview() {
-    Profile("다이노다이노 너무 긴 이름이면 줄임표 나오는지 확인해보자다이노다이노 너무 긴 이름이면 줄임표 나오는지 확인해보자")
-}
-
 @Composable
 fun Profile(nickname: String?, modifier: Modifier = Modifier) {
     if (!nickname.isNullOrEmpty()) {
@@ -45,4 +39,10 @@ fun Profile(nickname: String?, modifier: Modifier = Modifier) {
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ProfilePreview() {
+    Profile("다이노다이노 너무 긴 이름이면 줄임표 나오는지 확인해보자다이노다이노 너무 긴 이름이면 줄임표 나오는지 확인해보자")
 }

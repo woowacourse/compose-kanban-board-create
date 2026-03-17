@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -29,32 +30,29 @@ fun StatusButton(
     onClick: () -> Unit,
     index: Int,
 ) {
-    val selectedModifier =
-        Modifier.border(
-            width = 2.dp,
-            color = Color(STATUS_BORDER_SELECTED),
-            shape = RoundedCornerShape(10.dp),
-        )
-            .background(Color(STATUS_BG_SELECTED))
 
-    val unSelectedModifier =
-        Modifier.border(
-            width = 2.dp,
-            color = Color(PRIMARY_BORDER),
-            shape = RoundedCornerShape(10.dp),
-        )
+    val shape = RoundedCornerShape(10.dp)
+
 
     Box(
-        modifier = modifier.then(
-            if (isSelected)
-                selectedModifier
-            else
-                unSelectedModifier,
-        )
-            .clickable(
+        modifier = modifier.clip(shape)
+            .then(
+                if (isSelected)
+                    Modifier.border(
+                        width = 2.dp,
+                        color = Color(STATUS_BORDER_SELECTED),
+                        shape = shape,
+                    )
+                        .background(Color(STATUS_BG_SELECTED))
+                else
+                    Modifier.border(
+                        width = 2.dp,
+                        color = Color(PRIMARY_BORDER),
+                        shape = shape,
+                    ),
+            ).clickable(
                 onClick = onClick,
-            )
-            .testTag(
+            ).testTag(
                 tag = if (isSelected) "selected$index" else "unselected$index",
             ),
         contentAlignment = Alignment.Center,
@@ -69,7 +67,6 @@ fun StatusButton(
             } else {
                 Color(STATUS_TEXT_SELECTED)
             },
-
         )
     }
 }

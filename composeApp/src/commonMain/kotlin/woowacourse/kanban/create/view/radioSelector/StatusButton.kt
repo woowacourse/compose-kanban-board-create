@@ -33,7 +33,6 @@ fun StatusButton(
 
     val shape = RoundedCornerShape(10.dp)
 
-
     Box(
         modifier = modifier.clip(shape)
             .then(

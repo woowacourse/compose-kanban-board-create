@@ -61,7 +61,7 @@ fun CoachButton(
                 tag = if (isSelected) "selected$index" else "unselected$index",
             ),
 
-        ) {
+    ) {
         Row(
             modifier = Modifier.padding(
                 horizontal = 16.dp,

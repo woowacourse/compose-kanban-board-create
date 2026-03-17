@@ -19,7 +19,10 @@ import woowacourse.kanban.create.view.radioSelector.RadioSelector
 import woowacourse.kanban.create.view.radioSelector.StatusButton
 
 @Composable
-fun TaskCreateDialog(viewModel: TaskCreateViewModel, modifier: Modifier) {
+fun TaskCreateDialog(
+    viewModel: TaskCreateViewModel,
+    modifier: Modifier,
+) {
     Column(
         modifier = modifier.background(color = Color.White)
             .size(
@@ -96,7 +99,7 @@ fun TaskCreateDialog(viewModel: TaskCreateViewModel, modifier: Modifier) {
             FooterRow(
                 onCancel = { },
                 onCreate = { viewModel.onCardCreate() },
-                isCreateError = viewModel.isTitleError || viewModel.isTagError,
+                isCreateError = viewModel.isCreateError,
             )
         }
     }

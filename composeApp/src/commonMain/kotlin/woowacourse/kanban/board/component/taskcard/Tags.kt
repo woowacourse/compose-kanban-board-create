@@ -58,6 +58,6 @@ private fun TagBox(filteredTag: String) {
 @Preview(showBackground = true)
 @Composable
 private fun TagsPreview() {
-    val tags = Tags(value = "")
+    val tags = Tags(value = "ㅏ")
     Tags(tags = tags)
 }

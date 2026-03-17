@@ -1,6 +1,7 @@
 package woowacourse.kanban.board.model
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import woowacourse.kanban.board.model.modal.Tags
 import kotlin.test.Test
 import kotlin.test.assertFalse
@@ -18,6 +19,27 @@ class TagsTest {
     fun `Tags의 value에 문자가 포함된 값이 입력되면 입력된 값을 value로 가진 Tags가 생성된다`() {
         val tags = Tags(value = "태그1,태그2")
         assertThat(tags.value).isEqualTo("태그1,태그2")
+    }
+
+    @Test
+    fun `Tags의 value에 콤마가 연속된 값이 입력되면 예외가 발생한다`() {
+        assertThatThrownBy {
+            Tags(value = "태그1,태그2,,태그3")
+        }.isInstanceOf(IllegalArgumentException::class.java)
+    }
+
+    @Test
+    fun `Tags의 value에 공백으로만 이루어진 값이 포함되어 입력되면 예외가 발생한다`() {
+        assertThatThrownBy {
+            Tags(value = "태그1,태그2,   ,태그3")
+        }.isInstanceOf(IllegalArgumentException::class.java)
+    }
+
+    @Test
+    fun `Tags의 value에 6개 이상의 값이 입력되면 예외가 발생한다`() {
+        assertThatThrownBy {
+            Tags(value = "태그1,태그2,태그4,태그3,태그5,태그6")
+        }.isInstanceOf(IllegalArgumentException::class.java)
     }
 
     @Test

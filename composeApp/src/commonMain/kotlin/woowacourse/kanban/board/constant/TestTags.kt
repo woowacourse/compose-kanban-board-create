@@ -10,4 +10,7 @@ object TestTags {
     const val MANAGER_BTN = "managerBtn"
     const val BTN = "Btn"
     const val FOOTER = "footer"
+
+    const val ERROR_ICON = "errorIcon"
+    const val ERROR_TEXT = "errorText"
 }

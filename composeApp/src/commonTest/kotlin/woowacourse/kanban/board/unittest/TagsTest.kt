@@ -6,7 +6,7 @@ import org.junit.Test
 import woowacourse.kanban.board.testconstan.TestText
 import woowacourse.kanban.board.model.Tags
 
-class TagTest {
+class TagsTest {
     @Test
     fun `태그의 총 개수가 5개 이상이면 isNotValidTags가 true를 반환한다`() {
         val tags = Tags(TestText.TOO_MANY_TAGS)

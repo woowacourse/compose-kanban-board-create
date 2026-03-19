@@ -17,6 +17,7 @@ class CardDataTest {
                 title = "   ",
                 description = "내용",
                 tags = listOf("태그1"),
+                state = TaskState.TO_DO,
                 managerName = "테스트 계정",
             )
         }
@@ -29,6 +30,7 @@ class CardDataTest {
                 title = "제목",
                 description = "내용",
                 tags = listOf("태그1"),
+                state = TaskState.TO_DO,
                 managerName = "    ",
             )
         }
@@ -40,6 +42,7 @@ class CardDataTest {
             title = "제목",
             description = "내용",
             tags = emptyList(),
+            state = TaskState.TO_DO,
             managerName = "테스트 계정",
         )
 
@@ -52,6 +55,7 @@ class CardDataTest {
             title = "제목",
             description = "   ",
             tags = emptyList(),
+            state = TaskState.TO_DO,
             managerName = "테스트 계정",
         )
 
@@ -64,6 +68,7 @@ class CardDataTest {
             title = "제목",
             description = "내용",
             tags = listOf(" 태그1 ", "  태그2  "),
+            state = TaskState.TO_DO,
             managerName = "테스트 계정",
         )
 
@@ -76,6 +81,7 @@ class CardDataTest {
             title = "제목",
             description = "내용",
             tags = listOf("태그1", "   ", "", "  "),
+            state = TaskState.TO_DO,
             managerName = "테스트 계정",
         )
 
@@ -89,6 +95,7 @@ class CardDataTest {
                 title = "제목",
                 description = "내용",
                 tags = listOf("태그1", "태그2", "태그3", "태그4", "태그5", "태그6"),
+                state = TaskState.TO_DO,
                 managerName = "테스트 계정",
             )
         }
@@ -101,6 +108,7 @@ class CardDataTest {
                 title = "제목",
                 description = "내용",
                 tags = listOf("우아한테크코스", "안드로이드8기", "칸반보드리팩터링"),
+                state = TaskState.TO_DO,
                 managerName = "테스트 계정",
             )
         }
@@ -112,6 +120,7 @@ class CardDataTest {
             title = "제목",
             description = "내용",
             tags = listOf("태그1", "   "),
+            state = TaskState.TO_DO,
             managerName = "테스트 계정",
         )
 
@@ -124,6 +133,7 @@ class CardDataTest {
             title = "제목",
             description = "내용",
             tags = listOf("   ", ""),
+            state = TaskState.TO_DO,
             managerName = "테스트 계정",
         )
 

@@ -60,7 +60,7 @@
 
 ## 구현할 기능
 ### UI
-- [ ] KanbanBoard 상태별 컬럼 레이아웃 구현
+- [x] KanbanBoard 상태별 컬럼 레이아웃 구현
 - [ ] `LazyColumn`을 활용한 상태별 태스크 리스트 렌더링
 - [ ] 특정 조건(예: 태스크 생성 완료) 시 `Snackbar` 노출
 

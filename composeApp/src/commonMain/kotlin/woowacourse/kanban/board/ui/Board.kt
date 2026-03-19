@@ -1,5 +1,7 @@
 package woowacourse.kanban.board.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -26,10 +29,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import woowacourse.kanban.board.domain.TaskState
 
 @Composable
 fun Board() {
@@ -147,6 +152,69 @@ private fun BoardContents(
     ) {
         items(cardUiStates.size) { item ->
             Card(cardUiState = cardUiStates[item])
+        }
+    }
+}
+
+@Composable
+fun StateColumnLayout(
+    modifier: Modifier = Modifier,
+    taskState: TaskState,
+) {
+    val testNum = "3"
+    val headerColor: Color = when (taskState) {
+        TaskState.TO_DO -> Color(0xFF155DFC)
+        TaskState.IN_PROGRESS -> Color(0xFFE17100)
+        TaskState.DONE -> Color(0xFF00A63E)
+    }
+    val contentColor: Color = when (taskState) {
+        TaskState.TO_DO -> Color(0xFFEFF6FF)
+        TaskState.IN_PROGRESS -> Color(0xFFFFFBEB)
+        TaskState.DONE -> Color(0xFFF0FDF4)
+    }
+    val outlineColor: Color = when (taskState) {
+        TaskState.TO_DO -> Color(0xFFBEDBFF)
+        TaskState.IN_PROGRESS -> Color(0xFFFEE685)
+        TaskState.DONE -> Color(0xFFB9F8CF)
+    }
+
+    Column(
+        modifier = modifier.size(width = 320.dp, height = 748.dp).clip(RoundedCornerShape(10.dp)),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().height(48.dp).background(headerColor).padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = taskState.getTaskStateLabel(),
+                color = Color(0xFFFFFFFF),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.W600,
+                letterSpacing = (-0.31).sp,
+                lineHeight = 24.sp,
+            )
+
+            Text(
+                text = testNum,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(30.dp))
+                    .background(Color.White)
+                    .padding(horizontal = 10.dp, vertical = 2.dp),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W500,
+                letterSpacing = (-0.15).sp,
+                lineHeight = 20.sp,
+            )
+        }
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(contentColor)
+                .border(width = 1.dp, color = outlineColor),
+        ) {
+
         }
     }
 }

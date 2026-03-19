@@ -1,7 +1,3 @@
 package woowacourse.kanban.board.domain
 
-enum class TaskState(val label: String) {
-    TO_DO("To Do"),
-    IN_PROGRESS("In Progress"),
-    DONE("Done")
-}
+enum class TaskState { TO_DO, IN_PROGRESS, DONE }

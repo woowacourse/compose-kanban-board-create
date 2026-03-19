@@ -266,19 +266,19 @@ private fun CardCreationPanelStateSection(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             StateButton(
-                text = TaskState.TO_DO.label,
+                text = TaskState.TO_DO.getTaskStateLabel(),
                 isSelected = selectedState == TaskState.TO_DO,
                 onClick = { onStateChange(TaskState.TO_DO) },
                 modifier = Modifier.width(200.dp).height(52.dp),
             )
             StateButton(
-                text = TaskState.IN_PROGRESS.label,
+                text = TaskState.IN_PROGRESS.getTaskStateLabel(),
                 isSelected = selectedState == TaskState.IN_PROGRESS,
                 onClick = { onStateChange(TaskState.IN_PROGRESS) },
                 modifier = Modifier.width(200.dp).height(52.dp),
             )
             StateButton(
-                text = TaskState.DONE.label,
+                text = TaskState.DONE.getTaskStateLabel(),
                 isSelected = selectedState == TaskState.DONE,
                 onClick = { onStateChange(TaskState.DONE) },
                 modifier = Modifier.width(200.dp).height(52.dp),
@@ -469,6 +469,15 @@ private fun getTagInfoMessage(tagError: TagError): String {
         TagError.TOO_MANY, TagError.TOO_LONG -> "태그는 5자 이내로 5개까지만 등록할 수 있습니다."
     }
 }
+
+fun TaskState.getTaskStateLabel(): String {
+    return when (this) {
+        TaskState.TO_DO -> "To Do"
+        TaskState.IN_PROGRESS -> "In Progress"
+        TaskState.DONE -> "Done"
+    }
+}
+
 
 class CardCreationState {
     var taskTitle by mutableStateOf("")

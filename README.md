@@ -65,6 +65,6 @@
 - [ ] 특정 조건(예: 태스크 생성 완료) 시 `Snackbar` 노출
 
 ### Domain
-- [ ] CardData에 `TastState` 추가
+- [x] CardData에 `TastState` 추가
 - [ ] 상태(To-Do, In Progress, Done)별 태스크 개수 계산 로직
 - [ ] 전체 Task 중 Done 의 개수 비율(완료율) 계산 로직

@@ -22,32 +22,6 @@ class CardData private constructor(
         private const val MAX_TAG_COUNT = 5
         private const val MAX_TAG_LENGTH = 5
 
-        fun isValidTitle(rawText: String): TitleError {
-            if (rawText.isBlank()) return TitleError.EMPTY
-            return TitleError.NONE
-        }
-
-        fun isValidTag(rawText: String): TagError {
-            if (rawText.isBlank()) return TagError.NONE
-
-            val parsedText = parseByComma(rawText)
-
-            return when {
-                parsedText.any { it.isBlank() } -> TagError.INVALID_FORMAT
-                parsedText.any { it.length > MAX_TAG_LENGTH } -> TagError.TOO_LONG
-                parsedText.size > MAX_TAG_COUNT -> TagError.TOO_MANY
-                else -> TagError.NONE
-            }
-        }
-
-        /**
-         * [CardData] 객체 생성 팩토리 메서드입니다.
-         * @param title 필수 | 제목
-         * @param description 본문
-         * @param tags 태그
-         * @param managerName 필수 | 계정명
-         * @throws IllegalArgumentException 기능 요구사항을 충족하지 않을 경우 예외를 던집니다.
-         */
         fun create(
             title: String,
             description: String,
@@ -72,6 +46,24 @@ class CardData private constructor(
                 state = state,
                 manager = managerName,
             )
+        }
+
+        fun isValidTitle(rawText: String): TitleError {
+            if (rawText.isBlank()) return TitleError.EMPTY
+            return TitleError.NONE
+        }
+
+        fun isValidTag(rawText: String): TagError {
+            if (rawText.isBlank()) return TagError.NONE
+
+            val parsedText = parseByComma(rawText)
+
+            return when {
+                parsedText.any { it.isBlank() } -> TagError.INVALID_FORMAT
+                parsedText.any { it.length > MAX_TAG_LENGTH } -> TagError.TOO_LONG
+                parsedText.size > MAX_TAG_COUNT -> TagError.TOO_MANY
+                else -> TagError.NONE
+            }
         }
     }
 }

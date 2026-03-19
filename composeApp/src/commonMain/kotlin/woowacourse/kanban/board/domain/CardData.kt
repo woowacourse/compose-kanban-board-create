@@ -11,6 +11,7 @@ class CardData private constructor(
     val title: String,
     val description: String,
     val tags: List<String>,
+    val state: TaskState,
     val manager: String,
 ) {
     fun hasDescription(): Boolean = description.isNotBlank()
@@ -51,6 +52,7 @@ class CardData private constructor(
             title: String,
             description: String,
             tags: List<String>,
+            state: TaskState,
             managerName: String,
         ): CardData {
             require(isValidTitle(title) == TitleError.NONE) { "[Card] 제목은 필수 입력 항목입니다." }
@@ -67,6 +69,7 @@ class CardData private constructor(
                 title = title,
                 description = description,
                 tags = normalizedTags,
+                state = state,
                 manager = managerName,
             )
         }

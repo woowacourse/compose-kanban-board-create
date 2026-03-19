@@ -63,6 +63,7 @@ fun CardCreationPanel(
                     uiState.taskTitle,
                     uiState.description,
                     parseByComma(uiState.tempTags),
+                    uiState.state,
                     uiState.manager,
                 ),
             )

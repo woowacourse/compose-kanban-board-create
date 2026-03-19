@@ -12,12 +12,8 @@ class CardData private constructor(
     val description: String,
     val tags: List<String>,
     val state: TaskState,
-    val manager: String,
+    val managerName: String,
 ) {
-    fun hasDescription(): Boolean = description.isNotBlank()
-
-    fun hasTag(): Boolean = tags.isNotEmpty()
-
     companion object {
         private const val MAX_TAG_COUNT = 5
         private const val MAX_TAG_LENGTH = 5
@@ -44,7 +40,7 @@ class CardData private constructor(
                 description = description,
                 tags = normalizedTags,
                 state = state,
-                manager = managerName,
+                managerName = managerName,
             )
         }
 

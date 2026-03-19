@@ -30,7 +30,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.domain.CardData
 
 /**
  * Card UI입니다.
@@ -39,7 +38,7 @@ import woowacourse.kanban.board.domain.CardData
  */
 @Composable
 fun Card(
-    cardData: CardData,
+    cardUiState: CardUiState,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -51,25 +50,25 @@ fun Card(
     ) {
 
         CardTitle(
-            title = cardData.title,
+            title = cardUiState.title,
             modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Kanban Card Title" },
         )
 
-        if (cardData.hasDescription()) {
+        if (cardUiState.description.isNotBlank()) {
             CardContent(
                 modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Kanban Card Content" },
-                content = cardData.description
+                content = cardUiState.description
             )
         }
 
-        if (cardData.hasTag()) CardTagsSection(
-            tags = cardData.tags
+        if (cardUiState.tags.isNotEmpty()) CardTagsSection(
+            tags = cardUiState.tags
         )
 
         HorizontalDivider()
 
         CardAccountInfo(
-            accountName = cardData.manager,
+            managerName = cardUiState.managerName,
             modifier = Modifier
                 .padding(vertical = 10.dp)
                 .fillMaxWidth()
@@ -139,7 +138,7 @@ private fun CardTagsSection(tags: List<String> = listOf()) {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
-    ) {/* TagModifer, SectionModifier로 분리할까 고민했으나, 우선 현 방식대로 수정. */
+    ) {
         tags.forEach { TagChip(modifier = Modifier.semantics { contentDescription = "Kanban Card Tag" }, chipContent = it) }
     }
 }
@@ -171,11 +170,11 @@ fun TagChipPreview() {
  * CardAccountInfo 섹션입니다.
  * @param modifier Modifier
  * @param accountImage 프로필 아이콘입니다. 기본 값은 Icons.Default.AccountCircle입니다.
- * @param accountName 카드 계정 이름으로, 너무 길면 ...로 표시됩니다.
+ * @param managerName 카드 계정 이름으로, 너무 길면 ...로 표시됩니다.
  */
 @Composable
 private fun CardAccountInfo(
-    accountName: String,
+    managerName: String,
     modifier: Modifier = Modifier,
     accountImage: ImageVector = Icons.Default.AccountCircle,
 ) {
@@ -190,7 +189,7 @@ private fun CardAccountInfo(
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = accountName,
+            text = managerName,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
@@ -200,5 +199,5 @@ private fun CardAccountInfo(
 @Preview(backgroundColor = 0xffffffff, showBackground = true)
 @Composable
 fun CardAccountInfoPreview() {
-    CardAccountInfo(accountName = "Test")
+    CardAccountInfo(managerName = "Test")
 }

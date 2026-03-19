@@ -17,3 +17,13 @@ private fun CardCreationPanelPreview() {
         onCreateClick = {}
     )
 }
+
+@Preview(showBackground = true, name = "비활성화된 액션 버튼")
+@Composable
+private fun ActionButtonPreview() {
+    ActionButton(
+        buttonText = "생성",
+        enabled = false,
+        onClick = {}
+    )
+}

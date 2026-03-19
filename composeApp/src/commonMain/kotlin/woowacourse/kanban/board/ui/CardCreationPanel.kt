@@ -2,7 +2,6 @@ package woowacourse.kanban.board.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -49,7 +48,7 @@ import woowacourse.kanban.board.util.parseByComma
 fun CardCreationPanel(
     modifier: Modifier = Modifier,
     onShowCardCreationPanel: (Boolean) -> Unit,
-    onAddItem: (CardData) -> Unit,
+    onAddItem: (CardUiState) -> Unit,
 ) {
     val uiState: CardCreationState = rememberCardCreationState()
 
@@ -65,7 +64,7 @@ fun CardCreationPanel(
                     parseByComma(uiState.tempTags),
                     uiState.state,
                     uiState.manager,
-                ),
+                ).toUiState(),
             )
         },
     )
@@ -420,7 +419,7 @@ private fun ActionButtonSection(
 }
 
 @Composable
-private fun ActionButton(
+fun ActionButton(
     buttonText: String,
     enabled: Boolean,
     onClick: () -> Unit = {},

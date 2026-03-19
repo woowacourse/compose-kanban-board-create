@@ -3,8 +3,6 @@ package woowacourse.kanban.board.domain
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 /**
  * [CardData] Unit 테스트 클래스입니다.
@@ -34,32 +32,6 @@ class CardDataTest {
                 managerName = "    ",
             )
         }
-    }
-
-    @Test
-    fun `내용이 있으면 hasDescription 리턴 값은 true이다`() {
-        val cardData = CardData.create(
-            title = "제목",
-            description = "내용",
-            tags = emptyList(),
-            state = TaskState.TO_DO,
-            managerName = "테스트 계정",
-        )
-
-        assertTrue(cardData.hasDescription())
-    }
-
-    @Test
-    fun `내용이 공백이면 hasDescription 리턴 값은 false이다`() {
-        val cardData = CardData.create(
-            title = "제목",
-            description = "   ",
-            tags = emptyList(),
-            state = TaskState.TO_DO,
-            managerName = "테스트 계정",
-        )
-
-        assertFalse(cardData.hasDescription())
     }
 
     @Test
@@ -112,32 +84,6 @@ class CardDataTest {
                 managerName = "테스트 계정",
             )
         }
-    }
-
-    @Test
-    fun `태그가 있으면 hasTag 리턴 값은 true이다`() {
-        val cardData = CardData.create(
-            title = "제목",
-            description = "내용",
-            tags = listOf("태그1", "   "),
-            state = TaskState.TO_DO,
-            managerName = "테스트 계정",
-        )
-
-        assertTrue(cardData.hasTag())
-    }
-
-    @Test
-    fun `태그가 비어 있으면 hasTag 리턴 값은 false이다`() {
-        val cardData = CardData.create(
-            title = "제목",
-            description = "내용",
-            tags = listOf("   ", ""),
-            state = TaskState.TO_DO,
-            managerName = "테스트 계정",
-        )
-
-        assertFalse(cardData.hasTag())
     }
 
     @Test

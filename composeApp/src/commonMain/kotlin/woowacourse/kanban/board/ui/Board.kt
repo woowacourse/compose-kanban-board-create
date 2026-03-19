@@ -30,11 +30,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.domain.CardData
 
 @Composable
 fun Board() {
-    val cards = remember { mutableStateListOf<CardData>() }
+    val cardUiStates = remember { mutableStateListOf<CardUiState>() }
     var showCardCreationPanel by remember { mutableStateOf(false) }
 
     Box(
@@ -51,14 +50,14 @@ fun Board() {
             )
             BoardContents(
                 modifier = Modifier.fillMaxSize(),
-                cards = cards
+                cardUiStates = cardUiStates,
             )
         }
 
         if (showCardCreationPanel) {
             CardCreationPanel(
                 modifier = Modifier.align(Alignment.Center),
-                onAddItem = { cards.add(it) },
+                onAddItem = { cardUiStates.add(it) },
                 onShowCardCreationPanel = { showCardCreationPanel = it },
             )
         }
@@ -102,7 +101,7 @@ private fun BoardHeaderSection(
                 onClick = { onClick() },
                 modifier = Modifier,
                 shape = RoundedCornerShape(20),
-                ) {
+            ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -141,13 +140,13 @@ private fun BoardHeaderSection(
 @Composable
 private fun BoardContents(
     modifier: Modifier = Modifier,
-    cards: List<CardData>
+    cardUiStates: List<CardUiState>,
 ) {
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(cards.size) {item ->
-            Card(cardData = cards[item])
+        items(cardUiStates.size) { item ->
+            Card(cardUiState = cardUiStates[item])
         }
     }
 }

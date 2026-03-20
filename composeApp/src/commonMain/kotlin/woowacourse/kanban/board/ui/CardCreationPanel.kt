@@ -36,6 +36,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.domain.CardData
@@ -45,10 +47,10 @@ import woowacourse.kanban.board.domain.TitleError
 import woowacourse.kanban.board.util.parseByComma
 
 @Composable
-fun CardCreationPanel(
+fun CardCreationPanelScreen(
     modifier: Modifier = Modifier,
     onShowCardCreationPanel: (Boolean) -> Unit,
-    onAddItem: (CardUiState) -> Unit,
+    onAddItem: (CardData) -> Unit,
 ) {
     val uiState: CardCreationState = rememberCardCreationState()
 
@@ -59,19 +61,19 @@ fun CardCreationPanel(
         onCreateClick = {
             onAddItem(
                 CardData.create(
-                    uiState.taskTitle,
-                    uiState.description,
-                    parseByComma(uiState.tempTags),
-                    uiState.state,
-                    uiState.manager,
-                ).toCardUiState(),
+                    title = uiState.taskTitle,
+                    state = uiState.state,
+                    managerName = uiState.managerName,
+                    description = uiState.description,
+                    tags = parseByComma(uiState.tempTags),
+                ),
             )
         },
     )
 }
 
 @Composable
-fun CardCreationPanelContent(
+private fun CardCreationPanelContent(
     modifier: Modifier = Modifier,
     uiState: CardCreationState,
     onCloseClick: () -> Unit,
@@ -98,6 +100,19 @@ fun CardCreationPanelContent(
             )
         }
     }
+}
+
+@Preview(showBackground = true, name = "태스크 카드 생성창 뷰", device = Devices.DESKTOP)
+@Composable
+private fun CardCreationPanelContentPreview() {
+    val uiState = rememberCardCreationState()
+
+    CardCreationPanelContent(
+        modifier = Modifier,
+        uiState = uiState,
+        onCloseClick = {},
+        onCreateClick = {}
+    )
 }
 
 @Composable
@@ -174,8 +189,8 @@ private fun CardCreationPanelBodySection(
         )
 
         CardCreationPanelManagerSection(
-            selectedManager = uiState.manager,
-            onManagerChange = { uiState.manager = it },
+            selectedManager = uiState.managerName,
+            onManagerChange = { uiState.managerName = it },
         )
     }
 }
@@ -481,17 +496,16 @@ fun TaskState.getTaskStateLabel(): String {
 
 class CardCreationState {
     var taskTitle by mutableStateOf("")
+    var state by mutableStateOf(TaskState.TO_DO)
+    var managerName by mutableStateOf("다이노")
     var description by mutableStateOf("")
     var tempTags by mutableStateOf("")
-    var state by mutableStateOf(TaskState.TO_DO)
-    var manager by mutableStateOf("다이노")
     val titleError: TitleError
         get() = CardData.isValidTitle(taskTitle)
     val tagError: TagError
         get() = CardData.isValidTag(tempTags)
     val tagInfoText: String
         get() = getTagInfoMessage(tagError)
-
     val createEnabled by derivedStateOf {
         titleError == TitleError.NONE && tagError == TagError.NONE
     }

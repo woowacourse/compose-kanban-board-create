@@ -24,8 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.domain.TaskState
-import woowacourse.kanban.board.ui.Card
-import woowacourse.kanban.board.ui.CardUiState
+import woowacourse.kanban.board.ui.card.Card
+import woowacourse.kanban.board.ui.card.CardUiState
 import woowacourse.kanban.board.ui.getTaskStateLabel
 
 @Composable

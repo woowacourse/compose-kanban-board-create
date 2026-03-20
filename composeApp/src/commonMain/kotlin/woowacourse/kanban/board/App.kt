@@ -4,12 +4,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Devices.DESKTOP
 import androidx.compose.ui.tooling.preview.Preview
-import woowacourse.kanban.board.ui.Board
+import woowacourse.kanban.board.ui.board.BoardScreen
 
 @Composable
 @Preview(showBackground = true, backgroundColor = 0xFFFFFFFF, device = DESKTOP)
 fun App() {
     MaterialTheme {
-        Board()
+        BoardScreen()
     }
 }

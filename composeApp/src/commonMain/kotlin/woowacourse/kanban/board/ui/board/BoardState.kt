@@ -9,8 +9,8 @@ import androidx.compose.runtime.setValue
 import woowacourse.kanban.board.domain.BoardData
 import woowacourse.kanban.board.domain.CardData
 import woowacourse.kanban.board.domain.TaskState
-import woowacourse.kanban.board.ui.CardUiState
-import woowacourse.kanban.board.ui.toUiState
+import woowacourse.kanban.board.ui.card.CardUiState
+import woowacourse.kanban.board.ui.card.toUiState
 
 class BoardState(private val boardData: BoardData = BoardData()) {
     var showCardCreationPanel by mutableStateOf(false)

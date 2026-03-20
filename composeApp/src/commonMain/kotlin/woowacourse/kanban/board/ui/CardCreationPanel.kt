@@ -73,7 +73,7 @@ fun CardCreationPanelScreen(
 }
 
 @Composable
-private fun CardCreationPanelContent(
+fun CardCreationPanelContent(
     modifier: Modifier = Modifier,
     uiState: CardCreationState,
     onCloseClick: () -> Unit,

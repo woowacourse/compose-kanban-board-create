@@ -99,10 +99,9 @@ private fun CardTitle(title: String, modifier: Modifier = Modifier) {
 
 @Preview(backgroundColor = 0xffffffff, showBackground = true)
 @Composable
-fun CardTitlePreview() {
+private fun CardTitlePreview() {
     CardTitle(title = "Card Title")
 }
-
 
 /**
  * 최대 2줄까지 표시되는 Card의 Content입니다.
@@ -162,7 +161,7 @@ private fun TagChip(modifier: Modifier = Modifier, chipContent: String) {
 
 @Preview(backgroundColor = 0xffffffff, showBackground = true)
 @Composable
-fun TagChipPreview() {
+private fun TagChipPreview() {
     TagChip(chipContent = "Tag")
 }
 
@@ -198,6 +197,6 @@ private fun CardAccountInfo(
 
 @Preview(backgroundColor = 0xffffffff, showBackground = true)
 @Composable
-fun CardAccountInfoPreview() {
+private fun CardAccountInfoPreview() {
     CardAccountInfo(managerName = "Test")
 }

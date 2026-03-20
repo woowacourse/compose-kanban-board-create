@@ -20,7 +20,14 @@ class BoardState(private val boardData: BoardData = BoardData()) {
     var countOfDoneCards by mutableIntStateOf(boardData.countCardsByState(TaskState.DONE))
     var countOfAllCard by mutableIntStateOf(boardData.countAllCard())
 
-    fun refreshUiCards() {
+    fun createCard(cardData: CardData) {
+        boardData.addCard(cardData)
+        refreshUiCards()
+    }
+
+    fun cardsByState(state: TaskState): List<CardUiState> = uiCards.filter { it.state == state }
+
+    private fun refreshUiCards() {
         val newUiCards = boardData.getAllCard().map { it.toUiState() }
         uiCards.clear()
         uiCards.addAll(newUiCards)
@@ -30,11 +37,4 @@ class BoardState(private val boardData: BoardData = BoardData()) {
         countOfAllCard = boardData.countAllCard()
 
     }
-
-    fun createCard(cardData: CardData) {
-        boardData.addCard(cardData)
-        refreshUiCards()
-    }
-
-    fun cardsByState(state: TaskState): List<CardUiState> = uiCards.filter { it.state == state }
 }

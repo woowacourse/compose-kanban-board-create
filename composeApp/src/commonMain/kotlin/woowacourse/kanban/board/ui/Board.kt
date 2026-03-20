@@ -24,16 +24,10 @@ import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,10 +37,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import woowacourse.kanban.board.domain.TaskState
+import woowacourse.kanban.board.ui.board.BoardState
 
 @Composable
-fun Board() {
-    val boardState = rememberBoardState()
+fun BoardScreen(boardState: BoardState = remember { BoardState() }) {
+    BoardContent(boardState)
+}
+
+@Composable
+fun BoardContent(boardState: BoardState) {
     val scope = rememberCoroutineScope()
 
     Scaffold(
@@ -68,6 +67,7 @@ fun Board() {
                 modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 16.dp),
             ) {
                 BoardHeaderSection(
+                    boardState = boardState,
                     modifier = Modifier.fillMaxWidth(),
                     onClick = {
                         boardState.showCardCreationPanel = true
@@ -80,10 +80,10 @@ fun Board() {
             }
 
             if (boardState.showCardCreationPanel) {
-                CardCreationPanel(
+                CardCreationPanelScreen(
                     modifier = Modifier.align(Alignment.Center),
                     onAddItem = {
-                        filterState(it, boardState).add(it)
+                        boardState.createCard(it)
                         scope.launch {
                             boardState.snackbarHostState.showSnackbar(message = "새로운 태스크가 추가되었습니다.", withDismissAction = true)
                         }
@@ -97,6 +97,7 @@ fun Board() {
 
 @Composable
 private fun BoardHeaderSection(
+    boardState: BoardState,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -119,7 +120,7 @@ private fun BoardHeaderSection(
                     letterSpacing = 0.07.sp,
                 )
                 Text(
-                    text = "완료율: 0% (0/0)",
+                    text = "완료율: ${boardState.completeRate}% (${boardState.countOfDoneCards}/${boardState.countOfAllCard})",
                     fontWeight = FontWeight.W400,
                     color = Color(0xFF6A7282),
                     fontSize = 14.sp,
@@ -175,19 +176,21 @@ private fun BoardContents(
         modifier = modifier.padding(24.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        StateColumnLayout(taskState = TaskState.TO_DO, cardUiStates = boardState.toDoCardUiStates)
-        StateColumnLayout(taskState = TaskState.IN_PROGRESS, cardUiStates = boardState.inProgressCardUiStates)
-        StateColumnLayout(taskState = TaskState.DONE, cardUiStates = boardState.doneCardUiStates)
+        TaskState.entries.forEach {
+            StateColumnLayout(taskState = it, boardState = boardState)
+        }
     }
 }
 
 @Composable
 fun StateColumnLayout(
-    modifier: Modifier = Modifier,
     taskState: TaskState,
-    cardUiStates: List<CardUiState>,
+    boardState: BoardState,
+    modifier: Modifier = Modifier,
 ) {
-    val testNum = "3"
+    val cards = boardState.cardsByState(taskState)
+    val countOfCards = cards.count()
+
     val headerColor: Color = when (taskState) {
         TaskState.TO_DO -> Color(0xFF155DFC)
         TaskState.IN_PROGRESS -> Color(0xFFE17100)
@@ -222,7 +225,7 @@ fun StateColumnLayout(
             )
 
             Text(
-                text = testNum,
+                text = countOfCards.toString(),
                 modifier = Modifier.clip(RoundedCornerShape(30.dp)).background(Color.White).padding(horizontal = 10.dp, vertical = 2.dp),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.W500,
@@ -236,28 +239,9 @@ fun StateColumnLayout(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(horizontal = 17.dp, vertical = 16.dp),
         ) {
-            items(cardUiStates.size) {
-                Card(cardUiStates[it])
+            items(cards.size) {
+                Card(cards[it])
             }
         }
     }
 }
-
-private fun filterState(cardUiState: CardUiState, boardState: BoardState): SnapshotStateList<CardUiState> {
-    return when (cardUiState.state) {
-        TaskState.TO_DO -> boardState.toDoCardUiStates
-        TaskState.IN_PROGRESS -> boardState.inProgressCardUiStates
-        TaskState.DONE -> boardState.doneCardUiStates
-    }
-}
-
-class BoardState {
-    val toDoCardUiStates = mutableStateListOf<CardUiState>()
-    val inProgressCardUiStates = mutableStateListOf<CardUiState>()
-    val doneCardUiStates = mutableStateListOf<CardUiState>()
-    var showCardCreationPanel by mutableStateOf(false)
-    val snackbarHostState = SnackbarHostState()
-}
-
-@Composable
-fun rememberBoardState(): BoardState = remember { BoardState() }

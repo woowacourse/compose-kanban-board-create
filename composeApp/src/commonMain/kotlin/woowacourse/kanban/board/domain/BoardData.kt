@@ -3,6 +3,8 @@ package woowacourse.kanban.board.domain
 class BoardData {
     private val cards: MutableList<CardData> = mutableListOf()
 
+    fun getAllCard() = cards
+
     fun addCard(cardData: CardData) = cards.add(cardData)
 
     fun countAllCard(): Int = cards.count()

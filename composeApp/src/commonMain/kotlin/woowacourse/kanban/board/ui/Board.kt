@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +28,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,11 +40,10 @@ import woowacourse.kanban.board.domain.TaskState
 
 @Composable
 fun Board() {
-    val cardUiStates = remember { mutableStateListOf<CardUiState>() }
-    var showCardCreationPanel by remember { mutableStateOf(false) }
+    val boardState = rememberBoardState()
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.size(width = 1295.dp, height = 909.dp),
     ) {
         Column(
             modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 16.dp),
@@ -50,20 +51,20 @@ fun Board() {
             BoardHeaderSection(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
-                    showCardCreationPanel = true
+                    boardState.showCardCreationPanel = true
                 },
             )
             BoardContents(
                 modifier = Modifier.fillMaxSize(),
-                cardUiStates = cardUiStates,
+                boardState = boardState,
             )
         }
 
-        if (showCardCreationPanel) {
+        if (boardState.showCardCreationPanel) {
             CardCreationPanel(
                 modifier = Modifier.align(Alignment.Center),
-                onAddItem = { cardUiStates.add(it) },
-                onShowCardCreationPanel = { showCardCreationPanel = it },
+                onAddItem = { filterState(it, boardState).add(it) },
+                onShowCardCreationPanel = { boardState.showCardCreationPanel = it },
             )
         }
     }
@@ -78,7 +79,7 @@ private fun BoardHeaderSection(
         modifier = modifier,
     ) {
         Row(
-            modifier = modifier,
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -135,24 +136,23 @@ private fun BoardHeaderSection(
             color = ProgressIndicatorDefaults.linearColor,
             trackColor = ProgressIndicatorDefaults.linearTrackColor,
             strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
+            gapSize = 0.dp,
         )
     }
 }
 
-/**
- * 테스트 용 보드 컨텐츠 간단 출력 모듈입니다. (추후 단계에서 구현 예정)
- */
 @Composable
 private fun BoardContents(
     modifier: Modifier = Modifier,
-    cardUiStates: List<CardUiState>,
+    boardState: BoardState,
 ) {
-    LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+    Row(
+        modifier = modifier.padding(24.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        items(cardUiStates.size) { item ->
-            Card(cardUiState = cardUiStates[item])
-        }
+        StateColumnLayout(taskState = TaskState.TO_DO, cardUiStates = boardState.toDoCardUiStates)
+        StateColumnLayout(taskState = TaskState.IN_PROGRESS, cardUiStates = boardState.inProgressCardUiStates)
+        StateColumnLayout(taskState = TaskState.DONE, cardUiStates = boardState.doneCardUiStates)
     }
 }
 
@@ -160,6 +160,7 @@ private fun BoardContents(
 fun StateColumnLayout(
     modifier: Modifier = Modifier,
     taskState: TaskState,
+    cardUiStates: List<CardUiState>,
 ) {
     val testNum = "3"
     val headerColor: Color = when (taskState) {
@@ -213,8 +214,30 @@ fun StateColumnLayout(
                 .fillMaxSize()
                 .background(contentColor)
                 .border(width = 1.dp, color = outlineColor),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(horizontal = 17.dp, vertical = 16.dp),
         ) {
-
+            items(cardUiStates.size) {
+                Card(cardUiStates[it])
+            }
         }
     }
 }
+
+private fun filterState(cardUiState: CardUiState, boardState: BoardState): SnapshotStateList<CardUiState> {
+    return when (cardUiState.state) {
+        TaskState.TO_DO -> boardState.toDoCardUiStates
+        TaskState.IN_PROGRESS -> boardState.inProgressCardUiStates
+        TaskState.DONE -> boardState.doneCardUiStates
+    }
+}
+
+class BoardState {
+    val toDoCardUiStates = mutableStateListOf<CardUiState>()
+    val inProgressCardUiStates = mutableStateListOf<CardUiState>()
+    val doneCardUiStates = mutableStateListOf<CardUiState>()
+    var showCardCreationPanel by mutableStateOf(false)
+}
+
+@Composable
+fun rememberBoardState(): BoardState = remember { BoardState() }

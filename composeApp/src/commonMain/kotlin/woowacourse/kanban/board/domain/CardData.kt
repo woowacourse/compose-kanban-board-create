@@ -9,10 +9,10 @@ import woowacourse.kanban.board.util.parseByComma
  */
 class CardData private constructor(
     val title: String,
-    val description: String,
-    val tags: List<String>,
     val state: TaskState,
     val managerName: String,
+    val description: String,
+    val tags: List<String>,
 ) {
     companion object {
         private const val MAX_TAG_COUNT = 5
@@ -20,10 +20,10 @@ class CardData private constructor(
 
         fun create(
             title: String,
-            description: String,
-            tags: List<String>,
             state: TaskState,
             managerName: String,
+            description: String = "",
+            tags: List<String> = emptyList(),
         ): CardData {
             require(isValidTitle(title) == TitleError.NONE) { "[Card] 제목은 필수 입력 항목입니다." }
             require(managerName.isNotBlank()) { "[Card] 계정명은 필수 입력 항목입니다." }

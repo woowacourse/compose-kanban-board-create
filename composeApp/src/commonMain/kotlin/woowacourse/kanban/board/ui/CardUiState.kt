@@ -11,7 +11,7 @@ data class CardUiState(
     val managerName: String
 )
 
-fun CardData.toUiState(): CardUiState {
+fun CardData.toCardUiState(): CardUiState {
     return CardUiState(
         title = this.title,
         description = this.description,

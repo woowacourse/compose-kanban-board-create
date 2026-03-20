@@ -125,7 +125,7 @@ private fun BoardHeaderSection(
                     letterSpacing = 0.07.sp,
                 )
                 Text(
-                    text = "완료율: ${boardState.completeRate}% (${boardState.countOfDoneCards}/${boardState.countOfAllCard})",
+                    text = "완료율: ${(boardState.completeRate * 100).toInt()}% (${boardState.countOfDoneCards}/${boardState.countOfAllCard})",
                     fontWeight = FontWeight.W400,
                     color = Color(0xFF6A7282),
                     fontSize = 14.sp,
@@ -162,7 +162,7 @@ private fun BoardHeaderSection(
         Spacer(modifier = Modifier.height(16.dp))
 
         LinearProgressIndicator(
-            progress = { 0.5f },
+            progress = { boardState.completeRate },
             modifier = Modifier.fillMaxWidth().height(8.dp),
             color = ProgressIndicatorDefaults.linearColor,
             trackColor = ProgressIndicatorDefaults.linearTrackColor,

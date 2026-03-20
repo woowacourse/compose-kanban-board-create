@@ -2,6 +2,7 @@ package woowacourse.kanban.board.ui.board
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -16,7 +17,7 @@ class BoardState(private val boardData: BoardData = BoardData()) {
     var showCardCreationPanel by mutableStateOf(false)
     val snackbarHostState = SnackbarHostState()
     var uiCards = mutableStateListOf<CardUiState>()
-    var completeRate by mutableIntStateOf(boardData.getCompleteRate())
+    var completeRate by mutableFloatStateOf(boardData.getCompleteRate())
     var countOfDoneCards by mutableIntStateOf(boardData.countCardsByState(TaskState.DONE))
     var countOfAllCard by mutableIntStateOf(boardData.countAllCard())
 

@@ -11,11 +11,11 @@ class BoardData {
 
     fun countCardsByState(state: TaskState): Int = cards.count { it.state == state }
 
-    fun getCompleteRate(): Int {
+    fun getCompleteRate(): Float {
         val numOfAllCard = countAllCard()
         val numOfDoneCards = countCardsByState(TaskState.DONE)
 
-        if (numOfAllCard == 0) return 0
-        return (numOfDoneCards * 100 / numOfAllCard)
+        if (numOfAllCard == 0) return 0f
+        return (numOfDoneCards.toFloat() / numOfAllCard.toFloat())
     }
 }

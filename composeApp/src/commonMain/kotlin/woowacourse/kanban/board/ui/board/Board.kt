@@ -1,5 +1,7 @@
 package woowacourse.kanban.board.ui.board
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,16 +38,18 @@ import woowacourse.kanban.board.domain.TaskState
 import woowacourse.kanban.board.ui.CardCreationPanelScreen
 
 @Composable
-fun BoardScreen(boardState: BoardState = remember { BoardState() }) {
-    BoardContent(boardState)
+fun BoardScreen(modifier: Modifier = Modifier, boardState: BoardState = remember { BoardState() }) {
+    BoardContent(modifier = modifier.size(width = 1295.dp, height = 909.dp), boardState = boardState)
 }
 
 @Composable
-private fun BoardContent(boardState: BoardState) {
+private fun BoardContent(modifier: Modifier = Modifier, boardState: BoardState) {
     val scope = rememberCoroutineScope()
 
     Scaffold(
-        modifier = Modifier.size(height = 909.dp, width = 1295.dp),
+        modifier = modifier.fillMaxSize(),
+        containerColor = Color.White,
+        contentColor = Color.Black,
         snackbarHost = {
             SnackbarHost(
                 hostState = boardState.snackbarHostState,
@@ -60,7 +64,7 @@ private fun BoardContent(boardState: BoardState) {
             modifier = Modifier.padding(paddingValues).fillMaxSize(),
         ) {
             Column(
-                modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 16.dp),
+                modifier = Modifier.fillMaxSize(),
             ) {
                 BoardHeaderSection(
                     boardState = boardState,
@@ -97,7 +101,7 @@ private fun BoardContent(boardState: BoardState) {
 @Preview(showBackground = true)
 @Composable
 private fun BoardContentPreview() {
-    BoardContent(remember { BoardState() })
+    BoardContent(boardState = remember { BoardState() })
 }
 
 @Composable
@@ -107,7 +111,7 @@ private fun BoardHeaderSection(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.border(width = 1.dp, color = Color(0xFFE5E7EB)).padding(horizontal = 24.dp, vertical = 16.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -164,7 +168,7 @@ private fun BoardHeaderSection(
         LinearProgressIndicator(
             progress = { boardState.completeRate },
             modifier = Modifier.fillMaxWidth().height(8.dp),
-            color = ProgressIndicatorDefaults.linearColor,
+            color = Color(0xFFE5E7EB),
             trackColor = ProgressIndicatorDefaults.linearTrackColor,
             strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
             gapSize = 0.dp,
@@ -178,7 +182,7 @@ private fun BoardContents(
     boardState: BoardState,
 ) {
     Row(
-        modifier = modifier.padding(24.dp),
+        modifier = modifier.background(Color(0xFFF4F5F7)).padding(24.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         TaskState.entries.forEach {

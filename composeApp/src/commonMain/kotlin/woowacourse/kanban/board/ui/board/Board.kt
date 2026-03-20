@@ -198,6 +198,7 @@ private fun BoardHeaderSection(
             trackColor = Color(0xFFE5E7EB),
             strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
             gapSize = 0.dp,
+            drawStopIndicator = {}
         )
     }
 }

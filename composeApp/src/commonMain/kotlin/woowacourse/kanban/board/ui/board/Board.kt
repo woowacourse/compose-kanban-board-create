@@ -1,11 +1,8 @@
-package woowacourse.kanban.board.ui
+package woowacourse.kanban.board.ui.board
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -30,14 +26,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import woowacourse.kanban.board.domain.TaskState
-import woowacourse.kanban.board.ui.board.BoardState
+import woowacourse.kanban.board.ui.CardCreationPanelScreen
 
 @Composable
 fun BoardScreen(boardState: BoardState = remember { BoardState() }) {
@@ -45,7 +41,7 @@ fun BoardScreen(boardState: BoardState = remember { BoardState() }) {
 }
 
 @Composable
-fun BoardContent(boardState: BoardState) {
+private fun BoardContent(boardState: BoardState) {
     val scope = rememberCoroutineScope()
 
     Scaffold(
@@ -85,7 +81,10 @@ fun BoardContent(boardState: BoardState) {
                     onAddItem = {
                         boardState.createCard(it)
                         scope.launch {
-                            boardState.snackbarHostState.showSnackbar(message = "새로운 태스크가 추가되었습니다.", withDismissAction = true)
+                            boardState.snackbarHostState.showSnackbar(
+                                message = "새로운 태스크가 추가되었습니다.",
+                                withDismissAction = true,
+                            )
                         }
                     },
                     onShowCardCreationPanel = { boardState.showCardCreationPanel = it },
@@ -93,6 +92,12 @@ fun BoardContent(boardState: BoardState) {
             }
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun BoardContentPreview() {
+    BoardContent(remember { BoardState() })
 }
 
 @Composable
@@ -177,71 +182,7 @@ private fun BoardContents(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         TaskState.entries.forEach {
-            StateColumnLayout(taskState = it, boardState = boardState)
-        }
-    }
-}
-
-@Composable
-fun StateColumnLayout(
-    taskState: TaskState,
-    boardState: BoardState,
-    modifier: Modifier = Modifier,
-) {
-    val cards = boardState.cardsByState(taskState)
-    val countOfCards = cards.count()
-
-    val headerColor: Color = when (taskState) {
-        TaskState.TO_DO -> Color(0xFF155DFC)
-        TaskState.IN_PROGRESS -> Color(0xFFE17100)
-        TaskState.DONE -> Color(0xFF00A63E)
-    }
-    val contentColor: Color = when (taskState) {
-        TaskState.TO_DO -> Color(0xFFEFF6FF)
-        TaskState.IN_PROGRESS -> Color(0xFFFFFBEB)
-        TaskState.DONE -> Color(0xFFF0FDF4)
-    }
-    val outlineColor: Color = when (taskState) {
-        TaskState.TO_DO -> Color(0xFFBEDBFF)
-        TaskState.IN_PROGRESS -> Color(0xFFFEE685)
-        TaskState.DONE -> Color(0xFFB9F8CF)
-    }
-
-    Column(
-        modifier = modifier.size(width = 320.dp, height = 748.dp).clip(RoundedCornerShape(10.dp)),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().height(48.dp).background(headerColor).padding(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Text(
-                text = taskState.getTaskStateLabel(),
-                color = Color(0xFFFFFFFF),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.W600,
-                letterSpacing = (-0.31).sp,
-                lineHeight = 24.sp,
-            )
-
-            Text(
-                text = countOfCards.toString(),
-                modifier = Modifier.clip(RoundedCornerShape(30.dp)).background(Color.White).padding(horizontal = 10.dp, vertical = 2.dp),
-                fontSize = 14.sp,
-                fontWeight = FontWeight.W500,
-                letterSpacing = (-0.15).sp,
-                lineHeight = 20.sp,
-            )
-        }
-
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().background(contentColor).border(width = 1.dp, color = outlineColor),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(horizontal = 17.dp, vertical = 16.dp),
-        ) {
-            items(cards.size) {
-                Card(cards[it])
-            }
+            StateColumnLayout(taskState = it, cards = boardState.cardsByState(it))
         }
     }
 }

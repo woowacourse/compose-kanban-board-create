@@ -62,7 +62,7 @@
 ### UI
 - [x] KanbanBoard 상태별 컬럼 레이아웃 구현
 - [x] `LazyColumn`을 활용한 상태별 태스크 리스트 렌더링
-- [ ] 특정 조건(예: 태스크 생성 완료) 시 `Snackbar` 노출
+- [X] 특정 조건(예: 태스크 생성 완료) 시 `Snackbar` 노출
 
 ### Domain
 - [x] CardData에 `TastState` 추가

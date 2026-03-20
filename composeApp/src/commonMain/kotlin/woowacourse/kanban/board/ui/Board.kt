@@ -21,12 +21,17 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ProgressIndicatorDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -36,36 +41,56 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import woowacourse.kanban.board.domain.TaskState
 
 @Composable
 fun Board() {
     val boardState = rememberBoardState()
+    val scope = rememberCoroutineScope()
 
-    Box(
-        modifier = Modifier.size(width = 1295.dp, height = 909.dp),
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 16.dp),
-        ) {
-            BoardHeaderSection(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    boardState.showCardCreationPanel = true
+    Scaffold(
+        modifier = Modifier.size(height = 909.dp, width = 1295.dp),
+        snackbarHost = {
+            SnackbarHost(
+                hostState = boardState.snackbarHostState,
+                modifier = Modifier.padding(bottom = 54.dp),
+                snackbar = { snackbarData ->
+                    Snackbar(snackbarData = snackbarData, modifier = Modifier.padding(horizontal = 16.dp))
                 },
             )
-            BoardContents(
-                modifier = Modifier.fillMaxSize(),
-                boardState = boardState,
-            )
-        }
+        },
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier.padding(paddingValues).fillMaxSize(),
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp, vertical = 16.dp),
+            ) {
+                BoardHeaderSection(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        boardState.showCardCreationPanel = true
+                    },
+                )
+                BoardContents(
+                    modifier = Modifier.fillMaxSize(),
+                    boardState = boardState,
+                )
+            }
 
-        if (boardState.showCardCreationPanel) {
-            CardCreationPanel(
-                modifier = Modifier.align(Alignment.Center),
-                onAddItem = { filterState(it, boardState).add(it) },
-                onShowCardCreationPanel = { boardState.showCardCreationPanel = it },
-            )
+            if (boardState.showCardCreationPanel) {
+                CardCreationPanel(
+                    modifier = Modifier.align(Alignment.Center),
+                    onAddItem = {
+                        filterState(it, boardState).add(it)
+                        scope.launch {
+                            boardState.snackbarHostState.showSnackbar(message = "새로운 태스크가 추가되었습니다.", withDismissAction = true)
+                        }
+                    },
+                    onShowCardCreationPanel = { boardState.showCardCreationPanel = it },
+                )
+            }
         }
     }
 }
@@ -198,10 +223,7 @@ fun StateColumnLayout(
 
             Text(
                 text = testNum,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(30.dp))
-                    .background(Color.White)
-                    .padding(horizontal = 10.dp, vertical = 2.dp),
+                modifier = Modifier.clip(RoundedCornerShape(30.dp)).background(Color.White).padding(horizontal = 10.dp, vertical = 2.dp),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.W500,
                 letterSpacing = (-0.15).sp,
@@ -210,10 +232,7 @@ fun StateColumnLayout(
         }
 
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(contentColor)
-                .border(width = 1.dp, color = outlineColor),
+            modifier = Modifier.fillMaxSize().background(contentColor).border(width = 1.dp, color = outlineColor),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(horizontal = 17.dp, vertical = 16.dp),
         ) {
@@ -237,6 +256,7 @@ class BoardState {
     val inProgressCardUiStates = mutableStateListOf<CardUiState>()
     val doneCardUiStates = mutableStateListOf<CardUiState>()
     var showCardCreationPanel by mutableStateOf(false)
+    val snackbarHostState = SnackbarHostState()
 }
 
 @Composable

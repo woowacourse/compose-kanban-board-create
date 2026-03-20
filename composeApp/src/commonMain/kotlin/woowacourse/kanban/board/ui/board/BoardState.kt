@@ -16,7 +16,9 @@ import woowacourse.kanban.board.ui.card.toUiState
 class BoardState(private val boardData: BoardData = BoardData()) {
     var showCardCreationPanel by mutableStateOf(false)
     val snackbarHostState = SnackbarHostState()
-    var uiCards = mutableStateListOf<CardUiState>()
+    var uiCards = mutableStateListOf<CardUiState>().apply {
+        addAll(boardData.getAllCard().map { it.toUiState() })
+    }
     var completeRate by mutableFloatStateOf(boardData.getCompleteRate())
     var countOfDoneCards by mutableIntStateOf(boardData.countCardsByState(TaskState.DONE))
     var countOfAllCard by mutableIntStateOf(boardData.countAllCard())
@@ -26,7 +28,9 @@ class BoardState(private val boardData: BoardData = BoardData()) {
         refreshUiCards()
     }
 
-    fun cardsByState(state: TaskState): List<CardUiState> = uiCards.filter { it.state == state }
+    fun cardsByState(state: TaskState): List<CardUiState> {
+        return uiCards.filter { it.state == state }
+    }
 
     private fun refreshUiCards() {
         val newUiCards = boardData.getAllCard().map { it.toUiState() }

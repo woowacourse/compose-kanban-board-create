@@ -22,6 +22,7 @@ import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -30,29 +31,65 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
+import woowacourse.kanban.board.domain.CardData
 import woowacourse.kanban.board.domain.TaskState
 import woowacourse.kanban.board.ui.CardCreationPanelScreen
+import woowacourse.kanban.board.ui.card.CardUiState
 
 @Composable
 fun BoardScreen(modifier: Modifier = Modifier, boardState: BoardState = remember { BoardState() }) {
-    BoardContent(modifier = modifier.size(width = 1295.dp, height = 909.dp), boardState = boardState)
+    val scope = rememberCoroutineScope()
+
+    BoardContent(
+        snackbarHostState = boardState.snackbarHostState,
+        showCardCreationPanel = boardState.showCardCreationPanel,
+        completeRate = boardState.completeRate,
+        countOfDoneCards = boardState.countOfDoneCards,
+        countOfAllCard = boardState.countOfAllCard,
+        toDoCards = boardState.cardsByState(TaskState.TO_DO),
+        inProgressCards = boardState.cardsByState(TaskState.IN_PROGRESS),
+        doneCards = boardState.cardsByState(TaskState.DONE),
+        onShowPanelClick = { boardState.showCardCreationPanel = true },
+        onClosePanelClick = { boardState.showCardCreationPanel = false },
+        onCreateCard = { cardData ->
+            boardState.createCard(cardData)
+            boardState.showCardCreationPanel = false
+            scope.launch {
+                boardState.snackbarHostState.showSnackbar(
+                    message = "새로운 태스크가 추가되었습니다.",
+                    withDismissAction = true,
+                )
+            }
+        },
+        modifier = modifier.size(width = 1295.dp, height = 909.dp),
+    )
 }
 
 @Composable
-private fun BoardContent(modifier: Modifier = Modifier, boardState: BoardState) {
-    val scope = rememberCoroutineScope()
-
+private fun BoardContent(
+    snackbarHostState: SnackbarHostState,
+    showCardCreationPanel: Boolean,
+    completeRate: Float,
+    countOfDoneCards: Int,
+    countOfAllCard: Int,
+    toDoCards: List<CardUiState>,
+    inProgressCards: List<CardUiState>,
+    doneCards: List<CardUiState>,
+    onShowPanelClick: () -> Unit,
+    onClosePanelClick: () -> Unit,
+    onCreateCard: (CardData) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Scaffold(
         modifier = modifier.fillMaxSize(),
         containerColor = Color.White,
         contentColor = Color.Black,
         snackbarHost = {
             SnackbarHost(
-                hostState = boardState.snackbarHostState,
+                hostState = snackbarHostState,
                 modifier = Modifier.padding(bottom = 54.dp),
                 snackbar = { snackbarData ->
                     Snackbar(snackbarData = snackbarData, modifier = Modifier.padding(horizontal = 16.dp))
@@ -67,47 +104,37 @@ private fun BoardContent(modifier: Modifier = Modifier, boardState: BoardState) 
                 modifier = Modifier.fillMaxSize(),
             ) {
                 BoardHeaderSection(
-                    boardState = boardState,
+                    completeRate = completeRate,
+                    countOfDoneCards = countOfDoneCards,
+                    countOfAllCard = countOfAllCard,
+                    onCreateClick = onShowPanelClick,
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        boardState.showCardCreationPanel = true
-                    },
                 )
                 BoardContents(
+                    toDoCards = toDoCards,
+                    inProgressCards = inProgressCards,
+                    doneCards = doneCards,
                     modifier = Modifier.fillMaxSize(),
-                    boardState = boardState,
                 )
             }
 
-            if (boardState.showCardCreationPanel) {
+            if (showCardCreationPanel) {
                 CardCreationPanelScreen(
                     modifier = Modifier.align(Alignment.Center),
-                    onAddItem = {
-                        boardState.createCard(it)
-                        scope.launch {
-                            boardState.snackbarHostState.showSnackbar(
-                                message = "새로운 태스크가 추가되었습니다.",
-                                withDismissAction = true,
-                            )
-                        }
-                    },
-                    onShowCardCreationPanel = { boardState.showCardCreationPanel = it },
+                    onCreateCard = onCreateCard,
+                    onClosePanelClick = onClosePanelClick,
                 )
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-private fun BoardContentPreview() {
-    BoardContent(boardState = remember { BoardState() })
-}
-
 @Composable
 private fun BoardHeaderSection(
-    boardState: BoardState,
-    onClick: () -> Unit,
+    completeRate: Float,
+    countOfDoneCards: Int,
+    countOfAllCard: Int,
+    onCreateClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -129,7 +156,7 @@ private fun BoardHeaderSection(
                     letterSpacing = 0.07.sp,
                 )
                 Text(
-                    text = "완료율: ${(boardState.completeRate * 100).toInt()}% (${boardState.countOfDoneCards}/${boardState.countOfAllCard})",
+                    text = "완료율: ${(completeRate * 100).toInt()}% (${countOfDoneCards}/${countOfAllCard})",
                     fontWeight = FontWeight.W400,
                     color = Color(0xFF6A7282),
                     fontSize = 14.sp,
@@ -139,7 +166,7 @@ private fun BoardHeaderSection(
             }
 
             Button(
-                onClick = { onClick() },
+                onClick = onCreateClick,
                 modifier = Modifier,
                 shape = RoundedCornerShape(20),
             ) {
@@ -166,10 +193,9 @@ private fun BoardHeaderSection(
         Spacer(modifier = Modifier.height(16.dp))
 
         LinearProgressIndicator(
-            progress = { boardState.completeRate },
+            progress = { completeRate },
             modifier = Modifier.fillMaxWidth().height(8.dp),
-            color = Color(0xFFE5E7EB),
-            trackColor = ProgressIndicatorDefaults.linearTrackColor,
+            trackColor = Color(0xFFE5E7EB),
             strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
             gapSize = 0.dp,
         )
@@ -178,15 +204,17 @@ private fun BoardHeaderSection(
 
 @Composable
 private fun BoardContents(
+    toDoCards: List<CardUiState>,
+    inProgressCards: List<CardUiState>,
+    doneCards: List<CardUiState>,
     modifier: Modifier = Modifier,
-    boardState: BoardState,
 ) {
     Row(
         modifier = modifier.background(Color(0xFFF4F5F7)).padding(24.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        TaskState.entries.forEach {
-            StateColumnLayout(taskState = it, cards = boardState.cardsByState(it))
-        }
+        StateColumnLayout(taskState = TaskState.TO_DO, cards = toDoCards)
+        StateColumnLayout(taskState = TaskState.IN_PROGRESS, cards = inProgressCards)
+        StateColumnLayout(taskState = TaskState.DONE, cards = doneCards)
     }
 }

@@ -49,17 +49,17 @@ import woowacourse.kanban.board.util.parseByComma
 @Composable
 fun CardCreationPanelScreen(
     modifier: Modifier = Modifier,
-    onShowCardCreationPanel: (Boolean) -> Unit,
-    onAddItem: (CardData) -> Unit,
+    onClosePanelClick: () -> Unit,
+    onCreateCard: (CardData) -> Unit,
 ) {
     val uiState: CardCreationState = rememberCardCreationState()
 
     CardCreationPanelContent(
         modifier = modifier,
         uiState = uiState,
-        onCloseClick = { onShowCardCreationPanel(false) },
+        onCloseClick = onClosePanelClick,
         onCreateClick = {
-            onAddItem(
+            onCreateCard(
                 CardData.create(
                     title = uiState.taskTitle,
                     state = uiState.state,

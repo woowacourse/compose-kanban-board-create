@@ -44,7 +44,7 @@ fun BoardScreen(modifier: Modifier = Modifier, boardState: BoardState = remember
     val scope = rememberCoroutineScope()
 
     val uiState = BoardUiState(
-        showCardForm = boardState.showCardCreationPanel,
+        showCardForm = boardState.showTaskCardForm,
         completeRate = boardState.completeRate,
         countOfDoneTasks = boardState.countOfDoneTasks,
         countOfAllTasks = boardState.countOfAllTasks,
@@ -56,11 +56,11 @@ fun BoardScreen(modifier: Modifier = Modifier, boardState: BoardState = remember
     BoardContent(
         uiState = uiState,
         snackbarHostState = boardState.snackbarHostState,
-        onShowFormClick = { boardState.showCardCreationPanel = true },
-        onCloseFormClick = { boardState.showCardCreationPanel = false },
+        onShowFormClick = { boardState.showTaskCardForm = true },
+        onCloseFormClick = { boardState.showTaskCardForm = false },
         onCreateTask = { task ->
             boardState.createTaskCard(task)
-            boardState.showCardCreationPanel = false
+            boardState.showTaskCardForm = false
             scope.launch {
                 boardState.snackbarHostState.showSnackbar(
                     message = "새로운 태스크가 추가되었습니다.",
@@ -73,7 +73,7 @@ fun BoardScreen(modifier: Modifier = Modifier, boardState: BoardState = remember
 }
 
 @Composable
-private fun BoardContent(
+fun BoardContent(
     uiState: BoardUiState,
     snackbarHostState: SnackbarHostState,
     onShowFormClick: () -> Unit,

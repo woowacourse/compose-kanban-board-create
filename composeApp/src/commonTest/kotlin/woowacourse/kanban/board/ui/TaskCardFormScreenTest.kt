@@ -10,7 +10,7 @@ import woowacourse.kanban.board.ui.taskcardform.TaskCardFormContent
 import woowacourse.kanban.board.ui.taskcardform.rememberCardFormState
 
 @OptIn(ExperimentalTestApi::class)
-class CardFormTest {
+class TaskCardFormScreenTest {
 
     @Test
     fun `제목을 입력하지 않으면, 생성 버튼이 비활성화된다`() = runComposeUiTest {

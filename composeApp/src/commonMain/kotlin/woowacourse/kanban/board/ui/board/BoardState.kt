@@ -14,7 +14,7 @@ import woowacourse.kanban.board.ui.taskcard.TaskCardUiState
 import woowacourse.kanban.board.ui.taskcard.toUiState
 
 class BoardState(private val tasks: Tasks = Tasks()) {
-    var showCardCreationPanel by mutableStateOf(false)
+    var showTaskCardForm by mutableStateOf(false)
     val snackbarHostState = SnackbarHostState()
     val uiTaskCards = mutableStateListOf<TaskCardUiState>().apply {
         addAll(tasks.getAllTasks().map { it.toUiState() })

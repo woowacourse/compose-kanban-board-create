@@ -36,8 +36,8 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import woowacourse.kanban.board.domain.CardData
 import woowacourse.kanban.board.domain.TaskState
-import woowacourse.kanban.board.ui.CardCreationPanelScreen
-import woowacourse.kanban.board.ui.card.CardUiState
+import woowacourse.kanban.board.ui.cardForm.CardFormScreen
+import woowacourse.kanban.board.ui.card.CardState
 
 @Composable
 fun BoardScreen(modifier: Modifier = Modifier, boardState: BoardState = remember { BoardState() }) {
@@ -75,9 +75,9 @@ private fun BoardContent(
     completeRate: Float,
     countOfDoneCards: Int,
     countOfAllCard: Int,
-    toDoCards: List<CardUiState>,
-    inProgressCards: List<CardUiState>,
-    doneCards: List<CardUiState>,
+    toDoCards: List<CardState>,
+    inProgressCards: List<CardState>,
+    doneCards: List<CardState>,
     onShowPanelClick: () -> Unit,
     onClosePanelClick: () -> Unit,
     onCreateCard: (CardData) -> Unit,
@@ -119,7 +119,7 @@ private fun BoardContent(
             }
 
             if (showCardCreationPanel) {
-                CardCreationPanelScreen(
+                CardFormScreen(
                     modifier = Modifier.align(Alignment.Center),
                     onCreateCard = onCreateCard,
                     onClosePanelClick = onClosePanelClick,
@@ -198,16 +198,16 @@ private fun BoardHeaderSection(
             trackColor = Color(0xFFE5E7EB),
             strokeCap = ProgressIndicatorDefaults.LinearStrokeCap,
             gapSize = 0.dp,
-            drawStopIndicator = {}
+            drawStopIndicator = {},
         )
     }
 }
 
 @Composable
 private fun BoardContents(
-    toDoCards: List<CardUiState>,
-    inProgressCards: List<CardUiState>,
-    doneCards: List<CardUiState>,
+    toDoCards: List<CardState>,
+    inProgressCards: List<CardState>,
+    doneCards: List<CardState>,
     modifier: Modifier = Modifier,
 ) {
     Row(

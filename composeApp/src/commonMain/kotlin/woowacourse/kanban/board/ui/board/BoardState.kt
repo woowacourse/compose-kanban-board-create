@@ -10,13 +10,13 @@ import androidx.compose.runtime.setValue
 import woowacourse.kanban.board.domain.BoardData
 import woowacourse.kanban.board.domain.CardData
 import woowacourse.kanban.board.domain.TaskState
-import woowacourse.kanban.board.ui.card.CardUiState
+import woowacourse.kanban.board.ui.card.CardState
 import woowacourse.kanban.board.ui.card.toUiState
 
 class BoardState(private val boardData: BoardData = BoardData()) {
     var showCardCreationPanel by mutableStateOf(false)
     val snackbarHostState = SnackbarHostState()
-    var uiCards = mutableStateListOf<CardUiState>().apply {
+    var uiCards = mutableStateListOf<CardState>().apply {
         addAll(boardData.getAllCard().map { it.toUiState() })
     }
     var completeRate by mutableFloatStateOf(boardData.getCompleteRate())
@@ -28,7 +28,7 @@ class BoardState(private val boardData: BoardData = BoardData()) {
         refreshUiCards()
     }
 
-    fun cardsByState(state: TaskState): List<CardUiState> {
+    fun cardsByState(state: TaskState): List<CardState> {
         return uiCards.filter { it.state == state }
     }
 

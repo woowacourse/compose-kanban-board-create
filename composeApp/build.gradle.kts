@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    id("com.android.application") // Changed from libs.plugins.androidLibrary
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.ktlint)
@@ -53,7 +53,11 @@ android {
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
+        applicationId = "woowacourse.kanban.board" // Added for application
         minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_21

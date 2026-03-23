@@ -21,7 +21,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CreateNewTaskDialogBottom(isCreateEnabled: Boolean) {
+fun CreateNewTaskDialogBottom(
+    onClickCloseButton: () -> Unit,
+    onClickCreateButton: () -> Unit,
+    isCreateEnabled: Boolean,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -33,7 +37,7 @@ fun CreateNewTaskDialogBottom(isCreateEnabled: Boolean) {
             textColor = Color.Black,
             backgroundColor = Color.White,
             enabled = true,
-            onClick = { },
+            onClick = onClickCloseButton,
         )
         Spacer(modifier = Modifier.width(12.dp))
         BottomButton(
@@ -41,13 +45,13 @@ fun CreateNewTaskDialogBottom(isCreateEnabled: Boolean) {
             textColor = Color.White,
             backgroundColor = Color.Unspecified,
             enabled = isCreateEnabled,
-            onClick = { },
+            onClick = onClickCreateButton,
         )
     }
 }
 
 @Composable
-fun BottomButton(
+private fun BottomButton(
     text: String,
     textColor: Color,
     backgroundColor: Color,
@@ -78,12 +82,8 @@ fun BottomButton(
 @Preview
 @Composable
 private fun CreateNewTaskDialogBottomPreview() {
-    CreateNewTaskDialogBottom(true)
+    CreateNewTaskDialogBottom({ }, { }, true)
 }
-
-// 아래와 같이 Preview 해볼게 두개 이상인 경우에는 Column으로 묶기보단
-// 파라미터로 제공하는게 좋지 않을까?
-// 파라미터가 많다면?...
 
 @Preview
 @Composable

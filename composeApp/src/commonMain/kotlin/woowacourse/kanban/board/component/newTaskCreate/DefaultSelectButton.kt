@@ -2,7 +2,6 @@ package woowacourse.kanban.board.component.newTaskCreate
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,7 +21,8 @@ import woowacourse.kanban.board.component.task.Profile
 fun DefaultSelectButton(
     isSelected: Boolean,
     onClick: () -> Unit,
-    content: @Composable BoxScope.() -> Unit,
+    alignment: Alignment = Alignment.Center,
+    content: @Composable () -> Unit,
 ) {
     OutlinedButton(
         onClick = onClick,
@@ -41,6 +41,7 @@ fun DefaultSelectButton(
         Box(
             modifier = Modifier
                 .width(200.dp),
+            contentAlignment = alignment,
         ) {
             content()
         }
@@ -51,10 +52,10 @@ fun DefaultSelectButton(
 @Composable
 private fun DefaultSelectButtonPreview() {
     Column {
-        DefaultSelectButton(false, {}, { Text("Hello", modifier = Modifier.align(Alignment.CenterStart)) })
-        DefaultSelectButton(false, {}, { Text("조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘") })
-        DefaultSelectButton(false, {}, { Text("To Do", modifier = Modifier.align(Alignment.Center)) })
-        DefaultSelectButton(false, {}, { Text("In Progress") })
-        DefaultSelectButton(false, {}, { Profile("조디악", Modifier.align(Alignment.CenterStart)) })
+        DefaultSelectButton(false, {}, content = { Text("Hello") })
+        DefaultSelectButton(false, {}, content = { Text("조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘조디악사무엘") })
+        DefaultSelectButton(false, {}, content = { Text("To Do") })
+        DefaultSelectButton(false, {}, content = { Text("In Progress") })
+        DefaultSelectButton(false, {}, content = { Profile("조디악") })
     }
 }

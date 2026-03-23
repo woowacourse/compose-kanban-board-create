@@ -32,8 +32,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.CustomColor
-import woowacourse.kanban.board.InputValidator
+import woowacourse.kanban.board.TaskStatusUIModel.Companion.toUIModel
 import woowacourse.kanban.board.component.task.Profile
+import woowacourse.kanban.board.data.Tags.Companion.validateTagsAndWordCount
+import woowacourse.kanban.board.data.TaskStatus
+import woowacourse.kanban.board.data.Title.Companion.validateTitle
 
 @Composable
 fun NewTaskForm(
@@ -44,7 +47,7 @@ fun NewTaskForm(
     tags: String,
     onTagsChange: (String) -> Unit,
     selectedStatusIndex: Int,
-    statusOptions: List<String>,
+    statusOptions: List<TaskStatus>,
     onStatusChange: (Int) -> Unit,
     selectedProfileIndex: Int,
     profileOptions: List<String>,
@@ -63,7 +66,7 @@ fun NewTaskForm(
             hintText = "태스크 제목을 입력하세요",
             defaultSupportingText = "",
             validate = {
-                InputValidator.validateTitle(it)
+                validateTitle(it)
             },
             modifier = Modifier.testTag("title_textField"),
         )
@@ -73,7 +76,7 @@ fun NewTaskForm(
             onValueChange = onDescriptionChange,
             hintText = "태스크에 대한 자세한 설명을 입력하세요",
             defaultSupportingText = null,
-            validate = { InputValidator.validateDescription(it) },
+            validate = { null },
             minLines = 4,
             maxLines = 5,
         )
@@ -83,7 +86,7 @@ fun NewTaskForm(
             onValueChange = onTagsChange,
             hintText = "태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)",
             defaultSupportingText = "5자 이내의 태그를 최대 5개까지 등록할 수 있습니다.",
-            validate = { InputValidator.validateTagsAndWordCount(it) },
+            validate = { validateTagsAndWordCount(it) },
             modifier = Modifier.testTag("tag_textField"),
         )
         ItemSelectionFormBox(
@@ -93,7 +96,7 @@ fun NewTaskForm(
                 DefaultSelectButton(
                     isSelected = selectedStatusIndex == index,
                     onClick = { onStatusChange(index) },
-                    content = { Text(status, modifier = Modifier.align(Alignment.Center)) },
+                    content = { Text(status.toUIModel().text) },
                 )
             }
         }
@@ -105,10 +108,7 @@ fun NewTaskForm(
                     isSelected = selectedProfileIndex == index,
                     onClick = { onProfileChange(index) },
                     content = {
-                        Profile(
-                            nickname = nickname,
-                            modifier = Modifier.align(Alignment.Center),
-                        )
+                        Profile(nickname = nickname)
                     },
                 )
             }
@@ -117,7 +117,7 @@ fun NewTaskForm(
 }
 
 @Composable
-fun DefaultTextField(
+private fun DefaultTextField(
     value: String,
     text: String,
     onValueChange: (String) -> Unit,
@@ -185,10 +185,10 @@ private fun DefaultTextFieldPreview(@PreviewParameter(DefaultTextFieldParameterP
     DefaultTextField(
         value = text,
         text = "hint",
-        onValueChange = { InputValidator.validateTitle(it) },
+        onValueChange = { validateTitle(it) },
         hintText = " ",
         defaultSupportingText = "",
-        validate = { InputValidator.validateTitle("text") },
+        validate = { validateTitle("text") },
         minLines = 1,
         maxLines = 1,
     )

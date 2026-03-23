@@ -48,3 +48,6 @@ xcuserdata
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 node_modules/
+
+# 임시 Android 실행용
+composeApp/src/androidMain/

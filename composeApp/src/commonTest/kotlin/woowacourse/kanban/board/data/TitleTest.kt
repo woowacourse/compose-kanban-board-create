@@ -27,8 +27,10 @@ class TitleTest {
     @Test
     fun `제목이 있다면 정상적으로 생성한다`() {
         val title = "title1"
-        assertThatNoException().isThrownBy( {
-            Title(title)
-        })
+        assertThatNoException().isThrownBy(
+            {
+                Title(title)
+            },
+        )
     }
 }

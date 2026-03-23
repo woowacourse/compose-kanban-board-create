@@ -1,5 +1,6 @@
 package woowacourse.kanban.board.component.newTaskCreate
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,7 +20,7 @@ import kanbanboard.composeapp.generated.resources.cancel_button
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun TopBar() {
+fun TopBar(onClickCloseButton: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -34,12 +35,15 @@ fun TopBar() {
             ),
             fontWeight = FontWeight.SemiBold,
             fontSize = 20.sp,
-
-            )
+        )
         Icon(
             painter = painterResource(Res.drawable.cancel_button),
             contentDescription = "cancel button",
-            modifier = Modifier.size(24.dp),
+            modifier = Modifier
+                .size(24.dp)
+                .clickable(
+                    onClick = onClickCloseButton,
+                ),
         )
     }
 }
@@ -47,5 +51,5 @@ fun TopBar() {
 @Preview
 @Composable
 private fun TopBarPreview() {
-    TopBar()
+    TopBar({ })
 }

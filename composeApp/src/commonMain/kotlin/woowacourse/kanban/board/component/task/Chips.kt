@@ -44,7 +44,7 @@ fun Chips(
 }
 
 @Composable
-fun ChipBox(filteredTag: String, modifier: Modifier = Modifier) {
+private fun ChipBox(filteredTag: String, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier,
     ) {

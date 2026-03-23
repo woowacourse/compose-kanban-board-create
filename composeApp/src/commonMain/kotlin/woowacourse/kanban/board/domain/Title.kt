@@ -1,14 +1,11 @@
 package woowacourse.kanban.board.domain
 
 import woowacourse.kanban.board.exception.TitleError
+import woowacourse.kanban.board.exception.TitleException
 
 @JvmInline
-value class Title private constructor(val value: String) {
-
-    companion object {
-        fun isValid(title: String): TitleError {
-            if (title.isBlank()) return TitleError.Blank
-            return TitleError.NONE
-        }
+value class Title(val value: String) {
+    init {
+        if (value.isBlank()) throw TitleException(TitleError.BLANK)
     }
 }

@@ -1,17 +1,16 @@
 package woowacourse.kanban.board.domain
 
 import woowacourse.kanban.board.exception.TagError
+import woowacourse.kanban.board.exception.TagException
 
 @JvmInline
-value class Tag private constructor(val value: String) {
+value class Tag(val value: String) {
+    init {
+        if (value.isBlank()) throw TagException(TagError.INVALID_FORMAT)
+        if (value.length > TAG_MAX_LENGTH) throw TagException(TagError.TOO_LONG)
+    }
 
     companion object {
-        fun isValid(value: String): TagError {
-            return when {
-                value.isBlank() -> TagError.InValidFormat
-                value.length > 5 -> TagError.TooLong
-                else -> TagError.NONE
-            }
-        }
+        const val TAG_MAX_LENGTH = 5
     }
 }

@@ -20,16 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.exception.TagError
 import woowacourse.kanban.board.exception.TitleError
-import woowacourse.kanban.board.ui.theme.infoText
-import woowacourse.kanban.board.ui.theme.inputFieldBorder
-import woowacourse.kanban.board.ui.theme.inputFieldError
-import woowacourse.kanban.board.ui.theme.textFieldBorder
-import woowacourse.kanban.board.ui.theme.textFieldDisabledContainer
-import woowacourse.kanban.board.ui.theme.textFieldFocusedContainer
-import woowacourse.kanban.board.ui.theme.textFieldFocusedIndicator
-import woowacourse.kanban.board.ui.theme.textFieldPlaceholder
-import woowacourse.kanban.board.ui.theme.textFieldUnfocusedContainer
-import woowacourse.kanban.board.ui.theme.textFieldUnfocusedIndicator
+import woowacourse.kanban.board.ui.theme.OnError
+import woowacourse.kanban.board.ui.theme.Outline
+import woowacourse.kanban.board.ui.theme.PrimaryContainer
+import woowacourse.kanban.board.ui.theme.TextFieldPlaceholder
+import woowacourse.kanban.board.ui.theme.TextTertiary
 
 @Composable
 fun TitleInputField(title: String, titleError: TitleError, onValueChange: (String) -> Unit) {
@@ -41,10 +36,10 @@ fun TitleInputField(title: String, titleError: TitleError, onValueChange: (Strin
         placeholder = "태스크 제목을 입력하세요",
         singleLine = true,
         modifier = Modifier.fillMaxWidth(),
-        borderColor = if (isError) inputFieldError else inputFieldBorder,
+        borderColor = if (isError) OnError else Outline,
         isError = isError,
-        infoContent = if (titleError == TitleError.Blank) "제목을 입력해주세요." else "",
-        infoTextColor = inputFieldError,
+        infoContent = if (titleError == TitleError.BLANK) "제목을 입력해주세요." else "",
+        infoTextColor = OnError,
     )
 }
 
@@ -54,10 +49,10 @@ fun ContentInputField(content: String, onValueChange: (String) -> Unit) {
     TextInputField(
         value = content,
         onValueChange = onValueChange,
-        borderColor = textFieldBorder,
+        borderColor = Outline,
         placeholder = "태스크에 대한 자세한 설명을 입력하세요",
         singleLine = false,
-        modifier = Modifier.heightIn(min = 144.dp),
+        modifier = Modifier.heightIn(min = 100.dp),
     )
 }
 
@@ -70,15 +65,15 @@ fun TagsInputField(tags: String, tagError: TagError, onValueChange: (String) -> 
         onValueChange = onValueChange,
         placeholder = "태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)",
         singleLine = true,
-        borderColor = if (isError) inputFieldError else inputFieldBorder,
+        borderColor = if (isError) OnError else Outline,
         modifier = Modifier.fillMaxWidth(),
         isError = isError,
         infoContent = when (tagError) {
-            TagError.InValidFormat -> "태그 형식이 올바르지 않습니다."
-            TagError.TooLong, TagError.TooMany -> "태그는 5자 이내로 5개까지만 등록할 수 있습니다."
+            TagError.INVALID_FORMAT -> "태그 형식이 올바르지 않습니다."
+            TagError.TOO_LONG, TagError.TOO_MANY -> "태그는 5자 이내로 5개까지만 등록할 수 있습니다."
             TagError.NONE -> "5자 이내의 태그를 최대 5개까지 등록할 수 있습니다."
         },
-        infoTextColor = if (isError) inputFieldError else infoText,
+        infoTextColor = if (isError) OnError else TextTertiary,
     )
 }
 
@@ -92,7 +87,7 @@ private fun TextInputField(
     modifier: Modifier = Modifier,
     isError: Boolean = false,
     infoContent: String = "",
-    infoTextColor: Color = infoText,
+    infoTextColor: Color = TextTertiary,
 ) {
     Column {
         TextField(
@@ -100,18 +95,18 @@ private fun TextInputField(
                 .fillMaxWidth()
                 .border(1.dp, borderColor, RoundedCornerShape(8.dp)),
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = textFieldFocusedContainer,
-                unfocusedContainerColor = textFieldUnfocusedContainer,
-                disabledContainerColor = textFieldDisabledContainer,
-                focusedIndicatorColor = textFieldFocusedIndicator,
-                unfocusedIndicatorColor = textFieldUnfocusedIndicator,
+                focusedContainerColor = PrimaryContainer,
+                unfocusedContainerColor = PrimaryContainer,
+                disabledContainerColor = PrimaryContainer,
+                focusedIndicatorColor = PrimaryContainer,
+                unfocusedIndicatorColor = PrimaryContainer,
             ),
             value = value,
             onValueChange = onValueChange,
             placeholder = {
                 Text(
                     text = placeholder,
-                    color = textFieldPlaceholder,
+                    color = TextFieldPlaceholder,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.W400,
                 )
@@ -120,7 +115,7 @@ private fun TextInputField(
             trailingIcon = {
                 if (isError) Icon(
                     Icons.Default.Error,
-                    tint = inputFieldError,
+                    tint = OnError,
                     contentDescription = "경고",
                 )
             },

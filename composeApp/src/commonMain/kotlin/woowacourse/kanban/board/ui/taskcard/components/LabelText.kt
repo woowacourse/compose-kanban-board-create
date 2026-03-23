@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.ui.theme.inputFieldText
+import woowacourse.kanban.board.ui.theme.TextSecondary
 
 @Composable
 fun LabelText(label: String, modifier: Modifier = Modifier) {
@@ -14,6 +14,6 @@ fun LabelText(label: String, modifier: Modifier = Modifier) {
         text = label,
         fontWeight = FontWeight.W500,
         fontSize = 14.sp,
-        color = inputFieldText,
+        color = TextSecondary,
     )
 }

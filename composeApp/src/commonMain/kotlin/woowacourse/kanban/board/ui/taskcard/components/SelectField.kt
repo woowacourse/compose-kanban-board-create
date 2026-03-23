@@ -25,16 +25,16 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.domain.TaskState
-import woowacourse.kanban.board.domain.toText
-import woowacourse.kanban.board.ui.theme.accountCircle
-import woowacourse.kanban.board.ui.theme.authorSelected
-import woowacourse.kanban.board.ui.theme.authorText
-import woowacourse.kanban.board.ui.theme.buttonBackground
-import woowacourse.kanban.board.ui.theme.buttonBorder
-import woowacourse.kanban.board.ui.theme.selectedAuthorBackground
-import woowacourse.kanban.board.ui.theme.selectedTaskStateBackground
-import woowacourse.kanban.board.ui.theme.taskStateSelected
-import woowacourse.kanban.board.ui.theme.taskStateText
+import woowacourse.kanban.board.ui.board.components.toText
+import woowacourse.kanban.board.ui.theme.AccountCircle
+import woowacourse.kanban.board.ui.theme.AuthorSelected
+import woowacourse.kanban.board.ui.theme.OnSurfaceVariant
+import woowacourse.kanban.board.ui.theme.OutlineVariant
+import woowacourse.kanban.board.ui.theme.SelectedAuthorBackground
+import woowacourse.kanban.board.ui.theme.SelectedTaskStateBackground
+import woowacourse.kanban.board.ui.theme.TaskStateSelected
+import woowacourse.kanban.board.ui.theme.TaskStateText
+import woowacourse.kanban.board.ui.theme.TextPrimary
 
 @Composable
 fun TaskStateSelectField(selectedState: TaskState, onStateChanged: (TaskState) -> Unit) {
@@ -63,14 +63,14 @@ private fun TaskStateContent(selectedState: TaskState, onStateChanged: (TaskStat
     ) {
         TaskState.entries.forEach {
             CustomButton(
-                borderColor = if (selectedState == it) taskStateSelected else buttonBorder,
-                backgroundColor = if (selectedState == it) selectedTaskStateBackground else buttonBackground,
+                borderColor = if (selectedState == it) TaskStateSelected else OutlineVariant,
+                backgroundColor = if (selectedState == it) SelectedTaskStateBackground else OnSurfaceVariant,
                 onClick = { onStateChanged(it) },
                 content = {
                     Text(
                         text = it.toText(),
-                        color = if (selectedState == it) taskStateSelected else taskStateText,
-                        modifier = Modifier.width(200.dp).padding(vertical = 16.dp),
+                        color = if (selectedState == it) TaskStateSelected else TaskStateText,
+                        modifier = Modifier.width(180.dp).padding(vertical = 16.dp),
                         textAlign = TextAlign.Center,
                     )
                 },
@@ -93,8 +93,8 @@ private fun AuthorsContent(
     ) {
         authors.forEach {
             CustomButton(
-                borderColor = if (selectedAuthor == it) authorSelected else buttonBorder,
-                backgroundColor = if (selectedAuthor == it) selectedAuthorBackground else buttonBackground,
+                borderColor = if (selectedAuthor == it) AuthorSelected else OutlineVariant,
+                backgroundColor = if (selectedAuthor == it) SelectedAuthorBackground else OnSurfaceVariant,
                 onClick = { onAuthorSelected(it) },
                 content = {
                     Row(
@@ -106,12 +106,12 @@ private fun AuthorsContent(
                         Icon(
                             modifier = Modifier.padding(horizontal = 12.dp),
                             imageVector = Icons.Default.AccountCircle,
-                            tint = accountCircle,
+                            tint = AccountCircle,
                             contentDescription = "기본 프로필 이미지",
                         )
                         Text(
                             text = it,
-                            color = authorText,
+                            color = TextPrimary,
                             textAlign = TextAlign.Center,
                         )
                     }

@@ -29,31 +29,31 @@ import androidx.compose.ui.unit.sp
 import kanbanboard.composeapp.generated.resources.Res
 import kanbanboard.composeapp.generated.resources.profile_image
 import org.jetbrains.compose.resources.painterResource
-import woowacourse.kanban.board.ui.theme.profileText
-import woowacourse.kanban.board.ui.theme.tagBackground
-import woowacourse.kanban.board.ui.theme.tagText
-import woowacourse.kanban.board.ui.theme.taskCardBorder
-import woowacourse.kanban.board.ui.theme.taskCardContent
-import woowacourse.kanban.board.ui.theme.taskCardTitle
+import woowacourse.kanban.board.domain.Task
+import woowacourse.kanban.board.ui.theme.OutlineVariant
+import woowacourse.kanban.board.ui.theme.TagBackground
+import woowacourse.kanban.board.ui.theme.TaskCardContent
+import woowacourse.kanban.board.ui.theme.TextPrimary
+import woowacourse.kanban.board.ui.theme.TextSecondary
 
 @Composable
-fun TaskCard(title: String, content: String = "", tags: List<String> = listOf(), author: String) {
+fun TaskCard(task: Task) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = Color.White,
         ),
-        border = BorderStroke(1.dp, taskCardBorder),
+        border = BorderStroke(1.dp, OutlineVariant),
         modifier = Modifier.width(286.dp),
     ) {
         Column(
             modifier = Modifier.padding(17.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            Title(title = title)
-            if (content.isNotEmpty()) Content(content = content)
-            if (tags.isNotEmpty()) Tags(tags = tags)
-            HorizontalDivider(color = taskCardBorder)
-            Profile(author = author)
+            Title(title = task.title)
+            if (task.content.isNotEmpty()) Content(content = task.content)
+            if (task.tags.isNotEmpty()) Tags(tags = task.tags)
+            HorizontalDivider(color = OutlineVariant)
+            Profile(author = task.author)
         }
     }
 }
@@ -63,7 +63,7 @@ private fun Title(title: String) {
     Text(
         text = title,
         style = MaterialTheme.typography.titleMedium,
-        color = taskCardTitle,
+        color = TextPrimary,
         fontSize = 16.sp,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
@@ -75,7 +75,7 @@ private fun Content(content: String) {
     Text(
         text = content,
         style = MaterialTheme.typography.bodyMedium,
-        color = taskCardContent,
+        color = TaskCardContent,
         fontSize = 14.sp,
         maxLines = 2,
         overflow = TextOverflow.Ellipsis,
@@ -89,19 +89,21 @@ private fun Tags(tags: List<String>) {
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         tags.forEach { tag ->
-            Box(
-                modifier = Modifier
-                    .height(24.dp)
-                    .background(tagBackground, MaterialTheme.shapes.large)
-                    .padding(horizontal = 8.dp),
-            ) {
-                Text(
-                    text = tag,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = tagText,
-                    fontSize = 12.sp,
-                    modifier = Modifier.align(Alignment.Center),
-                )
+            if (tag.isNotBlank()) {
+                Box(
+                    modifier = Modifier
+                        .height(24.dp)
+                        .background(TagBackground, MaterialTheme.shapes.large)
+                        .padding(horizontal = 8.dp),
+                ) {
+                    Text(
+                        text = tag,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = TextSecondary,
+                        fontSize = 12.sp,
+                        modifier = Modifier.align(Alignment.Center),
+                    )
+                }
             }
         }
     }
@@ -119,7 +121,7 @@ private fun Profile(author: String) {
         Text(
             text = author,
             style = MaterialTheme.typography.bodyMedium,
-            color = profileText,
+            color = TextSecondary,
             fontSize = 14.sp,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -131,9 +133,11 @@ private fun Profile(author: String) {
 @Composable
 private fun TaskCardPreview() {
     TaskCard(
-        title = "LazyColumn 컴포넌트 구현",
-        content = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
-        tags = listOf("컴포넌트", "성능"),
-        author = "다이노",
+        Task(
+            title = "LazyColumn 컴포넌트 구현",
+            content = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
+            tags = listOf("컴포넌트", "성능"),
+            author = "다이노",
+        ),
     )
 }

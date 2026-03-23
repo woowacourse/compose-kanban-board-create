@@ -2,5 +2,5 @@ package woowacourse.kanban.board.exception
 
 enum class TitleError {
     NONE,
-    Blank,
+    BLANK,
 }

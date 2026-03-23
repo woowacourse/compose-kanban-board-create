@@ -2,7 +2,7 @@ package woowacourse.kanban.board.exception
 
 enum class TagError {
     NONE,
-    InValidFormat,
-    TooLong,
-    TooMany,
+    INVALID_FORMAT,
+    TOO_LONG,
+    TOO_MANY,
 }

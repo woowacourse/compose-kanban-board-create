@@ -6,16 +6,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.ui.theme.titleText
+import woowacourse.kanban.board.ui.theme.TextPrimary
 
 @Composable
-fun CreateTaskHeader() {
+fun CreateTaskHeader(onDismissRequest: () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -24,12 +25,16 @@ fun CreateTaskHeader() {
         Text(
             text = "새 태스크 생성",
             fontSize = 20.sp,
-            color = titleText,
+            color = TextPrimary,
             fontWeight = FontWeight.W600,
         )
-        Icon(
-            imageVector = Icons.Default.Close,
-            contentDescription = "닫기",
-        )
+        IconButton(
+            onClick = { onDismissRequest() },
+        ) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = "닫기",
+            )
+        }
     }
 }

@@ -1,6 +1,7 @@
 package woowacourse.kanban.board.ui
 
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
@@ -98,6 +99,7 @@ class CardCreationPanelTest {
         // when
         setContent {
             val uiState = rememberCardCreationState()
+            uiState.taskTitle = "기본 제목"
             uiState.tempTags = validTag
             CardCreationPanelContent(
                 uiState = uiState,
@@ -107,7 +109,7 @@ class CardCreationPanelTest {
         }
 
         //then
-        onNodeWithText("생성").assertIsNotEnabled()
+        onNodeWithText("생성").assertIsEnabled()
     }
 
     @Test

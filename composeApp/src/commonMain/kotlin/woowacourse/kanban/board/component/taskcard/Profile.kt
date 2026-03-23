@@ -16,10 +16,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
 import woowacourse.kanban.board.Gray20
-import woowacourse.kanban.board.model.ProfileState
+import woowacourse.kanban.board.model.modal.ProfileState
 
 @Composable
-fun Profile(profile: ProfileState, modifier: Modifier = Modifier) {
+fun Profile(
+    profile: ProfileState,
+    modifier: Modifier = Modifier,
+) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Image(
             painter = painterResource(profile.icon),

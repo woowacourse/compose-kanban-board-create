@@ -17,10 +17,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.ComponentText
+import woowacourse.kanban.board.component.ComponentText
 
 @Composable
-fun Header(modifier: Modifier = Modifier) {
+fun Header(
+    onClickClose: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -36,7 +39,7 @@ fun Header(modifier: Modifier = Modifier) {
         )
         Icon(
             modifier = Modifier
-                .clickable {},
+                .clickable { onClickClose() },
             imageVector = Icons.Default.Close,
             contentDescription = "닫기",
         )
@@ -46,5 +49,7 @@ fun Header(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun HeaderPreview() {
-    Header()
+    Header(
+        onClickClose = {},
+    )
 }

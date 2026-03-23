@@ -26,7 +26,13 @@ import woowacourse.kanban.board.Gray20
 import woowacourse.kanban.board.Gray40
 import woowacourse.kanban.board.Gray70
 import woowacourse.kanban.board.Red50
-import woowacourse.kanban.board.model.TextInputValue
+import woowacourse.kanban.board.component.extension.toErrorText
+import woowacourse.kanban.board.component.extension.toLabel
+import woowacourse.kanban.board.component.extension.toPlaceholder
+import woowacourse.kanban.board.component.extension.toSupportingText
+import woowacourse.kanban.board.model.modal.Tag
+import woowacourse.kanban.board.model.modal.Tags
+import woowacourse.kanban.board.model.modal.TextInputValue
 import woowacourse.kanban.board.model.modal.Title
 
 @Composable
@@ -36,17 +42,21 @@ fun TextInput(
     onTextChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     singleLine: Boolean = true,
-    supportingText: String? = null,
     isError: Boolean = false,
 ) {
     val borderColor = if (isError) Red50 else Gray70
     val textColor = if (isError) Red50 else Gray20
 
+    val labelText = textInputValue.toLabel()
+    val placeholderText = textInputValue.toPlaceholder()
+    val errorText = textInputValue.toErrorText()
+    val supportingText = textInputValue.toSupportingText()
+
     Column(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Text(
-            text = textInputValue.label,
+            text = labelText,
             fontSize = 14.sp,
             color = Gray20,
             fontWeight = FontWeight.Bold,
@@ -59,7 +69,7 @@ fun TextInput(
             singleLine = singleLine,
             placeholder = {
                 Text(
-                    text = textInputValue.placeholder,
+                    text = placeholderText,
                     color = Gray40,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
@@ -75,9 +85,9 @@ fun TextInput(
                 }
             },
             supportingText = {
-                if (isError) {
+                if (isError && errorText != null) {
                     Text(
-                        text = textInputValue.errorText,
+                        text = errorText,
                         color = textColor,
                     )
                 } else if (supportingText != null) {
@@ -97,9 +107,9 @@ fun TextInput(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, heightDp = 100)
 @Composable
-private fun TextInputPreview() {
+private fun TitleInputEmptyPreview() {
     var title by remember { mutableStateOf("") }
 
     val isTitleValid by remember {
@@ -114,6 +124,102 @@ private fun TextInputPreview() {
             value = title,
             onTextChange = { title = it },
             isError = isTitleValid.not(),
+        )
+    }
+}
+
+@Preview(showBackground = true, heightDp = 100)
+@Composable
+private fun TitleInputPreview() {
+    var title by remember { mutableStateOf("제목") }
+
+    val isTitleValid by remember {
+        derivedStateOf {
+            Title.isTitleValid(title)
+        }
+    }
+
+    Column {
+        TextInput(
+            textInputValue = TextInputValue.TITLE,
+            value = title,
+            onTextChange = { title = it },
+            isError = isTitleValid.not(),
+        )
+    }
+}
+
+@Preview(showBackground = true, heightDp = 100)
+@Composable
+private fun DescriptionInputEmptyPreview() {
+    var description by remember { mutableStateOf("") }
+
+    Column {
+        TextInput(
+            textInputValue = TextInputValue.DESCRIPTION,
+            value = description,
+            onTextChange = { description = it },
+            isError = false,
+        )
+    }
+}
+
+@Preview(showBackground = true, heightDp = 100)
+@Composable
+private fun TagsInputEmptyPreview() {
+    var tags by remember { mutableStateOf("") }
+
+    Column {
+        TextInput(
+            textInputValue = TextInputValue.TAGS,
+            value = tags,
+            onTextChange = { tags = it },
+            isError = false,
+        )
+    }
+}
+
+@Preview(showBackground = true, heightDp = 100)
+@Composable
+private fun InvalidTagsInputPreview() {
+    var tags by remember { mutableStateOf("태그") }
+
+    val isTagValid by remember {
+        derivedStateOf {
+            val extractedTags = Tag.extractedTags(tags)
+            Tags.isTagsValid(extractedTags)
+        }
+    }
+
+    Column {
+        TextInput(
+            textInputValue = TextInputValue.TAGS,
+            value = tags,
+            onTextChange = { tags = it },
+            isError = isTagValid.not(),
+        )
+    }
+}
+
+@Preview(showBackground = true, heightDp = 100)
+@Composable
+private fun ValidTagsInputPreview() {
+
+    var tags by remember { mutableStateOf("태그1") }
+
+    val isTagValid by remember {
+        derivedStateOf {
+            val extractedTags = Tag.extractedTags(tags)
+            Tags.isTagsValid(extractedTags)
+        }
+    }
+
+    Column {
+        TextInput(
+            textInputValue = TextInputValue.TAGS,
+            value = tags,
+            onTextChange = { tags = it },
+            isError = isTagValid.not(),
         )
     }
 }

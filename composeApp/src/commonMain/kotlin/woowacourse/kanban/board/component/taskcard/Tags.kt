@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.Gray20
 import woowacourse.kanban.board.Gray80
+import woowacourse.kanban.board.model.modal.Tag
 import woowacourse.kanban.board.model.modal.Tags
 
 @Composable
@@ -30,7 +31,7 @@ fun Tags(
             modifier = modifier
                 .fillMaxWidth(),
         ) {
-            tags.getExtractedTags().forEach { tag ->
+            tags.value.forEach { tag ->
                 TagBox(tag)
             }
         }
@@ -38,7 +39,7 @@ fun Tags(
 }
 
 @Composable
-private fun TagBox(filteredTag: String) {
+private fun TagBox(tag: Tag) {
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(14.dp))
@@ -48,7 +49,7 @@ private fun TagBox(filteredTag: String) {
             .padding(vertical = 4.dp, horizontal = 6.dp),
     ) {
         Text(
-            text = filteredTag,
+            text = tag.value,
             fontSize = 12.sp,
             color = Gray20,
         )
@@ -58,6 +59,6 @@ private fun TagBox(filteredTag: String) {
 @Preview(showBackground = true)
 @Composable
 private fun TagsPreview() {
-    val tags = Tags(value = "ㅏ")
+    val tags = Tags(value = listOf(Tag(value = "컴포넌트")))
     Tags(tags = tags)
 }

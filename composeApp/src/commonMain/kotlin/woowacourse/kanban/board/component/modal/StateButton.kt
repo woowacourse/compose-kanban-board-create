@@ -21,6 +21,7 @@ import woowacourse.kanban.board.Blue50
 import woowacourse.kanban.board.Blue80
 import woowacourse.kanban.board.Gray20
 import woowacourse.kanban.board.Gray70
+import woowacourse.kanban.board.component.extension.toText
 import woowacourse.kanban.board.model.TaskState
 
 @Composable
@@ -28,7 +29,7 @@ fun StateButton(
     currentState: TaskState,
     myState: TaskState,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
 
     val backgroundColor = if (currentState == myState) Blue80 else Color.Transparent
@@ -50,7 +51,7 @@ fun StateButton(
 
     ) {
         Text(
-            text = myState.text,
+            text = myState.toText(),
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             fontSize = 16.sp,

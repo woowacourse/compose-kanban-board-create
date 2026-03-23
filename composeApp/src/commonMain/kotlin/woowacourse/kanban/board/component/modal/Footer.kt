@@ -22,11 +22,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.Blue50
-import woowacourse.kanban.board.ComponentText
 import woowacourse.kanban.board.Gray20
+import woowacourse.kanban.board.component.ComponentText
 
 @Composable
-fun Footer(isButtonEnabled: Boolean, modifier: Modifier = Modifier) {
+fun Footer(
+    onClickClose: () -> Unit,
+    onClickTaskCreate: () -> Unit,
+    isButtonEnabled: Boolean,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -43,12 +48,14 @@ fun Footer(isButtonEnabled: Boolean, modifier: Modifier = Modifier) {
                 containerColor = Color.Transparent,
                 contentColor = Gray20,
                 text = ComponentText.CANCEL_BUTTON,
+                onClick = onClickClose,
             )
             Spacer(modifier = Modifier.width(12.dp))
             FooterButton(
                 enabled = isButtonEnabled,
                 containerColor = Blue50,
                 text = ComponentText.CREATE_BUTTON,
+                onClick = onClickTaskCreate,
             )
         }
     }
@@ -84,5 +91,9 @@ private fun FooterButton(
 @Preview(showBackground = true)
 @Composable
 private fun FooterPreview() {
-    Footer(true)
+    Footer(
+        onClickClose = {},
+        onClickTaskCreate = {},
+        isButtonEnabled = true,
+    )
 }

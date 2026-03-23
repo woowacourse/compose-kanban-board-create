@@ -10,7 +10,10 @@ import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.Gray10
 
 @Composable
-fun Title(title: String, modifier: Modifier = Modifier) {
+fun Title(
+    title: String,
+    modifier: Modifier = Modifier,
+) {
     Text(
         text = title,
         fontSize = 16.sp,

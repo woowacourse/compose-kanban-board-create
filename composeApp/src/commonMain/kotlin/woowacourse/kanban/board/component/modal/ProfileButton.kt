@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.painterResource
@@ -26,14 +27,14 @@ import woowacourse.kanban.board.Blue50
 import woowacourse.kanban.board.Blue80
 import woowacourse.kanban.board.Gray20
 import woowacourse.kanban.board.Gray70
-import woowacourse.kanban.board.model.ProfileState
+import woowacourse.kanban.board.model.modal.ProfileState
 
 @Composable
 fun ProfileButton(
     currentState: ProfileState,
     myState: ProfileState,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
 
     val backgroundColor = if (currentState == myState) Blue80 else Color.Transparent
@@ -66,4 +67,24 @@ fun ProfileButton(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ProfileButtonNotChoicePreview() {
+    ProfileButton(
+        currentState = ProfileState.DINO,
+        myState = ProfileState.PAMES,
+        onClick = {}
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ProfileButtonChoicePreview() {
+    ProfileButton(
+        currentState = ProfileState.PAMES,
+        myState = ProfileState.PAMES,
+        onClick = {}
+    )
 }

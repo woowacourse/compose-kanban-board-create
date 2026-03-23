@@ -1,9 +1,9 @@
 package woowacourse.kanban.board
 
 import androidx.compose.runtime.Composable
-import woowacourse.kanban.board.component.modal.Modal
+import woowacourse.kanban.board.component.board.Board
 
 @Composable
 fun App() {
-    Modal()
+    Board()
 }

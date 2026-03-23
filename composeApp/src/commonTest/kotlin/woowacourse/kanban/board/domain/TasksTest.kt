@@ -45,15 +45,15 @@ class TasksTest {
     @Test
     fun `카드데이터 리스트를 받아서, 완료율을 계산한다`() {
         // given
-        val board = Tasks()
-        board.addTask(Task.create(title = "제목", state = TaskState.TO_DO, managerName = "별터"))
-        board.addTask(Task.create(title = "제목", state = TaskState.IN_PROGRESS, managerName = "별터"))
-        board.addTask(Task.create(title = "제목2", state = TaskState.IN_PROGRESS, managerName = "별터"))
-        board.addTask(Task.create(title = "제목", state = TaskState.DONE, managerName = "별터"))
-        val expected = 25f
+        val tasks = Tasks()
+        tasks.addTask(Task.create(title = "제목", state = TaskState.TO_DO, managerName = "별터"))
+        tasks.addTask(Task.create(title = "제목", state = TaskState.IN_PROGRESS, managerName = "별터"))
+        tasks.addTask(Task.create(title = "제목2", state = TaskState.IN_PROGRESS, managerName = "별터"))
+        tasks.addTask(Task.create(title = "제목", state = TaskState.DONE, managerName = "별터"))
+        val expected = 0.25f
 
         // when
-        val actual = board.getCompleteRate()
+        val actual = tasks.getCompleteRate()
 
         // then
         assertEquals(expected, actual)

@@ -1,12 +1,20 @@
 package woowacourse.kanban.board
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import woowacourse.kanban.create.model.TaskCreateViewModel
-import woowacourse.kanban.create.view.TaskCreateDialog
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import woowacourse.kanban.board.ui.KanbanBoard
 
 @Composable
 fun App() {
-    val viewModel = TaskCreateViewModel()
-    TaskCreateDialog(viewModel = viewModel, modifier = Modifier)
+    KanbanBoard(
+        modifier = Modifier.size(
+            height = 800.dp,
+            width = 1300.dp,
+        )
+            .background(Color.White),
+    )
 }

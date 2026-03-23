@@ -1,97 +1,111 @@
 package woowacourse.kanban.create
 
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsNotEnabled
-import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.assertIsNotSelected
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import kotlin.test.Test
-import woowacourse.kanban.create.model.TaskCreateViewModel
-import woowacourse.kanban.create.view.TaskCreateDialog
-import woowacourse.kanban.create.view.radioSelector.CoachButton
-import woowacourse.kanban.create.view.radioSelector.RadioSelector
-import woowacourse.kanban.create.view.radioSelector.StatusButton
+import woowacourse.kanban.create.ui.TaskCreateDialog
+import woowacourse.kanban.create.ui.radioSelector.CoachButton
+import woowacourse.kanban.create.ui.radioSelector.RadioSelector
+import woowacourse.kanban.create.ui.radioSelector.StatusButton
+import woowacourse.kanban.model.Assignee
+import woowacourse.kanban.model.Nickname
+import woowacourse.kanban.model.TaskStatus
 
 @OptIn(ExperimentalTestApi::class)
 class DialogTest {
+    var showDialog = mutableStateOf(false)
+    private val TaskStatus.displayName: String
+        get() = when (this) {
+            TaskStatus.TO_DO -> "To Do"
+            TaskStatus.IN_PROGRESS -> "In Progress"
+            TaskStatus.DONE -> "Done"
+        }
 
     @Test
     fun `상태 버튼을 클릭 했을 때 다른 상태 버튼은 선택되지 않아야 한다`() = runComposeUiTest {
         var selectedStatusIndex = mutableIntStateOf(0)
 
         // given
-        val statuses = listOf(
-            "To Do",
-            "In Progress",
-            "Done",
-        )
 
         setContent {
             RadioSelector(
                 header = "상태 *",
-                items = statuses,
+                TaskStatus.entries.size,
             ) { index ->
                 StatusButton(
-                    status = statuses[index],
+                    status = TaskStatus.entries[index],
                     isSelected = selectedStatusIndex.value == index,
                     onClick = { selectedStatusIndex.value = index },
-                    index = index,
                 )
             }
         }
 
         // when
-        onNodeWithText("In Progress").performClick()
+        onNodeWithText(TaskStatus.IN_PROGRESS.displayName).performClick()
         waitForIdle()
         // then
-        onNodeWithTag("selected1").assertExists()
-        onNodeWithTag("unselected0").assertExists()
-        onNodeWithTag("unselected2").assertExists()
+        onNodeWithText(TaskStatus.IN_PROGRESS.displayName).assertIsSelected()
+        onNodeWithText(TaskStatus.TO_DO.displayName).assertIsNotSelected()
+        onNodeWithText(TaskStatus.DONE.displayName).assertIsNotSelected()
     }
 
     @Test
     fun `담당자 버튼을 클릭 했을 때 다른 상태 버튼은 선택되지 않아야 한다`() = runComposeUiTest {
         var selectedCoachIndex = mutableIntStateOf(0)
         // given
-        val names = listOf(
-            "다이노",
-            "페임스",
+        val assignees = listOf(
+            Assignee(
+                Nickname(
+                    "다이노",
+                ),
+            ),
+            Assignee(
+                Nickname(
+                    "페임스",
+                ),
+            ),
         )
 
         setContent {
             RadioSelector(
                 header = "담당자",
-                items = names,
+                listSize = assignees.size,
             ) { index ->
                 CoachButton(
-                    name = names[index],
+                    assignee = assignees[index],
                     isSelected = selectedCoachIndex.value == index,
                     onClick = { selectedCoachIndex.value = index },
-                    index = index,
                 )
             }
         }
 
-        onNodeWithTag("selected0").assertExists()
-        onNodeWithTag("unselected1").assertExists()
         // when
         onNodeWithText("페임스").performClick()
         waitForIdle()
         // then
-        onNodeWithTag("selected1").assertExists()
-        onNodeWithTag("unselected0").assertExists()
+        onNodeWithText("페임스").assertIsSelected()
+        onNodeWithText("다이노").assertIsNotSelected()
     }
 
     @Test
     fun `제목 검증 혹은 태그 검증에 실패시 생성 버튼 비활성화 되어야 한다`() = runComposeUiTest {
         // given
         setContent {
-            val viewModel = TaskCreateViewModel()
-            TaskCreateDialog(viewModel = viewModel, modifier = Modifier)
+
+            TaskCreateDialog(
+                onDismiss = { showDialog.value = false },
+                onCreateTask = {},
+                modifier = Modifier,
+            )
         }
         // when
         onNodeWithText("태스크 제목을 입력하세요").performTextInput("제목")
@@ -109,15 +123,18 @@ class DialogTest {
         // given
         setContent {
 
-            val viewModel = TaskCreateViewModel()
-            TaskCreateDialog(viewModel = viewModel, modifier = Modifier)
+            TaskCreateDialog(
+                onDismiss = { showDialog.value = false },
+                onCreateTask = {},
+                modifier = Modifier,
+            )
         }
 
         // when
-        // then
         onNodeWithText("태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)").performTextInput("태그입력")
         onNodeWithText("태스크 제목을 입력하세요").performTextInput("제목입력")
         waitForIdle()
+        // then
         onNodeWithText("태그입력").assertExists()
         onNodeWithText("제목입력").assertExists()
     }
@@ -126,8 +143,11 @@ class DialogTest {
     fun `제목 검증 혹은 태그 검증에 실패시 생성 버튼을 누르면 제목과 태그에서 에러 표시가 출력되야 한다`() = runComposeUiTest {
         // given
         setContent {
-            val viewModel = TaskCreateViewModel()
-            TaskCreateDialog(viewModel = viewModel, modifier = Modifier)
+            TaskCreateDialog(
+                onDismiss = { showDialog.value = false },
+                onCreateTask = {},
+                modifier = Modifier,
+            )
         }
 
         // when

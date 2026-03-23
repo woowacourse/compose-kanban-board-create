@@ -42,6 +42,10 @@ fun ActionButton(
     }
 }
 
+
+enum class ActionButtonType { PRIMARY, SECONDARY }
+
+
 @Preview(showBackground = true, name = "PRIMARY 활성화 버튼")
 @Composable
 private fun MainButtonPreview() {

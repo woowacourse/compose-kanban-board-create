@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.ui.taskcard
+package woowacourse.kanban.board.ui.creation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,14 +26,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -41,91 +38,102 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import woowacourse.kanban.board.domain.Author
 import woowacourse.kanban.board.domain.AuthorGroup
+import woowacourse.kanban.board.domain.Tag
+import woowacourse.kanban.board.domain.TagGroup
 import woowacourse.kanban.board.domain.Task
 import woowacourse.kanban.board.domain.TaskState
+import woowacourse.kanban.board.domain.Title
+import woowacourse.kanban.board.ui.noRippleClickable
 
 @Composable
-fun CreateTaskCardModal(authors: AuthorGroup, modifier: Modifier = Modifier) {
-    var title by remember { mutableStateOf("") }
-    var isTitleInitialized by remember { mutableStateOf(false) }
-    val titleValidationState by remember {
-        derivedStateOf {
-            if (!isTitleInitialized) TitleValidationState.INIT
-            else if (Task.isValidTitle(title)) TitleValidationState.VALID
-            else TitleValidationState.EMPTY_ERROR
-        }
-    }
-    var content by remember { mutableStateOf("") }
-    var tags by remember { mutableStateOf("") }
-    val tagValidationState by remember {
-        derivedStateOf {
-            val splitTags = tags.split(",").map { tag -> tag.trim() }
-            when {
-                tags.isEmpty() -> TagValidationState.VALID
-                splitTags.any { tag -> tag.isEmpty() } -> TagValidationState.FORMAT_ERROR
-                !Task.isValidTags(splitTags) -> TagValidationState.SIZE_OR_COUNT_ERROR
-                else -> TagValidationState.VALID
-            }
-        }
-    }
-    var selectedState by remember { mutableStateOf(TaskState.TO_DO) }
-    var selectedAuthor by remember { mutableStateOf(authors.first()) }
-    val isNewTaskEnabled = when (titleValidationState) {
-        TitleValidationState.INIT -> !tagValidationState.isError
-        TitleValidationState.VALID -> !tagValidationState.isError
-        TitleValidationState.EMPTY_ERROR -> false
-    }
+fun CreateTaskCardScreen(
+    authors: AuthorGroup,
+    taskCardCreationState: TaskCardCreationState,
+    onClose: () -> Unit,
+    onCreate: (Task) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val taskCardCreationState = remember { taskCardCreationState }
+    CreateTaskCardContent(
+        taskCardCreationState = taskCardCreationState,
+        authors = authors,
+        onClose = onClose,
+        onCreate = onCreate,
+        modifier = modifier.width(672.dp).background(Color.White).padding(16.dp),
+    )
+}
 
+@Composable
+fun CreateTaskCardContent(
+    taskCardCreationState: TaskCardCreationState,
+    authors: AuthorGroup,
+    onClose: () -> Unit,
+    onCreate: (Task) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        CreateTaskHeader(modifier = Modifier.fillMaxWidth())
+        CreateTaskHeader(modifier = Modifier.fillMaxWidth(), onClose)
         HorizontalDivider()
         TitleInputField(
-            titleProvider = { title },
-            isTitleError = titleValidationState,
+            titleProvider = { taskCardCreationState.title },
+            isTitleError = { taskCardCreationState.titleValidationState },
             onValueChange = {
-                title = it
-                isTitleInitialized = true
+                taskCardCreationState.updateTitle(it)
             },
         )
-        ContentInputField(content = content, onValueChange = { content = it })
+        ContentInputField(content = taskCardCreationState.content, onValueChange = { taskCardCreationState.content = it })
         TagsInputField(
-            tagsProvider = { tags },
-            tagValidationState = tagValidationState,
+            tagsProvider = { taskCardCreationState.tags },
+            tagValidationState = taskCardCreationState.tagValidationState,
             onValueChange = {
-                tags = it
+                taskCardCreationState.tags = it
             },
         )
         TaskStateInputField(
-            selectedState = selectedState,
+            selectedState = taskCardCreationState.selectedState,
             onStateChanged = { newTaskState ->
-                selectedState = newTaskState
+                taskCardCreationState.selectedState = newTaskState
             },
         )
         AuthorInputField(
-            authors = authors, selectedAuthor = selectedAuthor,
+            authors = authors, selectedAuthor = taskCardCreationState.selectedAuthor,
             onAuthorSelected = { newAuthor ->
-                selectedAuthor = newAuthor
+                taskCardCreationState.selectedAuthor = newAuthor
             },
         )
 
         HorizontalDivider()
 
         CreateTaskActionButtons(
-            isNewTaskEnabled = isNewTaskEnabled,
+            isNewTaskEnabled = taskCardCreationState.isNewTaskEnabled,
             onCreateClick = {
-                isTitleInitialized = true
+                if (!taskCardCreationState.tagValidationState.isError && !taskCardCreationState.titleValidationState.isError) {
+                    val tags = taskCardCreationState.tags.split(",")
+                    onCreate(
+                        Task(
+                            title = Title(taskCardCreationState.title),
+                            content = taskCardCreationState.content,
+                            tags = if (tags.all { it.isNotEmpty() }) TagGroup(tags.map { Tag(it.trim()) }) else TagGroup(emptyList()),
+                            taskState = taskCardCreationState.selectedState,
+                            author = taskCardCreationState.selectedAuthor,
+                        ),
+                    )
+                }
+                taskCardCreationState.updateCreateButtonClicked(true)
             },
+            onCloseClick = onClose,
             modifier = Modifier.fillMaxWidth(),
         )
     }
 }
 
 @Composable
-private fun CreateTaskHeader(modifier: Modifier = Modifier) {
+private fun CreateTaskHeader(modifier: Modifier = Modifier, onClose: () -> Unit) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -140,6 +148,7 @@ private fun CreateTaskHeader(modifier: Modifier = Modifier) {
         Icon(
             imageVector = Icons.Default.Close,
             contentDescription = null,
+            Modifier.semantics { contentDescription = "x 버튼" }.noRippleClickable { onClose() },
         )
     }
 }
@@ -147,10 +156,11 @@ private fun CreateTaskHeader(modifier: Modifier = Modifier) {
 @Composable
 private fun TitleInputField(
     titleProvider: () -> String,
-    isTitleError: TitleValidationState,
+    isTitleError: () -> TitleValidationState,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val isTitleError = isTitleError()
     LabeledField(
         modifier = modifier,
         label = "제목 *",
@@ -161,6 +171,7 @@ private fun TitleInputField(
                 placeholder = "태스크 제목을 입력하세요",
                 singleLine = true,
                 modifier = Modifier
+                    .semantics { contentDescription = "태스크 제목 입력 텍스트 필드" }
                     .fillMaxWidth()
                     .border(
                         1.dp,
@@ -184,7 +195,7 @@ private fun TitleInputField(
         },
         infoContent = {
             when (isTitleError) {
-                TitleValidationState.INIT, TitleValidationState.VALID -> { }
+                TitleValidationState.INIT, TitleValidationState.VALID -> {}
                 TitleValidationState.EMPTY_ERROR -> Text(
                     modifier = Modifier.padding(start = 16.dp, top = 4.dp),
                     text = "제목을 입력해주세요.",
@@ -280,8 +291,8 @@ private fun TaskStateInputField(selectedState: TaskState, onStateChanged: (TaskS
 @Composable
 private fun AuthorInputField(
     authors: AuthorGroup,
-    selectedAuthor: String,
-    onAuthorSelected: (String) -> Unit,
+    selectedAuthor: Author,
+    onAuthorSelected: (Author) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LabeledField(
@@ -299,18 +310,24 @@ private fun AuthorInputField(
 }
 
 @Composable
-private fun CreateTaskActionButtons(isNewTaskEnabled: Boolean, onCreateClick: () -> Unit, modifier: Modifier = Modifier) {
+private fun CreateTaskActionButtons(
+    isNewTaskEnabled: Boolean,
+    onCreateClick: () -> Unit,
+    onCloseClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Button(
-            onClick = {},
+            onClick = onCloseClick,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Transparent,
                 contentColor = Color(0xFF364153),
             ),
+            modifier = Modifier.semantics { contentDescription = "취소 버튼" },
         ) {
             Text(text = "취소", textAlign = TextAlign.Center)
         }
@@ -325,6 +342,7 @@ private fun CreateTaskActionButtons(isNewTaskEnabled: Boolean, onCreateClick: ()
                 disabledContainerColor = Color(0xFFA7A4BC),
                 disabledContentColor = Color.White,
             ),
+            modifier = Modifier.semantics { contentDescription = "새 태스크 생성 버튼" },
         ) {
             Text(text = "생성", textAlign = TextAlign.Center)
         }
@@ -370,8 +388,8 @@ private fun TaskStateSelectField(selectedState: TaskState, onStateChanged: (Task
 
 @Composable
 private fun AuthorSelectField(
-    selectedAuthor: String,
-    onAuthorSelected: (String) -> Unit,
+    selectedAuthor: Author,
+    onAuthorSelected: (Author) -> Unit,
     authors: AuthorGroup,
     modifier: Modifier = Modifier,
 ) {
@@ -398,7 +416,7 @@ private fun AuthorSelectField(
                             contentDescription = "기본 프로필 이미지",
                         )
                         Text(
-                            text = authors[author],
+                            text = authors[author].name,
                             color = Color(0xFF101828),
                             modifier = Modifier.padding(vertical = 16.dp),
                             textAlign = TextAlign.Center,
@@ -470,9 +488,19 @@ private fun CustomTextField(
     widthDp = 672,
 )
 @Composable
-private fun PreviewCreateTaskCardModal() {
-    CreateTaskCardModal(
-        authors = AuthorGroup(authors = listOf("다이노", "페임스")),
+private fun PreviewCreateTaskCardContent() {
+    val authors = AuthorGroup(authors = listOf(Author("다이노"), Author("페임스")))
+    CreateTaskCardContent(
+        taskCardCreationState = TaskCardCreationState(
+            title = "",
+            content = "",
+            tags = "",
+            selectedState = TaskState.TO_DO,
+            selectedAuthor = authors.first(),
+        ),
+        authors = authors,
+        onClose = { },
+        onCreate = { },
         modifier = Modifier
             .background(Color.White).padding(16.dp),
     )

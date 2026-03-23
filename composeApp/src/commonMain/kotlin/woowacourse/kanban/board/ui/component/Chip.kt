@@ -31,6 +31,6 @@ fun Chip(content: String, modifier: Modifier = Modifier, textColor: Color = Gray
 
 @Preview
 @Composable
-fun ChipPreview() {
+private fun ChipPreview() {
     Chip("칩입니다")
 }

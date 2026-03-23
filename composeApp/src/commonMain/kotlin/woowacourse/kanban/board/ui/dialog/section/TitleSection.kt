@@ -40,8 +40,8 @@ fun TitleSection(
             value = value,
             onValueChange = onTitleChange,
             isError = validation is ValidationResult.Invalid,
-            errorMessage = (validation as? ValidationResult.Invalid)?.error?.let { stringResource(it.toMessage()) },
-            placeHolderMessage = stringResource(Res.string.title_placeholder),
+            supportingText = (validation as? ValidationResult.Invalid)?.error?.let { stringResource(it.toMessage()) },
+            placeHolder = stringResource(Res.string.title_placeholder),
         )
     }
 }

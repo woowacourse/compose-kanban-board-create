@@ -7,7 +7,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,14 +21,9 @@ fun SingleLineTextField(
     value: String,
     onValueChange: (String) -> Unit,
     isError: Boolean = false,
-    errorMessage: String? = null,
-    placeHolderMessage: String,
+    placeHolder: String,
     supportingText: String? = null,
 ) {
-    val displaySupportingText = remember(isError, errorMessage, placeHolderMessage) {
-        if (isError) errorMessage else supportingText
-    }
-
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
@@ -37,12 +31,12 @@ fun SingleLineTextField(
         singleLine = true,
         placeholder = {
             Text(
-                text = placeHolderMessage,
+                text = placeHolder,
                 color = Gray,
             )
         },
         supportingText = {
-            displaySupportingText?.let {
+            supportingText?.let {
                 Text(
                     text = it,
                     color = if (isError) Red else Gray800,
@@ -71,9 +65,9 @@ fun SingleLineTextField(
 @Preview(showBackground = true)
 private fun SingLineTextFieldPreview() {
     SingleLineTextField(
-        placeHolderMessage = "제목을 입력해주세요.",
+        placeHolder = "제목을 입력해주세요.",
         isError = false,
-        errorMessage = "제목을 입력해주세요.",
+        supportingText = "제목을 입력해주세요.",
         value = "",
         onValueChange = { print(it) },
     )

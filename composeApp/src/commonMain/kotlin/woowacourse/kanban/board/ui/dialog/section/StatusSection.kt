@@ -23,6 +23,7 @@ import kanbanboard.composeapp.generated.resources.label_status
 import org.jetbrains.compose.resources.stringResource
 import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.ui.component.Label
+import woowacourse.kanban.board.ui.util.toUiString
 
 @Composable
 fun StatusSection(modifier: Modifier = Modifier, selectedStatus: Status = Status.TODO, onStatusChange: (Status) -> Unit) {
@@ -56,7 +57,7 @@ fun StatusChip(modifier: Modifier = Modifier, status: Status, selectedStatus: St
         },
         label = {
             Text(
-                status.label,
+                stringResource(status.toUiString()),
                 modifier = Modifier.fillMaxWidth()
                     .padding(vertical = 14.dp),
                 textAlign = TextAlign.Center,

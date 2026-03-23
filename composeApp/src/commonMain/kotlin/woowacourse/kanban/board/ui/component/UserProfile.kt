@@ -59,6 +59,6 @@ fun UserProfile(user: User, modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun UserPreView() {
+private fun UserPreView() {
     UserProfile(User("다이노"))
 }

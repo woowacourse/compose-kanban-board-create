@@ -12,10 +12,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import woowacourse.kanban.board.domain.model.Status
 import woowacourse.kanban.board.domain.model.User
 
 @Composable
-fun TaskCreateDialog(onDismissRequest: () -> Unit) {
+fun TaskCreateDialog(
+    onDismissRequest: () -> Unit,
+    onConfirm: (title: String, content: String, tags: List<String>, status: Status, assignee: User) -> Unit,
+) {
     Dialog(
         onDismissRequest = onDismissRequest,
         properties = DialogProperties(
@@ -28,6 +32,7 @@ fun TaskCreateDialog(onDismissRequest: () -> Unit) {
                     .fillMaxHeight(0.9f).clip(RoundedCornerShape(10.dp)).background(Color.White),
                 onDismiss = onDismissRequest,
                 assignees = listOf(User("다이노"), User("다이노소어"), User("우우우")),
+                onClickCreate = onConfirm,
             )
         },
     )
@@ -38,5 +43,6 @@ fun TaskCreateDialog(onDismissRequest: () -> Unit) {
 private fun TaskCreateDialogPreview() {
     TaskCreateDialog(
         onDismissRequest = {},
+        onConfirm = { _, _, _, _, _ -> },
     )
 }

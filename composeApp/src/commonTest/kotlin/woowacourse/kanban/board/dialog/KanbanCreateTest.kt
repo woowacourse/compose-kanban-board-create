@@ -23,6 +23,7 @@ class KanbanCreateTest {
                 assignees = listOf(
                     User("우테코"), User("테코"),
                 ),
+                onClickCreate = { _, _, _, _, _ -> },
             )
         }
         onAllNodes(hasSetTextAction())[0]
@@ -43,6 +44,7 @@ class KanbanCreateTest {
                 assignees = listOf(
                     User("우테코"), User("테코"),
                 ),
+                onClickCreate = { _, _, _, _, _ -> },
             )
         }
 
@@ -64,6 +66,7 @@ class KanbanCreateTest {
                 assignees = listOf(
                     User("우테코"), User("테코"),
                 ),
+                onClickCreate = { _, _, _, _, _ -> },
             )
         }
 

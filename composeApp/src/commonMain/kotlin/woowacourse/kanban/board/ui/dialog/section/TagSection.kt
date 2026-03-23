@@ -36,14 +36,13 @@ fun TagSection(
             value = value,
             onValueChange = { onTagChange(it) },
             isError = validation is ValidationResult.Invalid,
-            errorMessage = (validation as? ValidationResult.Invalid)?.error?.let {
+            placeHolder = (validation as? ValidationResult.Invalid)?.error?.let {
                 stringResource(
                     it.toMessage(),
                     MAX_TAG_LENGTH,
                     Tags.MAX_TAG_SIZE,
                 )
-            },
-            placeHolderMessage = stringResource(Res.string.tag_placeholder),
+            } ?: stringResource(Res.string.tag_placeholder),
             supportingText = stringResource(Res.string.tag_supporting_text, MAX_TAG_LENGTH, Tags.MAX_TAG_SIZE),
         )
     }

@@ -1,7 +1,7 @@
 package woowacourse.kanban.board.domain.model
 
-enum class Status(val label: String) {
-    TODO("To Do"),
-    IN_PROGRESS("In Progress"),
-    DONE("Done"),
+enum class Status {
+    TODO,
+    IN_PROGRESS,
+    DONE,
 }

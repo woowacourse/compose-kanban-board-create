@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.ui
+package woowacourse.kanban.board.ui.board
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -44,8 +43,7 @@ fun TaskCard(task: Task, modifier: Modifier = Modifier) {
             .clip(shape = RoundedCornerShape(10.dp))
             .background(Color.White)
             .border(width = 1.dp, shape = RoundedCornerShape(10.dp), color = Gray200)
-            .padding(17.dp)
-            .width(286.dp),
+            .padding(17.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         TaskTitle(task.title)
@@ -134,6 +132,6 @@ class CardPreviewParameterProvider : PreviewParameterProvider<Task> {
 
 @Composable
 @Preview
-fun TaskCardPreview(@PreviewParameter(CardPreviewParameterProvider::class) card: Task) {
+private fun TaskCardPreview(@PreviewParameter(CardPreviewParameterProvider::class) card: Task) {
     TaskCard(card)
 }

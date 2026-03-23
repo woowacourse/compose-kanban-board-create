@@ -10,7 +10,7 @@ import woowacourse.kanban.board.domain.model.Tag
 import woowacourse.kanban.board.domain.model.Tags
 import woowacourse.kanban.board.domain.model.Task
 import woowacourse.kanban.board.domain.model.User
-import woowacourse.kanban.board.ui.TaskCard
+import woowacourse.kanban.board.ui.board.TaskCard
 
 @OptIn(ExperimentalTestApi::class)
 class KanbanCardUiTest {

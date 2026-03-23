@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.sp
  */
 @Composable
 fun Card(
-    cardUiState: CardUiState,
+    cardState: CardState,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -50,25 +50,25 @@ fun Card(
     ) {
 
         CardTitle(
-            title = cardUiState.title,
+            title = cardState.title,
             modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Kanban Card Title" },
         )
 
-        if (cardUiState.description.isNotBlank()) {
+        if (cardState.description.isNotBlank()) {
             CardContent(
                 modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Kanban Card Content" },
-                content = cardUiState.description
+                content = cardState.description
             )
         }
 
-        if (cardUiState.tags.isNotEmpty()) CardTagsSection(
-            tags = cardUiState.tags
+        if (cardState.tags.isNotEmpty()) CardTagsSection(
+            tags = cardState.tags
         )
 
         HorizontalDivider()
 
         CardAccountInfo(
-            managerName = cardUiState.managerName,
+            managerName = cardState.managerName,
             modifier = Modifier
                 .padding(vertical = 10.dp)
                 .fillMaxWidth()

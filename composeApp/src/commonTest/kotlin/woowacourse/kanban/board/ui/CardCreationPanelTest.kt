@@ -4,9 +4,10 @@ import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import org.junit.Test
+import woowacourse.kanban.board.ui.cardForm.CardCreationPanelContent
+import woowacourse.kanban.board.ui.cardForm.rememberCardCreationState
 
 @OptIn(ExperimentalTestApi::class)
 class CardCreationPanelTest {

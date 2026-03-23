@@ -57,12 +57,12 @@ fun Card(
         if (cardState.description.isNotBlank()) {
             CardContent(
                 modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Kanban Card Content" },
-                content = cardState.description
+                content = cardState.description,
             )
         }
 
         if (cardState.tags.isNotEmpty()) CardTagsSection(
-            tags = cardState.tags
+            tags = cardState.tags,
         )
 
         HorizontalDivider()
@@ -109,7 +109,7 @@ private fun CardTitlePreview() {
  * @param content 카드 본문으로, 너무 길면 ...로 표시됩니다.
  */
 @Composable
-private fun CardContent(modifier: Modifier = Modifier, content: String) {
+private fun CardContent(content: String, modifier: Modifier = Modifier) {
     Text(
         text = content,
         fontSize = 14.sp,
@@ -133,10 +133,11 @@ fun CardContentPreview() {
  * @param tags 카드 태그로, 최대 5개까지 입력할 수 있습니다.
  */
 @Composable
-private fun CardTagsSection(tags: List<String> = listOf()) {
+private fun CardTagsSection(tags: List<String> = listOf(), modifier: Modifier = Modifier) {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = modifier,
     ) {
         tags.forEach { TagChip(modifier = Modifier.semantics { contentDescription = "Kanban Card Tag" }, chipContent = it) }
     }
@@ -148,7 +149,7 @@ private fun CardTagsSection(tags: List<String> = listOf()) {
  * @param chipContent TagChip의 내용입니다.
  */
 @Composable
-private fun TagChip(modifier: Modifier = Modifier, chipContent: String) {
+private fun TagChip(chipContent: String, modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier

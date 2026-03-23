@@ -71,11 +71,11 @@ fun CardFormScreen(
 
 @Composable
 fun CardFormContent(
-    modifier: Modifier = Modifier,
     uiState: CardFormState,
     onCloseClick: () -> Unit,
     onCreateClick: () -> Unit,
-) {
+    modifier: Modifier = Modifier,
+    ) {
     OutlinedCard(
         modifier = modifier,
     ) {
@@ -115,9 +115,10 @@ private fun CardFormContentPreview() {
 @Composable
 private fun CardFormHeaderSection(
     onCloseClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 28.dp, horizontal = 24.dp),
+        modifier = modifier.fillMaxWidth().padding(vertical = 28.dp, horizontal = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -144,9 +145,10 @@ private fun CardFormHeaderSection(
 @Composable
 private fun CardFormBodySection(
     uiState: CardFormState,
+    modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier.padding(24.dp),
+        modifier = modifier.padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp),
     ) {
         CardFormInputSection(
@@ -197,9 +199,10 @@ private fun CardFormFooterSection(
     uiState: CardFormState,
     onCloseClick: () -> Unit,
     onCreateClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     ActionButtonSection(
-        modifier = Modifier.padding(horizontal = 24.dp).padding(bottom = 24.dp),
+        modifier = modifier.padding(horizontal = 24.dp).padding(bottom = 24.dp),
         createEnabled = uiState.createEnabled,
         onCancelClick = onCloseClick,
         onCreateClick = onCreateClick,
@@ -209,9 +212,9 @@ private fun CardFormFooterSection(
 @Composable
 private fun CardFormInputSection(
     title: String,
+    value: String,
     modifier: Modifier = Modifier,
     placeholder: String = "",
-    value: String,
     onTextChange: (String) -> Unit = {},
     showAdditionalInfo: Boolean = false,
     infoText: String = "",
@@ -269,8 +272,9 @@ private fun CardFormInputSection(
 private fun CardFormStateSection(
     selectedState: TaskState,
     onStateChange: (TaskState) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column() {
+    Column(modifier = modifier) {
         TitleText("상태 *")
         Spacer(modifier = Modifier.height(8.dp))
         Row(
@@ -334,8 +338,9 @@ private fun StateButton(
 private fun CardFormManagerSection(
     selectedManager: String,
     onManagerChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column() {
+    Column(modifier = modifier) {
         TitleText("담당자 *")
         Spacer(modifier = Modifier.height(8.dp))
         Row(
@@ -435,9 +440,11 @@ private fun ActionButtonSection(
 @Composable
 private fun TitleText(
     title: String,
+    modifier: Modifier  = Modifier
 ) {
     Text(
         text = title,
+        modifier = modifier,
         fontSize = 14.sp,
         color = Color(0xFF364153),
         fontWeight = FontWeight.Medium,

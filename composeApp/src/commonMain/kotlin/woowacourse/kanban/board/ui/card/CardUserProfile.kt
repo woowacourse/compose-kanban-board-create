@@ -14,12 +14,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kanbanboard.composeapp.generated.resources.Res
+import kanbanboard.composeapp.generated.resources.tag_label_supporting
+import kanbanboard.composeapp.generated.resources.unknown_user
+import org.jetbrains.compose.resources.stringResource
 import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.ui.preview.KanbanPreview
 import woowacourse.kanban.board.ui.theme.Gray400
 import woowacourse.kanban.board.ui.theme.Gray700
-
-private const val UNKNOWN_USER = "알 수 없는 유저"
 
 @Composable
 fun CardUserProfile(user: User?, modifier: Modifier = Modifier) {
@@ -37,7 +39,7 @@ fun CardUserProfile(user: User?, modifier: Modifier = Modifier) {
         )
 
         Text(
-            text = user?.name ?: UNKNOWN_USER,
+            text = user?.name ?: stringResource(Res.string.unknown_user),
             fontWeight = FontWeight.W500,
             fontSize = 14.sp,
             lineHeight = 20.sp,

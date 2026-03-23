@@ -10,22 +10,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import kanbanboard.composeapp.generated.resources.Res
+import kanbanboard.composeapp.generated.resources.content_label
+import kanbanboard.composeapp.generated.resources.content_label_placeholder
+import org.jetbrains.compose.resources.stringResource
 import woowacourse.kanban.board.ui.component.Label
 import woowacourse.kanban.board.ui.preview.KanbanPreview
 import woowacourse.kanban.board.ui.theme.Gray
 import woowacourse.kanban.board.ui.theme.Gray500
 import woowacourse.kanban.board.ui.theme.Red
 
-private const val TITLE_LABEL = "설명"
-private const val TITLE_LABEL_PLACEHOLDER = "태스크에 대한 자세한 설명을 입력하세요"
-
 @Composable
-fun ContentArea(modifier: Modifier = Modifier, value: String, onContentChange: (String) -> Unit) {
+fun ContentArea(
+    value: String,
+    onContentChange: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier.fillMaxWidth(1f),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Label(TITLE_LABEL)
+        Label(stringResource(Res.string.content_label))
         OutlinedTextField(
             value = value,
             onValueChange = {
@@ -34,7 +39,7 @@ fun ContentArea(modifier: Modifier = Modifier, value: String, onContentChange: (
             modifier = Modifier.fillMaxWidth(1f),
             placeholder = {
                 Text(
-                    text = TITLE_LABEL_PLACEHOLDER,
+                    text = stringResource(Res.string.content_label_placeholder),
                     color = Gray,
                 )
             },

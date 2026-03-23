@@ -5,8 +5,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
@@ -26,7 +26,7 @@ fun KanbanCard(card: Card, modifier: Modifier = Modifier) {
             .background(Color.White)
             .border(width = 1.dp, shape = RoundedCornerShape(10.dp), color = Gray200)
             .padding(17.dp)
-            .width(286.dp),
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         CardTitle(card.title)

@@ -20,7 +20,12 @@ import woowacourse.kanban.board.ui.theme.Gray300
 import woowacourse.kanban.board.ui.theme.Gray700
 
 @Composable
-fun KanbanCreateFooter(modifier: Modifier = Modifier, onClickCancel: () -> Unit, onClickConfirm: () -> Unit, enabled: Boolean = true) {
+fun KanbanCreateFooter(
+    onClickCancel: () -> Unit,
+    onClickConfirm: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -36,7 +41,10 @@ fun KanbanCreateFooter(modifier: Modifier = Modifier, onClickCancel: () -> Unit,
 }
 
 @Composable
-fun KanbanCreateCancelButton(modifier: Modifier = Modifier, onClickCancel: () -> Unit, enabled: Boolean = true) {
+fun KanbanCreateCancelButton(
+    onClickCancel: () -> Unit,
+    enabled: Boolean = true
+) {
     Button(
         onClick = {
             onClickCancel()
@@ -55,7 +63,10 @@ fun KanbanCreateCancelButton(modifier: Modifier = Modifier, onClickCancel: () ->
 }
 
 @Composable
-fun KanbanCreateConfirmButton(modifier: Modifier = Modifier, onClickConfirm: () -> Unit, enabled: Boolean = true) {
+fun KanbanCreateConfirmButton(
+    onClickConfirm: () -> Unit,
+    enabled: Boolean = true
+) {
     Button(
         onClick = {
             onClickConfirm()

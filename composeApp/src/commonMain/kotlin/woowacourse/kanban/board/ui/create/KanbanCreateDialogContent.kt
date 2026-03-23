@@ -16,7 +16,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import woowacourse.kanban.board.domain.model.Card
 import woowacourse.kanban.board.domain.model.Status
+import woowacourse.kanban.board.domain.model.Tag
 import woowacourse.kanban.board.domain.model.User
 import woowacourse.kanban.board.domain.validator.validateTagInput
 import woowacourse.kanban.board.ui.create.maincontent.ContentArea
@@ -27,7 +29,11 @@ import woowacourse.kanban.board.ui.create.maincontent.TitleArea
 import woowacourse.kanban.board.ui.preview.KanbanPreview
 
 @Composable
-fun KanbanCreateDialogContent(modifier: Modifier = Modifier, onDismiss: () -> Unit) {
+fun KanbanCreateDialogContent(
+    onDismiss: () -> Unit,
+    onCreateConfirm: (Status, Card) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     var title by remember { mutableStateOf("") }
     var isTitleError by remember { mutableStateOf(false) }
 
@@ -109,11 +115,30 @@ fun KanbanCreateDialogContent(modifier: Modifier = Modifier, onDismiss: () -> Un
         KanbanCreateFooter(
             onClickCancel = onDismiss,
             onClickConfirm = {
-                // 나중 기능 추가
+                val tags = parseTagInput(tag)
+                onCreateConfirm(
+                    status,
+                    Card(
+                        title = title,
+                        content = content.takeIf { it.isNotBlank() },
+                        tags = tags,
+                        user = selectedUser,
+                    ),
+                )
             },
             enabled = !isTitleError && title.isNotBlank() && !isTagError,
         )
     }
+}
+
+private fun parseTagInput(tagInput: String): List<Tag> {
+    if (tagInput.isBlank()) return emptyList()
+
+    return tagInput
+        .split(",")
+        .map { it.trim() }
+        .filter { it.isNotEmpty() }
+        .map(::Tag)
 }
 
 @Composable
@@ -121,5 +146,6 @@ fun KanbanCreateDialogContent(modifier: Modifier = Modifier, onDismiss: () -> Un
 fun KanbanCreateDialogContentPreview() {
     KanbanCreateDialogContent(
         onDismiss = {},
+        onCreateConfirm = { _, _ -> },
     )
 }

@@ -18,6 +18,7 @@ class KanbanCreateFooterTest {
         setContent {
             KanbanCreateDialogContent(
                 onDismiss = {},
+                onCreateConfirm = { _, _ -> },
             )
         }
         onAllNodes(hasSetTextAction())[0]
@@ -35,6 +36,7 @@ class KanbanCreateFooterTest {
         setContent {
             KanbanCreateDialogContent(
                 onDismiss = {},
+                onCreateConfirm = { _, _ -> },
             )
         }
 
@@ -53,6 +55,7 @@ class KanbanCreateFooterTest {
         setContent {
             KanbanCreateDialogContent(
                 onDismiss = {},
+                onCreateConfirm = { _, _ -> },
             )
         }
 
@@ -68,6 +71,7 @@ class KanbanCreateFooterTest {
         setContent {
             KanbanCreateDialogContent(
                 onDismiss = {},
+                onCreateConfirm = { _, _ -> },
             )
         }
 

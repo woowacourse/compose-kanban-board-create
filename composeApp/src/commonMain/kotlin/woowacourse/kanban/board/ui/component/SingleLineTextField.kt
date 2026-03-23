@@ -17,12 +17,12 @@ import woowacourse.kanban.board.ui.theme.Red
 
 @Composable
 fun SingleLineTextField(
-    modifier: Modifier = Modifier,
     value: String,
+    placeHolderMessage: String,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
     isError: Boolean = false,
     errorMessage: String? = null,
-    placeHolderMessage: String,
     supportingText: String? = null,
 ) {
 

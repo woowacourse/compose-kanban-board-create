@@ -1,31 +1,14 @@
 package woowacourse.kanban.board
 
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.tooling.preview.Preview
-import woowacourse.kanban.board.ui.create.KanbanCreateDialogContent
+import woowacourse.kanban.board.ui.board.KanbanBoard
+import woowacourse.kanban.board.ui.preview.KanbanPreview
 
 @Composable
-@Preview
+@KanbanPreview
 fun App() {
-    var showDialog by remember { mutableStateOf(false) }
-
     MaterialTheme {
-        if (showDialog) {
-            KanbanCreateDialogContent(
-                onDismiss = { showDialog = false },
-            )
-        } else {
-            Button(
-                onClick = { showDialog = true },
-                content = { Text("Show dialog") },
-            )
-        }
+        KanbanBoard()
     }
 }

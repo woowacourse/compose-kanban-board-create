@@ -10,36 +10,36 @@ import androidx.compose.runtime.setValue
 import woowacourse.kanban.board.domain.Tasks
 import woowacourse.kanban.board.domain.Task
 import woowacourse.kanban.board.domain.TaskState
-import woowacourse.kanban.board.ui.taskcard.TaskCardState
+import woowacourse.kanban.board.ui.taskcard.TaskCardUiState
 import woowacourse.kanban.board.ui.taskcard.toUiState
 
-class BoardState(private val boardData: Tasks = Tasks()) {
+class BoardState(private val tasks: Tasks = Tasks()) {
     var showCardCreationPanel by mutableStateOf(false)
     val snackbarHostState = SnackbarHostState()
-    val uiCards = mutableStateListOf<TaskCardState>().apply {
-        addAll(boardData.getAllTasks().map { it.toUiState() })
+    val uiTaskCards = mutableStateListOf<TaskCardUiState>().apply {
+        addAll(tasks.getAllTasks().map { it.toUiState() })
     }
-    var completeRate by mutableFloatStateOf(boardData.getCompleteRate())
-    var countOfDoneCards by mutableIntStateOf(boardData.countTasksByState(TaskState.DONE))
-    var countOfAllCard by mutableIntStateOf(boardData.countAllTasks())
+    var completeRate by mutableFloatStateOf(tasks.getCompleteRate())
+    var countOfDoneTasks by mutableIntStateOf(tasks.countTasksByState(TaskState.DONE))
+    var countOfAllTasks by mutableIntStateOf(tasks.countAllTasks())
 
-    fun createCard(task: Task) {
-        boardData.addTask(task)
+    fun createTaskCard(task: Task) {
+        tasks.addTask(task)
         refreshUiCards()
     }
 
-    fun cardsByState(state: TaskState): List<TaskCardState> {
-        return uiCards.filter { it.state == state }
+    fun cardsByState(state: TaskState): List<TaskCardUiState> {
+        return uiTaskCards.filter { it.state == state }
     }
 
     private fun refreshUiCards() {
-        val newUiCards = boardData.getAllTasks().map { it.toUiState() }
-        uiCards.clear()
-        uiCards.addAll(newUiCards)
+        val newUiCards = tasks.getAllTasks().map { it.toUiState() }
+        uiTaskCards.clear()
+        uiTaskCards.addAll(newUiCards)
 
-        completeRate = boardData.getCompleteRate()
-        countOfDoneCards = boardData.countTasksByState(TaskState.DONE)
-        countOfAllCard = boardData.countAllTasks()
+        completeRate = tasks.getCompleteRate()
+        countOfDoneTasks = tasks.countTasksByState(TaskState.DONE)
+        countOfAllTasks = tasks.countAllTasks()
 
     }
 }

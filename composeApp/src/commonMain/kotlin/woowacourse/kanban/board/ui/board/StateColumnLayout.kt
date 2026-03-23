@@ -26,13 +26,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.domain.TaskState
 import woowacourse.kanban.board.ui.taskcard.TaskCard
-import woowacourse.kanban.board.ui.taskcard.TaskCardState
+import woowacourse.kanban.board.ui.taskcard.TaskCardUiState
 import woowacourse.kanban.board.ui.util.getTaskStateLabel
 
 @Composable
 fun StateColumnLayout(
     taskState: TaskState,
-    cards: List<TaskCardState>,
+    cards: List<TaskCardUiState>,
     modifier: Modifier = Modifier,
 ) {
     val countOfCards = cards.count()
@@ -96,8 +96,8 @@ fun StateColumnLayout(
 @Composable
 private fun ToDoColumnLayoutPreview() {
     val fakeCards = listOf(
-        TaskCardState(title = "제목", state = TaskState.TO_DO, managerName = "별터"),
-        TaskCardState(title = "제목2", state = TaskState.TO_DO, managerName = "별터2", tags = listOf("태그")),
+        TaskCardUiState(title = "제목", state = TaskState.TO_DO, managerName = "별터"),
+        TaskCardUiState(title = "제목2", state = TaskState.TO_DO, managerName = "별터2", tags = listOf("태그")),
     )
 
     StateColumnLayout(
@@ -110,8 +110,8 @@ private fun ToDoColumnLayoutPreview() {
 @Composable
 private fun InProgressColumnLayoutPreview() {
     val fakeCards = listOf(
-        TaskCardState(title = "제목", state = TaskState.TO_DO, managerName = "별터"),
-        TaskCardState(title = "제목2", state = TaskState.TO_DO, managerName = "별터2", tags = listOf("태그")),
+        TaskCardUiState(title = "제목", state = TaskState.TO_DO, managerName = "별터"),
+        TaskCardUiState(title = "제목2", state = TaskState.TO_DO, managerName = "별터2", tags = listOf("태그")),
     )
 
     StateColumnLayout(
@@ -124,8 +124,8 @@ private fun InProgressColumnLayoutPreview() {
 @Composable
 private fun DoneColumnLayoutPreview() {
     val fakeCards = listOf(
-        TaskCardState(title = "제목", state = TaskState.TO_DO, managerName = "별터"),
-        TaskCardState(title = "제목2", state = TaskState.TO_DO, managerName = "별터2", tags = listOf("태그")),
+        TaskCardUiState(title = "제목", state = TaskState.TO_DO, managerName = "별터"),
+        TaskCardUiState(title = "제목2", state = TaskState.TO_DO, managerName = "별터2", tags = listOf("태그")),
     )
 
     StateColumnLayout(

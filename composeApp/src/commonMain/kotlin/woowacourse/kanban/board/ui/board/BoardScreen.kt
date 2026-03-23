@@ -36,26 +36,30 @@ import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import woowacourse.kanban.board.domain.Task
 import woowacourse.kanban.board.domain.TaskState
+import woowacourse.kanban.board.ui.taskcard.TaskCardUiState
 import woowacourse.kanban.board.ui.taskcardform.TaskCardFormScreen
-import woowacourse.kanban.board.ui.taskcard.TaskCardState
 
 @Composable
 fun BoardScreen(modifier: Modifier = Modifier, boardState: BoardState = remember { BoardState() }) {
     val scope = rememberCoroutineScope()
 
-    BoardContent(
-        snackbarHostState = boardState.snackbarHostState,
-        showCardCreationPanel = boardState.showCardCreationPanel,
+    val uiState = BoardUiState(
+        showCardForm = boardState.showCardCreationPanel,
         completeRate = boardState.completeRate,
-        countOfDoneCards = boardState.countOfDoneCards,
-        countOfAllCard = boardState.countOfAllCard,
-        toDoCards = boardState.cardsByState(TaskState.TO_DO),
-        inProgressCards = boardState.cardsByState(TaskState.IN_PROGRESS),
-        doneCards = boardState.cardsByState(TaskState.DONE),
-        onShowPanelClick = { boardState.showCardCreationPanel = true },
-        onClosePanelClick = { boardState.showCardCreationPanel = false },
-        onCreateCard = { cardData ->
-            boardState.createCard(cardData)
+        countOfDoneTasks = boardState.countOfDoneTasks,
+        countOfAllTasks = boardState.countOfAllTasks,
+        toDoTaskCards = boardState.cardsByState(TaskState.TO_DO),
+        inProgressTaskCards = boardState.cardsByState(TaskState.IN_PROGRESS),
+        doneTaskCards = boardState.cardsByState(TaskState.DONE)
+    )
+
+    BoardContent(
+        uiState = uiState,
+        snackbarHostState = boardState.snackbarHostState,
+        onShowFormClick = { boardState.showCardCreationPanel = true },
+        onCloseFormClick = { boardState.showCardCreationPanel = false },
+        onCreateTask = { task ->
+            boardState.createTaskCard(task)
             boardState.showCardCreationPanel = false
             scope.launch {
                 boardState.snackbarHostState.showSnackbar(
@@ -70,17 +74,11 @@ fun BoardScreen(modifier: Modifier = Modifier, boardState: BoardState = remember
 
 @Composable
 private fun BoardContent(
+    uiState: BoardUiState,
     snackbarHostState: SnackbarHostState,
-    showCardCreationPanel: Boolean,
-    completeRate: Float,
-    countOfDoneCards: Int,
-    countOfAllCard: Int,
-    toDoCards: List<TaskCardState>,
-    inProgressCards: List<TaskCardState>,
-    doneCards: List<TaskCardState>,
-    onShowPanelClick: () -> Unit,
-    onClosePanelClick: () -> Unit,
-    onCreateCard: (Task) -> Unit,
+    onShowFormClick: () -> Unit,
+    onCloseFormClick: () -> Unit,
+    onCreateTask: (Task) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -104,25 +102,25 @@ private fun BoardContent(
                 modifier = Modifier.fillMaxSize(),
             ) {
                 BoardHeaderSection(
-                    completeRate = completeRate,
-                    countOfDoneCards = countOfDoneCards,
-                    countOfAllCard = countOfAllCard,
-                    onCreateClick = onShowPanelClick,
+                    completeRate = uiState.completeRate,
+                    countOfDoneTasks = uiState.countOfDoneTasks,
+                    countOfAllTasks = uiState.countOfAllTasks,
+                    onCreateClick = onShowFormClick,
                     modifier = Modifier.fillMaxWidth(),
                 )
-                BoardContents(
-                    toDoCards = toDoCards,
-                    inProgressCards = inProgressCards,
-                    doneCards = doneCards,
+                BoardBodySection(
+                    toDoTaskCards = uiState.toDoTaskCards,
+                    inProgressTaskCards = uiState.inProgressTaskCards,
+                    doneTaskCards = uiState.doneTaskCards,
                     modifier = Modifier.fillMaxSize(),
                 )
             }
 
-            if (showCardCreationPanel) {
+            if (uiState.showCardForm) {
                 TaskCardFormScreen(
                     modifier = Modifier.align(Alignment.Center),
-                    onCreateCard = onCreateCard,
-                    onClosePanelClick = onClosePanelClick,
+                    onCreateCard = onCreateTask,
+                    onClosePanelClick = onCloseFormClick,
                 )
             }
         }
@@ -132,8 +130,8 @@ private fun BoardContent(
 @Composable
 private fun BoardHeaderSection(
     completeRate: Float,
-    countOfDoneCards: Int,
-    countOfAllCard: Int,
+    countOfDoneTasks: Int,
+    countOfAllTasks: Int,
     onCreateClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -156,7 +154,7 @@ private fun BoardHeaderSection(
                     letterSpacing = 0.07.sp,
                 )
                 Text(
-                    text = "완료율: ${(completeRate * 100).toInt()}% (${countOfDoneCards}/${countOfAllCard})",
+                    text = "완료율: ${(completeRate * 100).toInt()}% (${countOfDoneTasks}/${countOfAllTasks})",
                     fontWeight = FontWeight.W400,
                     color = Color(0xFF6A7282),
                     fontSize = 14.sp,
@@ -204,18 +202,18 @@ private fun BoardHeaderSection(
 }
 
 @Composable
-private fun BoardContents(
-    toDoCards: List<TaskCardState>,
-    inProgressCards: List<TaskCardState>,
-    doneCards: List<TaskCardState>,
+private fun BoardBodySection(
+    toDoTaskCards: List<TaskCardUiState>,
+    inProgressTaskCards: List<TaskCardUiState>,
+    doneTaskCards: List<TaskCardUiState>,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier.background(Color(0xFFF4F5F7)).padding(24.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        StateColumnLayout(taskState = TaskState.TO_DO, cards = toDoCards)
-        StateColumnLayout(taskState = TaskState.IN_PROGRESS, cards = inProgressCards)
-        StateColumnLayout(taskState = TaskState.DONE, cards = doneCards)
+        StateColumnLayout(taskState = TaskState.TO_DO, cards = toDoTaskCards)
+        StateColumnLayout(taskState = TaskState.IN_PROGRESS, cards = inProgressTaskCards)
+        StateColumnLayout(taskState = TaskState.DONE, cards = doneTaskCards)
     }
 }

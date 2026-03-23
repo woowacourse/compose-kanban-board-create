@@ -41,6 +41,7 @@ import woowacourse.kanban.board.domain.TaskState
 import woowacourse.kanban.board.domain.TitleError
 import woowacourse.kanban.board.ui.components.ActionButton
 import woowacourse.kanban.board.ui.components.ActionButtonType
+import woowacourse.kanban.board.ui.util.getTaskStateLabel
 import woowacourse.kanban.board.util.parseByComma
 
 @Composable
@@ -451,14 +452,6 @@ private fun TitleText(
         lineHeight = 20.sp,
         letterSpacing = 0.15.sp,
     )
-}
-
-fun TaskState.getTaskStateLabel(): String {
-    return when (this) {
-        TaskState.TO_DO -> "To Do"
-        TaskState.IN_PROGRESS -> "In Progress"
-        TaskState.DONE -> "Done"
-    }
 }
 
 @Composable

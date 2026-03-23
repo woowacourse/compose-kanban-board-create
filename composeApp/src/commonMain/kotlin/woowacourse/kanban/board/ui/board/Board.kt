@@ -34,10 +34,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
-import woowacourse.kanban.board.domain.CardData
+import woowacourse.kanban.board.domain.Task
 import woowacourse.kanban.board.domain.TaskState
-import woowacourse.kanban.board.ui.cardForm.CardFormScreen
-import woowacourse.kanban.board.ui.card.CardState
+import woowacourse.kanban.board.ui.taskcardform.TaskCardFormScreen
+import woowacourse.kanban.board.ui.taskcard.TaskCardState
 
 @Composable
 fun BoardScreen(modifier: Modifier = Modifier, boardState: BoardState = remember { BoardState() }) {
@@ -75,12 +75,12 @@ private fun BoardContent(
     completeRate: Float,
     countOfDoneCards: Int,
     countOfAllCard: Int,
-    toDoCards: List<CardState>,
-    inProgressCards: List<CardState>,
-    doneCards: List<CardState>,
+    toDoCards: List<TaskCardState>,
+    inProgressCards: List<TaskCardState>,
+    doneCards: List<TaskCardState>,
     onShowPanelClick: () -> Unit,
     onClosePanelClick: () -> Unit,
-    onCreateCard: (CardData) -> Unit,
+    onCreateCard: (Task) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -119,7 +119,7 @@ private fun BoardContent(
             }
 
             if (showCardCreationPanel) {
-                CardFormScreen(
+                TaskCardFormScreen(
                     modifier = Modifier.align(Alignment.Center),
                     onCreateCard = onCreateCard,
                     onClosePanelClick = onClosePanelClick,
@@ -205,9 +205,9 @@ private fun BoardHeaderSection(
 
 @Composable
 private fun BoardContents(
-    toDoCards: List<CardState>,
-    inProgressCards: List<CardState>,
-    doneCards: List<CardState>,
+    toDoCards: List<TaskCardState>,
+    inProgressCards: List<TaskCardState>,
+    doneCards: List<TaskCardState>,
     modifier: Modifier = Modifier,
 ) {
     Row(

@@ -1,24 +1,24 @@
-package woowacourse.kanban.board.ui.cardForm
+package woowacourse.kanban.board.ui.taskcardform
 
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import woowacourse.kanban.board.domain.CardData
+import woowacourse.kanban.board.domain.Task
 import woowacourse.kanban.board.domain.TagError
 import woowacourse.kanban.board.domain.TaskState
 import woowacourse.kanban.board.domain.TitleError
 
-class CardFormState {
+class TaskCardFormState {
     var taskTitle by mutableStateOf("")
     var state by mutableStateOf(TaskState.TO_DO)
     var managerName by mutableStateOf("다이노")
     var description by mutableStateOf("")
     var tempTags by mutableStateOf("")
     val titleError: TitleError
-        get() = CardData.isValidTitle(taskTitle)
+        get() = Task.isValidTitle(taskTitle)
     val tagError: TagError
-        get() = CardData.isValidTag(tempTags)
+        get() = Task.isValidTag(tempTags)
     val tagInfoText: String
         get() = getTagInfoMessage(tagError)
     val createEnabled by derivedStateOf {

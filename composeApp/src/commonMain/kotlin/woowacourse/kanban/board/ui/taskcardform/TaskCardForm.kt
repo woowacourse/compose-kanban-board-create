@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.ui.cardForm
+package woowacourse.kanban.board.ui.taskcardform
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -35,7 +35,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.domain.CardData
+import woowacourse.kanban.board.domain.Task
 import woowacourse.kanban.board.domain.TagError
 import woowacourse.kanban.board.domain.TaskState
 import woowacourse.kanban.board.domain.TitleError
@@ -45,20 +45,20 @@ import woowacourse.kanban.board.ui.util.getTaskStateLabel
 import woowacourse.kanban.board.util.parseByComma
 
 @Composable
-fun CardFormScreen(
+fun TaskCardFormScreen(
     modifier: Modifier = Modifier,
     onClosePanelClick: () -> Unit,
-    onCreateCard: (CardData) -> Unit,
+    onCreateCard: (Task) -> Unit,
 ) {
-    val uiState: CardFormState = rememberCardFormState()
+    val uiState: TaskCardFormState = rememberCardFormState()
 
-    CardFormContent(
+    TaskCardFormContent(
         modifier = modifier,
         uiState = uiState,
         onCloseClick = onClosePanelClick,
         onCreateClick = {
             onCreateCard(
-                CardData.create(
+                Task.create(
                     title = uiState.taskTitle,
                     state = uiState.state,
                     managerName = uiState.managerName,
@@ -71,8 +71,8 @@ fun CardFormScreen(
 }
 
 @Composable
-fun CardFormContent(
-    uiState: CardFormState,
+fun TaskCardFormContent(
+    uiState: TaskCardFormState,
     onCloseClick: () -> Unit,
     onCreateClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -83,15 +83,15 @@ fun CardFormContent(
         Column(
             modifier = Modifier.background(Color.White).width(672.dp),
         ) {
-            CardFormHeaderSection(onCloseClick = onCloseClick)
+            TaskCardFormHeaderSection(onCloseClick = onCloseClick)
 
             HorizontalDivider(modifier = Modifier.fillMaxWidth())
 
-            CardFormBodySection(uiState = uiState)
+            TaskCardFormBodySection(uiState = uiState)
 
             HorizontalDivider(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp))
 
-            CardFormFooterSection(
+            TaskCardFormFooterSection(
                 uiState = uiState,
                 onCloseClick = onCloseClick,
                 onCreateClick = onCreateClick,
@@ -102,10 +102,10 @@ fun CardFormContent(
 
 @Preview(showBackground = true, name = "태스크 카드 생성창 뷰", device = Devices.DESKTOP)
 @Composable
-private fun CardFormContentPreview() {
+private fun TaskCardFormContentPreview() {
     val uiState = rememberCardFormState()
 
-    CardFormContent(
+    TaskCardFormContent(
         modifier = Modifier,
         uiState = uiState,
         onCloseClick = {},
@@ -114,7 +114,7 @@ private fun CardFormContentPreview() {
 }
 
 @Composable
-private fun CardFormHeaderSection(
+private fun TaskCardFormHeaderSection(
     onCloseClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -144,15 +144,15 @@ private fun CardFormHeaderSection(
 }
 
 @Composable
-private fun CardFormBodySection(
-    uiState: CardFormState,
+private fun TaskCardFormBodySection(
+    uiState: TaskCardFormState,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier.padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp),
     ) {
-        CardFormInputSection(
+        TaskCardFormInputSection(
             title = "제목 *",
             placeholder = "태스크 제목을 입력하세요",
             value = uiState.taskTitle,
@@ -164,14 +164,14 @@ private fun CardFormBodySection(
             isError = uiState.titleError == TitleError.EMPTY,
         )
 
-        CardFormInputSection(
+        TaskCardFormInputSection(
             title = "설명",
             placeholder = "태스크에 대한 자세한 설명을 입력하세요",
             value = uiState.description,
             onTextChange = { uiState.description = it },
         )
 
-        CardFormInputSection(
+        TaskCardFormInputSection(
             title = "태그",
             placeholder = "태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)",
             value = uiState.tempTags,
@@ -183,12 +183,12 @@ private fun CardFormBodySection(
             isError = uiState.tagError != TagError.NONE,
         )
 
-        CardFormStateSection(
+        TaskCardFormStateSection(
             selectedState = uiState.state,
             onStateChange = { uiState.state = it },
         )
 
-        CardFormManagerSection(
+        TaskCardFormManagerSection(
             selectedManager = uiState.managerName,
             onManagerChange = { uiState.managerName = it },
         )
@@ -196,8 +196,8 @@ private fun CardFormBodySection(
 }
 
 @Composable
-private fun CardFormFooterSection(
-    uiState: CardFormState,
+private fun TaskCardFormFooterSection(
+    uiState: TaskCardFormState,
     onCloseClick: () -> Unit,
     onCreateClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -211,7 +211,7 @@ private fun CardFormFooterSection(
 }
 
 @Composable
-private fun CardFormInputSection(
+private fun TaskCardFormInputSection(
     title: String,
     value: String,
     modifier: Modifier = Modifier,
@@ -270,7 +270,7 @@ private fun CardFormInputSection(
 
 
 @Composable
-private fun CardFormStateSection(
+private fun TaskCardFormStateSection(
     selectedState: TaskState,
     onStateChange: (TaskState) -> Unit,
     modifier: Modifier = Modifier
@@ -336,7 +336,7 @@ private fun StateButton(
 }
 
 @Composable
-private fun CardFormManagerSection(
+private fun TaskCardFormManagerSection(
     selectedManager: String,
     onManagerChange: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -455,4 +455,4 @@ private fun TitleText(
 }
 
 @Composable
-fun rememberCardFormState(): CardFormState = remember { CardFormState() }
+fun rememberCardFormState(): TaskCardFormState = remember { TaskCardFormState() }

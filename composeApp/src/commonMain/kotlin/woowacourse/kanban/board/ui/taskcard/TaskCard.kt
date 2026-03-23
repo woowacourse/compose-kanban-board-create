@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.ui.card
+package woowacourse.kanban.board.ui.taskcard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,14 +31,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-/**
- * Card UI입니다.
- * @param cardData Card의 데이터입니다.
- * @param modifier Modifier
- */
 @Composable
-fun Card(
-    cardState: CardState,
+fun TaskCard(
+    taskCardState: TaskCardState,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -49,26 +44,26 @@ fun Card(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
 
-        CardTitle(
-            title = cardState.title,
+        TaskCardTitle(
+            title = taskCardState.title,
             modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Kanban Card Title" },
         )
 
-        if (cardState.description.isNotBlank()) {
-            CardContent(
+        if (taskCardState.description.isNotBlank()) {
+            TaskCardContent(
                 modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Kanban Card Content" },
-                content = cardState.description,
+                content = taskCardState.description,
             )
         }
 
-        if (cardState.tags.isNotEmpty()) CardTagsSection(
-            tags = cardState.tags,
+        if (taskCardState.tags.isNotEmpty()) TaskCardTagsSection(
+            tags = taskCardState.tags,
         )
 
         HorizontalDivider()
 
-        CardAccountInfo(
-            managerName = cardState.managerName,
+        TaskCardManagerSection(
+            managerName = taskCardState.managerName,
             modifier = Modifier
                 .padding(vertical = 10.dp)
                 .fillMaxWidth()
@@ -84,7 +79,7 @@ fun Card(
  * @param title 카드 제목으로, 너무 길면...로 표시됩니다.
  */
 @Composable
-private fun CardTitle(title: String, modifier: Modifier = Modifier) {
+private fun TaskCardTitle(title: String, modifier: Modifier = Modifier) {
     Text(
         text = title,
         fontSize = 16.sp,
@@ -99,8 +94,8 @@ private fun CardTitle(title: String, modifier: Modifier = Modifier) {
 
 @Preview(backgroundColor = 0xffffffff, showBackground = true)
 @Composable
-private fun CardTitlePreview() {
-    CardTitle(title = "Card Title")
+private fun TaskCardTitlePreview() {
+    TaskCardTitle(title = "Card Title")
 }
 
 /**
@@ -109,7 +104,7 @@ private fun CardTitlePreview() {
  * @param content 카드 본문으로, 너무 길면 ...로 표시됩니다.
  */
 @Composable
-private fun CardContent(content: String, modifier: Modifier = Modifier) {
+private fun TaskCardContent(content: String, modifier: Modifier = Modifier) {
     Text(
         text = content,
         fontSize = 14.sp,
@@ -124,8 +119,8 @@ private fun CardContent(content: String, modifier: Modifier = Modifier) {
 
 @Preview(backgroundColor = 0xffffffff, showBackground = true)
 @Composable
-fun CardContentPreview() {
-    CardContent(content = "Card Content")
+fun TaskCardContentPreview() {
+    TaskCardContent(content = "Card Content")
 }
 
 /**
@@ -133,7 +128,7 @@ fun CardContentPreview() {
  * @param tags 카드 태그로, 최대 5개까지 입력할 수 있습니다.
  */
 @Composable
-private fun CardTagsSection(tags: List<String> = listOf(), modifier: Modifier = Modifier) {
+private fun TaskCardTagsSection(modifier: Modifier = Modifier, tags: List<String> = listOf()) {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -173,7 +168,7 @@ private fun TagChipPreview() {
  * @param managerName 카드 계정 이름으로, 너무 길면 ...로 표시됩니다.
  */
 @Composable
-private fun CardAccountInfo(
+private fun TaskCardManagerSection(
     managerName: String,
     modifier: Modifier = Modifier,
     accountImage: ImageVector = Icons.Default.AccountCircle,
@@ -198,6 +193,6 @@ private fun CardAccountInfo(
 
 @Preview(backgroundColor = 0xffffffff, showBackground = true)
 @Composable
-private fun CardAccountInfoPreview() {
-    CardAccountInfo(managerName = "Test")
+private fun TaskCardManagerSectionPreview() {
+    TaskCardManagerSection(managerName = "Test")
 }

@@ -5,13 +5,13 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 /**
- * [CardData] Unit 테스트 클래스입니다.
+ * [Task] Unit 테스트 클래스입니다.
  */
-class CardDataTest {
+class TaskTest {
     @Test
     fun `제목이 공백만 있으면 생성할 수 없다`() {
         assertFailsWith<IllegalArgumentException> {
-            CardData.create(
+            Task.create(
                 title = "   ",
                 description = "내용",
                 tags = listOf("태그1"),
@@ -24,7 +24,7 @@ class CardDataTest {
     @Test
     fun `계정명이 공백만 있으면 생성할 수 없다`() {
         assertFailsWith<IllegalArgumentException> {
-            CardData.create(
+            Task.create(
                 title = "제목",
                 description = "내용",
                 tags = listOf("태그1"),
@@ -36,7 +36,7 @@ class CardDataTest {
 
     @Test
     fun `태그의 앞뒤 공백은 제거된다`() {
-        val cardData = CardData.create(
+        val task = Task.create(
             title = "제목",
             description = "내용",
             tags = listOf(" 태그1 ", "  태그2  "),
@@ -44,12 +44,12 @@ class CardDataTest {
             managerName = "테스트 계정",
         )
 
-        assertEquals(listOf("태그1", "태그2"), cardData.tags)
+        assertEquals(listOf("태그1", "태그2"), task.tags)
     }
 
     @Test
     fun `공백으로만 구성된 태그는 제거된다`() {
-        val cardData = CardData.create(
+        val task = Task.create(
             title = "제목",
             description = "내용",
             tags = listOf("태그1", "   ", "", "  "),
@@ -57,13 +57,13 @@ class CardDataTest {
             managerName = "테스트 계정",
         )
 
-        assertEquals(listOf("태그1"), cardData.tags)
+        assertEquals(listOf("태그1"), task.tags)
     }
 
     @Test
     fun `태그가 5개를 초과하면 생성할 수 없다`() {
         assertFailsWith<IllegalArgumentException> {
-            CardData.create(
+            Task.create(
                 title = "제목",
                 description = "내용",
                 tags = listOf("태그1", "태그2", "태그3", "태그4", "태그5", "태그6"),
@@ -76,7 +76,7 @@ class CardDataTest {
     @Test
     fun `태그 내용이 5글자를 초과하면 5글자까지만 유지된다`() {
         assertFailsWith<IllegalArgumentException> {
-            CardData.create(
+            Task.create(
                 title = "제목",
                 description = "내용",
                 tags = listOf("우아한테크코스", "안드로이드8기", "칸반보드리팩터링"),
@@ -91,7 +91,7 @@ class CardDataTest {
         // given
         val title = "   "
         // when
-        val result = CardData.isValidTitle(title)
+        val result = Task.isValidTitle(title)
         // then
         assertEquals(TitleError.EMPTY, result)
     }
@@ -103,9 +103,9 @@ class CardDataTest {
         val tooLongTags = "tagggg"
         val tooManyTags = "t1,t2,t3,t4,t5,t6"
         // when
-        val result1 = CardData.isValidTag(invalidFormatTags)
-        val result2 = CardData.isValidTag(tooLongTags)
-        val result3 = CardData.isValidTag(tooManyTags)
+        val result1 = Task.isValidTag(invalidFormatTags)
+        val result2 = Task.isValidTag(tooLongTags)
+        val result3 = Task.isValidTag(tooManyTags)
         // then
         assertEquals(TagError.INVALID_FORMAT, result1)
         assertEquals(TagError.TOO_LONG, result2)

@@ -25,14 +25,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.domain.TaskState
-import woowacourse.kanban.board.ui.card.Card
-import woowacourse.kanban.board.ui.card.CardState
-import woowacourse.kanban.board.ui.cardForm.getTaskStateLabel
+import woowacourse.kanban.board.ui.taskcard.TaskCard
+import woowacourse.kanban.board.ui.taskcard.TaskCardState
+import woowacourse.kanban.board.ui.util.getTaskStateLabel
 
 @Composable
 fun StateColumnLayout(
     taskState: TaskState,
-    cards: List<CardState>,
+    cards: List<TaskCardState>,
     modifier: Modifier = Modifier,
 ) {
     val countOfCards = cards.count()
@@ -86,7 +86,7 @@ fun StateColumnLayout(
             contentPadding = PaddingValues(horizontal = 17.dp, vertical = 16.dp),
         ) {
             items(cards) { card ->
-                Card(card)
+                TaskCard(card)
             }
         }
     }
@@ -96,8 +96,8 @@ fun StateColumnLayout(
 @Composable
 private fun ToDoColumnLayoutPreview() {
     val fakeCards = listOf(
-        CardState(title = "제목", state = TaskState.TO_DO, managerName = "별터"),
-        CardState(title = "제목2", state = TaskState.TO_DO, managerName = "별터2", tags = listOf("태그")),
+        TaskCardState(title = "제목", state = TaskState.TO_DO, managerName = "별터"),
+        TaskCardState(title = "제목2", state = TaskState.TO_DO, managerName = "별터2", tags = listOf("태그")),
     )
 
     StateColumnLayout(
@@ -110,8 +110,8 @@ private fun ToDoColumnLayoutPreview() {
 @Composable
 private fun InProgressColumnLayoutPreview() {
     val fakeCards = listOf(
-        CardState(title = "제목", state = TaskState.TO_DO, managerName = "별터"),
-        CardState(title = "제목2", state = TaskState.TO_DO, managerName = "별터2", tags = listOf("태그")),
+        TaskCardState(title = "제목", state = TaskState.TO_DO, managerName = "별터"),
+        TaskCardState(title = "제목2", state = TaskState.TO_DO, managerName = "별터2", tags = listOf("태그")),
     )
 
     StateColumnLayout(
@@ -124,8 +124,8 @@ private fun InProgressColumnLayoutPreview() {
 @Composable
 private fun DoneColumnLayoutPreview() {
     val fakeCards = listOf(
-        CardState(title = "제목", state = TaskState.TO_DO, managerName = "별터"),
-        CardState(title = "제목2", state = TaskState.TO_DO, managerName = "별터2", tags = listOf("태그")),
+        TaskCardState(title = "제목", state = TaskState.TO_DO, managerName = "별터"),
+        TaskCardState(title = "제목2", state = TaskState.TO_DO, managerName = "별터2", tags = listOf("태그")),
     )
 
     StateColumnLayout(

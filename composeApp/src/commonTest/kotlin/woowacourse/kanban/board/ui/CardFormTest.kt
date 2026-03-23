@@ -6,8 +6,8 @@ import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
 import org.junit.Test
-import woowacourse.kanban.board.ui.cardForm.CardFormContent
-import woowacourse.kanban.board.ui.cardForm.rememberCardFormState
+import woowacourse.kanban.board.ui.taskcardform.TaskCardFormContent
+import woowacourse.kanban.board.ui.taskcardform.rememberCardFormState
 
 @OptIn(ExperimentalTestApi::class)
 class CardFormTest {
@@ -21,7 +21,7 @@ class CardFormTest {
         setContent {
             val uiState = rememberCardFormState()
             uiState.taskTitle = wrongTitle
-            CardFormContent(
+            TaskCardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {},
@@ -41,7 +41,7 @@ class CardFormTest {
         setContent {
             val uiState = rememberCardFormState()
             uiState.taskTitle = wrongTitle
-            CardFormContent(
+            TaskCardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {},
@@ -61,7 +61,7 @@ class CardFormTest {
         setContent {
             val uiState = rememberCardFormState()
             uiState.taskTitle = validTitle
-            CardFormContent(
+            TaskCardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {},
@@ -81,7 +81,7 @@ class CardFormTest {
         setContent {
             val uiState = rememberCardFormState()
             uiState.tempTags = wrongTag
-            CardFormContent(
+            TaskCardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {}
@@ -102,7 +102,7 @@ class CardFormTest {
             val uiState = rememberCardFormState()
             uiState.taskTitle = "기본 제목"
             uiState.tempTags = validTag
-            CardFormContent(
+            TaskCardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {}
@@ -122,7 +122,7 @@ class CardFormTest {
         setContent {
             val uiState = rememberCardFormState()
             uiState.tempTags = tooLongTag
-            CardFormContent(
+            TaskCardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {}
@@ -142,7 +142,7 @@ class CardFormTest {
         setContent {
             val uiState = rememberCardFormState()
             uiState.tempTags = tooManyTag
-            CardFormContent(
+            TaskCardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {}
@@ -162,7 +162,7 @@ class CardFormTest {
         setContent {
             val uiState = rememberCardFormState()
             uiState.tempTags = invalidTag
-            CardFormContent(
+            TaskCardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {}
@@ -182,7 +182,7 @@ class CardFormTest {
         setContent {
             val uiState = rememberCardFormState()
             uiState.tempTags = validTag
-            CardFormContent(
+            TaskCardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {}

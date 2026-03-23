@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun TaskCard(
-    taskCardState: TaskCardState,
+    taskCardUiState: TaskCardUiState,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -45,25 +45,25 @@ fun TaskCard(
     ) {
 
         TaskCardTitle(
-            title = taskCardState.title,
+            title = taskCardUiState.title,
             modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Kanban Card Title" },
         )
 
-        if (taskCardState.description.isNotBlank()) {
+        if (taskCardUiState.description.isNotBlank()) {
             TaskCardContent(
                 modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Kanban Card Content" },
-                content = taskCardState.description,
+                content = taskCardUiState.description,
             )
         }
 
-        if (taskCardState.tags.isNotEmpty()) TaskCardTagsSection(
-            tags = taskCardState.tags,
+        if (taskCardUiState.tags.isNotEmpty()) TaskCardTagsSection(
+            tags = taskCardUiState.tags,
         )
 
         HorizontalDivider()
 
         TaskCardManagerSection(
-            managerName = taskCardState.managerName,
+            managerName = taskCardUiState.managerName,
             modifier = Modifier
                 .padding(vertical = 10.dp)
                 .fillMaxWidth()

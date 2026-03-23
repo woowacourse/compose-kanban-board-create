@@ -35,8 +35,8 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.domain.Task
 import woowacourse.kanban.board.domain.TagError
+import woowacourse.kanban.board.domain.Task
 import woowacourse.kanban.board.domain.TaskState
 import woowacourse.kanban.board.domain.TitleError
 import woowacourse.kanban.board.ui.components.ActionButton
@@ -63,7 +63,7 @@ fun TaskCardFormScreen(
                     state = uiState.state,
                     managerName = uiState.managerName,
                     description = uiState.description,
-                    tags = parseByComma(uiState.tempTags),
+                    tags = uiState.tempTags.parseByComma(),
                 ),
             )
         },

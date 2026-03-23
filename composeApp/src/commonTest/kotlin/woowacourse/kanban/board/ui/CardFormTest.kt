@@ -6,11 +6,11 @@ import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
 import org.junit.Test
-import woowacourse.kanban.board.ui.cardForm.CardCreationPanelContent
-import woowacourse.kanban.board.ui.cardForm.rememberCardCreationState
+import woowacourse.kanban.board.ui.cardForm.CardFormContent
+import woowacourse.kanban.board.ui.cardForm.rememberCardFormState
 
 @OptIn(ExperimentalTestApi::class)
-class CardCreationPanelTest {
+class CardFormTest {
 
     @Test
     fun `제목을 입력하지 않으면, 생성 버튼이 비활성화된다`() = runComposeUiTest {
@@ -19,9 +19,9 @@ class CardCreationPanelTest {
 
         // when
         setContent {
-            val uiState = rememberCardCreationState()
+            val uiState = rememberCardFormState()
             uiState.taskTitle = wrongTitle
-            CardCreationPanelContent(
+            CardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {},
@@ -39,9 +39,9 @@ class CardCreationPanelTest {
 
         // when
         setContent {
-            val uiState = rememberCardCreationState()
+            val uiState = rememberCardFormState()
             uiState.taskTitle = wrongTitle
-            CardCreationPanelContent(
+            CardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {},
@@ -59,9 +59,9 @@ class CardCreationPanelTest {
 
         // when
         setContent {
-            val uiState = rememberCardCreationState()
+            val uiState = rememberCardFormState()
             uiState.taskTitle = validTitle
-            CardCreationPanelContent(
+            CardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {},
@@ -79,9 +79,9 @@ class CardCreationPanelTest {
 
         // when
         setContent {
-            val uiState = rememberCardCreationState()
+            val uiState = rememberCardFormState()
             uiState.tempTags = wrongTag
-            CardCreationPanelContent(
+            CardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {}
@@ -99,10 +99,10 @@ class CardCreationPanelTest {
 
         // when
         setContent {
-            val uiState = rememberCardCreationState()
+            val uiState = rememberCardFormState()
             uiState.taskTitle = "기본 제목"
             uiState.tempTags = validTag
-            CardCreationPanelContent(
+            CardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {}
@@ -120,9 +120,9 @@ class CardCreationPanelTest {
 
         // when
         setContent {
-            val uiState = rememberCardCreationState()
+            val uiState = rememberCardFormState()
             uiState.tempTags = tooLongTag
-            CardCreationPanelContent(
+            CardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {}
@@ -140,9 +140,9 @@ class CardCreationPanelTest {
 
         // when
         setContent {
-            val uiState = rememberCardCreationState()
+            val uiState = rememberCardFormState()
             uiState.tempTags = tooManyTag
-            CardCreationPanelContent(
+            CardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {}
@@ -160,9 +160,9 @@ class CardCreationPanelTest {
 
         // when
         setContent {
-            val uiState = rememberCardCreationState()
+            val uiState = rememberCardFormState()
             uiState.tempTags = invalidTag
-            CardCreationPanelContent(
+            CardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {}
@@ -180,9 +180,9 @@ class CardCreationPanelTest {
 
         // when
         setContent {
-            val uiState = rememberCardCreationState()
+            val uiState = rememberCardFormState()
             uiState.tempTags = validTag
-            CardCreationPanelContent(
+            CardFormContent(
                 uiState = uiState,
                 onCloseClick = {},
                 onCreateClick = {}

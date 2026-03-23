@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -40,6 +39,8 @@ import woowacourse.kanban.board.domain.CardData
 import woowacourse.kanban.board.domain.TagError
 import woowacourse.kanban.board.domain.TaskState
 import woowacourse.kanban.board.domain.TitleError
+import woowacourse.kanban.board.ui.components.ActionButton
+import woowacourse.kanban.board.ui.components.ActionButtonType
 import woowacourse.kanban.board.util.parseByComma
 
 @Composable
@@ -107,7 +108,7 @@ private fun CardFormContentPreview() {
         modifier = Modifier,
         uiState = uiState,
         onCloseClick = {},
-        onCreateClick = {}
+        onCreateClick = {},
     )
 }
 
@@ -414,47 +415,19 @@ private fun ActionButtonSection(
     ) {
         ActionButton(
             buttonText = "취소",
+            buttonType = ActionButtonType.SECONDARY,
             enabled = true,
             onClick = { onCancelClick() },
         )
         Spacer(modifier = Modifier.width(12.dp))
         ActionButton(
             buttonText = "생성",
+            buttonType = ActionButtonType.PRIMARY,
             enabled = createEnabled,
             onClick = {
                 onCancelClick()
                 onCreateClick()
             },
-        )
-    }
-}
-
-@Composable
-fun ActionButton(
-    buttonText: String,
-    enabled: Boolean,
-    onClick: () -> Unit = {},
-) {
-    val contentColor = if (buttonText == "생성") Color.White else Color(0xFF364153)
-    val buttonColor = if (buttonText == "생성") Color(0xFF4F39F6) else Color.White
-
-    Button(
-        onClick = { onClick() },
-        enabled = enabled,
-        modifier = Modifier,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = buttonColor,
-            contentColor = contentColor,
-        ),
-        shape = RoundedCornerShape(20),
-    ) {
-        Text(
-            text = buttonText,
-            color = contentColor,
-            fontWeight = FontWeight.Medium,
-            fontSize = 16.sp,
-            letterSpacing = (-0.3).sp,
-            lineHeight = 24.sp,
         )
     }
 }
@@ -482,4 +455,4 @@ fun TaskState.getTaskStateLabel(): String {
 }
 
 @Composable
-private fun rememberCardFormState(): CardFormState = remember { CardFormState() }
+fun rememberCardFormState(): CardFormState = remember { CardFormState() }

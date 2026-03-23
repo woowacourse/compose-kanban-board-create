@@ -9,11 +9,11 @@ import androidx.compose.ui.test.runComposeUiTest
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
-class ConditionInputSectionTest {
+class StatusInputSectionTest {
 
     @Test
     fun `화면에서 상태가 모두 표시된다`() = runComposeUiTest {
-        setContent { ConditionInputSection() }
+        setContent { StatusInputSection() }
 
         onNodeWithText("To Do").assertIsDisplayed()
         onNodeWithText("In Progress").assertIsDisplayed()
@@ -22,14 +22,14 @@ class ConditionInputSectionTest {
 
     @Test
     fun `TODO 상태가 기본 선택값으로 렌더링된다`() = runComposeUiTest {
-        setContent { ConditionInputSection() }
+        setContent { StatusInputSection() }
 
         onNodeWithText("To Do").assertIsDisplayed().assertHasClickAction()
     }
 
     @Test
     fun `In Progress 버튼을 클릭하면 클릭 이벤트가 동작한다`() = runComposeUiTest {
-        setContent { ConditionInputSection() }
+        setContent { StatusInputSection() }
 
         onNodeWithText("In Progress").performClick()
         onNodeWithText("In Progress").assertIsDisplayed()

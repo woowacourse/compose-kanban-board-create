@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.ui
+package woowacourse.kanban.board.ui.taskCard
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,8 +26,7 @@ fun AssigneeSection(assignee: Assignee) {
         Spacer(modifier = Modifier.padding(4.dp))
         Text(
             text = assignee.name,
-            fontSize = Font.ASSIGNEE.size,
-            fontWeight = Font.ASSIGNEE.weight,
+            style = Font.ASSIGNEE,
             overflow = TextOverflow.Ellipsis, maxLines = 1,
         )
     }

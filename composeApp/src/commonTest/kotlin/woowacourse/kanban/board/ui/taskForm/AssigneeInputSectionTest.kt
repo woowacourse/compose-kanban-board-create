@@ -13,14 +13,13 @@ import woowacourse.kanban.board.model.Assignee
 
 @OptIn(ExperimentalTestApi::class)
 class AssigneeInputSectionTest {
+    val assignees = listOf(
+        Assignee("다이노"),
+        Assignee("페임스")
+    )
 
     @Test
     fun `화면에 담당자가 모두 표시된다`() = runComposeUiTest {
-        val assignees = listOf(
-            Assignee("다이노"),
-            Assignee("페임스"),
-        )
-
         setContent {
             AssigneeInputSection(
                 assignees = assignees,
@@ -35,10 +34,6 @@ class AssigneeInputSectionTest {
 
     @Test
     fun `기본값으로 첫 번째 담당자가 선택되어 있다`() = runComposeUiTest {
-        val assignees = listOf(
-            Assignee("다이노"),
-            Assignee("페임스"),
-        )
         var selected by mutableStateOf(assignees.first())
 
         setContent {
@@ -56,10 +51,6 @@ class AssigneeInputSectionTest {
 
     @Test
     fun `두 번째 담당자를 선택하면 선택값이 변경된다`() = runComposeUiTest {
-        val assignees = listOf(
-            Assignee("다이노"),
-            Assignee("페임스"),
-        )
         var selected by mutableStateOf(assignees.first())
 
         setContent {

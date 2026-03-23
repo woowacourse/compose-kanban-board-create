@@ -23,22 +23,28 @@ import woowacourse.kanban.board.util.Text as UiText
 @Composable
 private fun ButtonFieldDisabledPreview() {
     MaterialTheme {
-        TaskCreateBottomSection()
+        TaskCreateBottomSection(
+            isCreateEnabled = true,
+            onCancelClick = {},
+            onCreateClick = {},
+        )
     }
 }
 
 @Composable
-fun TaskCreateBottomSection(isCreateEnabled: Boolean = true) {
+fun TaskCreateBottomSection(isCreateEnabled: Boolean = true, onCancelClick: () -> Unit, onCreateClick: () -> Unit) {
     Column(
         modifier = Modifier.fillMaxWidth(),
     ) {
         HorizontalDivider()
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.End,
         ) {
             Button(
-                onClick = {},
+                onClick = onCancelClick,
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,
@@ -50,8 +56,9 @@ fun TaskCreateBottomSection(isCreateEnabled: Boolean = true) {
                     style = MaterialTheme.typography.titleMedium,
                 )
             }
+
             Button(
-                onClick = {},
+                onClick = onCreateClick,
                 enabled = isCreateEnabled,
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(

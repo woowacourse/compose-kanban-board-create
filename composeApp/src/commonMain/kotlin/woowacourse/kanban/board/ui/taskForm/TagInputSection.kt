@@ -21,6 +21,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import java.util.regex.Pattern
+import woowacourse.kanban.board.model.Tag
 import woowacourse.kanban.board.util.ColorPalette
 import woowacourse.kanban.board.util.Font
 import woowacourse.kanban.board.util.Text as UiText
@@ -30,8 +31,7 @@ fun TagInputSection(onTagsChange: (String) -> Unit = {}, onErrorChange: (Boolean
     Column {
         Text(
             text = UiText.LABEL_TAG,
-            fontSize = Font.FORMTITLE.size,
-            fontWeight = Font.FORMTITLE.weight,
+            style = Font.FORM_TITLE,
             modifier = Modifier.padding(8.dp),
         )
         TagInputField(
@@ -63,7 +63,11 @@ private fun TagInputField(onTagsChange: (String) -> Unit, onErrorChange: (Boolea
 
     val isCountError = run {
         val splitTags = tags.split(",")
-        tags.isNotEmpty() && (splitTags.size > 5 || !splitTags.all { it.trim().length in 1..5 })
+        tags.isNotEmpty() &&
+            (
+                splitTags.size > Tag.MAXIMUM_TAG_COUNT ||
+                    !splitTags.all { it.trim().length in 1..Tag.MAXIMUM_TAG_LENGTH }
+                )
     }
 
     val supportingText = if (isFormError) {
@@ -91,16 +95,14 @@ private fun TagInputField(onTagsChange: (String) -> Unit, onErrorChange: (Boolea
         placeholder = {
             Text(
                 text = UiText.PLACEHOLDER_TAG,
-                fontSize = Font.FORMINPUT.size,
-                fontWeight = Font.FORMINPUT.weight,
+                style = Font.FORM_INPUT,
                 color = ColorPalette.PlaceHolder,
             )
         },
         supportingText = {
             Text(
                 text = supportingText,
-                fontSize = Font.FORMEXPLAIN.size,
-                fontWeight = Font.FORMEXPLAIN.weight,
+                style = Font.FORM_EXPLAIN,
             )
         },
         trailingIcon = {

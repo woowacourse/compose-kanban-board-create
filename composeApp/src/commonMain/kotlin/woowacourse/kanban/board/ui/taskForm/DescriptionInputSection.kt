@@ -24,8 +24,7 @@ fun DescriptionInputSection(description: String, onDescriptionChange: (String) -
     Column {
         Text(
             text = UiText.LABEL_DESCRIPTION,
-            fontSize = Font.FORMTITLE.size,
-            fontWeight = Font.FORMTITLE.weight,
+            style = Font.FORM_TITLE,
             modifier = Modifier.padding(8.dp).fillMaxWidth(),
         )
         DescriptionInputField(
@@ -57,8 +56,7 @@ private fun DescriptionInputField(description: String, onDescriptionChange: (Str
         placeholder = {
             Text(
                 text = UiText.PLACEHOLDER_DESCRIPTION,
-                fontSize = Font.FORMINPUT.size,
-                fontWeight = Font.FORMINPUT.weight,
+                style = Font.FORM_INPUT,
                 color = Color(0xFFAAAAAA),
             )
         },

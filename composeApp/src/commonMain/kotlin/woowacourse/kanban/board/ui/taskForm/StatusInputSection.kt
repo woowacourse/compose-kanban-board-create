@@ -16,62 +16,61 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import woowacourse.kanban.board.model.Condition
+import woowacourse.kanban.board.model.Status
 import woowacourse.kanban.board.util.ColorPalette
 import woowacourse.kanban.board.util.Font
 import woowacourse.kanban.board.util.Text as UiText
 
 @Composable
-fun ConditionInputSection() {
+fun StatusInputSection() {
     Column {
         Text(
             text = UiText.LABEL_STATUS,
-            fontSize = Font.FORMTITLE.size,
-            fontWeight = Font.FORMTITLE.weight,
+            style = Font.FORM_TITLE,
             modifier = Modifier.padding(8.dp).fillMaxWidth(),
         )
-        ConditionField()
+        StatusField()
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun ConditionInputPreview() {
+private fun StatusInputPreview() {
     MaterialTheme {
-        ConditionInputSection()
+        StatusInputSection()
     }
 }
 
 @Composable
-fun ConditionField() {
-    var selectedCondition by remember { mutableStateOf(Condition.TODO) }
+fun StatusField() {
+    var selectedStatus by remember { mutableStateOf(Status.TODO) }
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Condition.entries.forEach {
-            val borderColor = remember(selectedCondition) {
-                if (selectedCondition == it) ColorPalette.ConditionSelectedBorder
-                else ColorPalette.ConditionUnSelectedBorder
+        Status.entries.forEach {
+            val borderColor = remember(selectedStatus) {
+                if (selectedStatus == it) ColorPalette.StatusSelectedBorder
+                else ColorPalette.StatusUnSelectedBorder
             }
-            val backgroundColor = remember(selectedCondition) {
-                if (selectedCondition == it) ColorPalette.ConditionSelectedBackground
-                else ColorPalette.ConditionUnSelectedBackground
+            val backgroundColor = remember(selectedStatus) {
+                if (selectedStatus == it) ColorPalette.StatusSelectedBackground
+                else ColorPalette.StatusUnSelectedBackground
             }
-            val textColor = remember(selectedCondition) {
-                if (selectedCondition == it) ColorPalette.ConditionSelectedText
-                else ColorPalette.ConditionUnselectedText
+            val textColor = remember(selectedStatus) {
+                if (selectedStatus == it) ColorPalette.StatusSelectedText
+                else ColorPalette.StatusUnselectedText
             }
             SelectionItem(
                 modifier = Modifier.weight(1f),
                 borderColor = borderColor,
                 backgroundColor = backgroundColor,
-                onClick = { selectedCondition = it },
+                onClick = { selectedStatus = it },
                 padding = 8.dp,
             ) {
                 Text(
-                    text = it.text,
+                    text = UiText.statusLabel(it),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
                     color = textColor,

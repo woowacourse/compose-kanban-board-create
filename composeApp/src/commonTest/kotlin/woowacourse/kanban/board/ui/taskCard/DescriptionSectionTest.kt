@@ -1,28 +1,29 @@
-package woowacourse.kanban.board.ui
+package woowacourse.kanban.board.ui.taskCard
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
+import woowacourse.kanban.board.fixture.TaskCardFixture
 import kotlin.test.Test
-import woowacourse.kanban.board.model.Description
 
 @OptIn(ExperimentalTestApi::class)
 class DescriptionSectionTest {
     @Test
     fun `설명 뷰는 설명 텍스트를 표시한다`() = runComposeUiTest {
-        val description = Description("이걸 설명입니다.")
+        val description = TaskCardFixture.DEFAULT_DESCRIPTION
 
         setContent {
             DescriptionSection(description = description)
         }
 
-        onNodeWithText("이걸 설명입니다.").assertIsDisplayed()
+        onNodeWithText(TaskCardFixture.DEFAULT_DESCRIPTION).assertIsDisplayed()
     }
 
     @Test
     fun `설명 뷰는 최대 두 줄까지 표시한다`() = runComposeUiTest {
-        val description = Description("1\n2")
+        val description = "1\n2"
 
         setContent {
             DescriptionSection(description = description)

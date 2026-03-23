@@ -6,6 +6,7 @@ import kotlin.test.assertFailsWith
 class AssigneeTest {
     private val blankText = " "
     private val validText = "다이노"
+
     @Test
     fun `담당자는 빈 텍스트일 수 없다`() {
         assertFailsWith<IllegalArgumentException> {

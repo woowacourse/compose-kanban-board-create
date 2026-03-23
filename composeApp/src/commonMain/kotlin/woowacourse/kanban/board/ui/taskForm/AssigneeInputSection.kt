@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.model.Assignee
-import woowacourse.kanban.board.ui.AssigneeSection
+import woowacourse.kanban.board.ui.taskCard.AssigneeSection
 import woowacourse.kanban.board.util.ColorPalette
 import woowacourse.kanban.board.util.Font
 import woowacourse.kanban.board.util.Text as UiText
@@ -24,8 +24,7 @@ fun AssigneeInputSection(assignees: List<Assignee>, selected: Assignee, onSelect
     Column {
         Text(
             text = UiText.LABEL_ASSIGNEE,
-            fontSize = Font.FORMTITLE.size,
-            fontWeight = Font.FORMTITLE.weight,
+            style = Font.FORM_TITLE,
             modifier = Modifier.padding(8.dp).fillMaxWidth(),
         )
         AssigneeField(

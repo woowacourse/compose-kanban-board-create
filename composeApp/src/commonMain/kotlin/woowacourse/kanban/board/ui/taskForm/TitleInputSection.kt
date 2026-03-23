@@ -24,8 +24,7 @@ fun TitleInputSection(title: String, onTitleChange: (String) -> Unit = {}, onErr
     Column {
         Text(
             text = UiText.LABEL_TITLE,
-            fontSize = Font.FORMTITLE.size,
-            fontWeight = Font.FORMTITLE.weight,
+            style = Font.FORM_TITLE,
             modifier = Modifier.padding(8.dp).fillMaxWidth(),
         )
         TitleInputField(
@@ -52,7 +51,6 @@ private fun TitleInputPreview() {
 @Composable
 private fun TitleInputField(title: String, onTitleChange: (String) -> Unit, onErrorChange: (Boolean) -> Unit) {
     var isEmptyError by remember { mutableStateOf(false) }
-    var isFocused by remember { mutableStateOf(false) }
     val supportingText = if (isEmptyError) UiText.ERROR_TITLE_EMPTY_INPUT else ""
     OutlinedTextField(
         value = title,
@@ -63,23 +61,20 @@ private fun TitleInputField(title: String, onTitleChange: (String) -> Unit, onEr
         placeholder = {
             Text(
                 text = UiText.PLACEHOLDER_TITLE,
-                fontSize = Font.FORMINPUT.size,
-                fontWeight = Font.FORMINPUT.weight,
+                style = Font.FORM_INPUT,
                 color = Color(0xFFAAAAAA),
             )
         },
         modifier = Modifier
             .fillMaxWidth()
             .onFocusChanged { focusState ->
-                isFocused = focusState.isFocused
-                isEmptyError = !isFocused && title.isEmpty()
+                isEmptyError = !focusState.isFocused && title.isEmpty()
                 onErrorChange(isEmptyError)
             },
         supportingText = {
             Text(
                 text = supportingText,
-                fontSize = Font.FORMEXPLAIN.size,
-                fontWeight = Font.FORMEXPLAIN.weight,
+                style = Font.FORM_EXPLAIN,
             )
         },
 

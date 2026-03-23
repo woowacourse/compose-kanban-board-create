@@ -1,6 +1,8 @@
 package woowacourse.kanban.board.component.taskmodal
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithText
@@ -8,34 +10,41 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.unit.Density
+import woowacourse.kanban.board.model.Assignee
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
 class ModalCreateFormTest {
+    private val testAssignees = listOf(Assignee("커비"), Assignee("바드"), Assignee("하로"))
+
+    private val modalSetUp: @Composable (ModalCreateFormState) -> Unit = { state ->
+        CompositionLocalProvider(LocalDensity provides Density(density = 0.1f)) {
+            ModalCreateForm(
+                assignees = testAssignees,
+                onClickCancel = {},
+                onClickConfirm = {},
+                modalState = state,
+            )
+        }
+    }
 
     @Test
-    fun `제목을 입력하지 않고 생성 버튼을 누르면 에러 메시지가 표시된다`() = runComposeUiTest {
+    fun `제목을 입력하지 않으면 에러 메시지가 표시된다`() = runComposeUiTest {
         // given
         setContent {
-            CompositionLocalProvider(LocalDensity provides Density(density = 0.1f)) {
-                ModalCreateForm()
-            }
+            val state = remember { ModalCreateFormState() }
+            modalSetUp(state)
         }
-
-        // when
-        onNodeWithText("생성").performClick()
-
         // then
-        onNodeWithText("제목을 입력해주세요.").assertExists()
+        onNodeWithText("제목을 입력해주세요").assertExists()
     }
 
     @Test
     fun `제목을 입력하면 에러 메시지가 표시되지 않는다`() = runComposeUiTest {
         // given
         setContent {
-            CompositionLocalProvider(LocalDensity provides Density(density = 0.1f)) {
-                ModalCreateForm()
-            }
+            val state = remember { ModalCreateFormState() }
+            modalSetUp(state)
         }
 
         // when
@@ -43,16 +52,15 @@ class ModalCreateFormTest {
         onNodeWithText("생성").performClick()
 
         // then
-        onNodeWithText("제목을 입력해주세요.").assertDoesNotExist()
+        onNodeWithText("제목을 입력해주세요").assertDoesNotExist()
     }
 
     @Test
     fun `올바르지 않은 태그 형식을 입력하면 에러 메시지가 표시된다`() = runComposeUiTest {
         // given
         setContent {
-            CompositionLocalProvider(LocalDensity provides Density(density = 0.1f)) {
-                ModalCreateForm()
-            }
+            val state = remember { ModalCreateFormState() }
+            modalSetUp(state)
         }
 
         // when
@@ -67,9 +75,8 @@ class ModalCreateFormTest {
     fun `5자를 초과하는 태그를 입력하면 에러 메시지가 표시된다`() = runComposeUiTest {
         // given
         setContent {
-            CompositionLocalProvider(LocalDensity provides Density(density = 0.1f)) {
-                ModalCreateForm()
-            }
+            val state = remember { ModalCreateFormState() }
+            modalSetUp(state)
         }
 
         // when

@@ -20,7 +20,7 @@ fun ModalBodyInput(
     essential: Boolean,
     placeHolder: String,
     maxLines: Int,
-    supportingText: String,
+    supportingText: String?,
     state: String,
     isValid: Boolean,
     onValueChange: (String) -> Unit,
@@ -60,10 +60,10 @@ private fun ModalBodyInputPreview() {
             maxLines = 1,
             supportingText = "서폿팅 텍스트 입니다.",
             state = state,
+            isValid = false,
             onValueChange = {
                 state = it
             },
-            isValid = false,
         )
     }
 }

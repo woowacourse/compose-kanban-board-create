@@ -16,9 +16,9 @@ fun ModalInputTitle(
     modifier: Modifier = Modifier,
 ) {
     Text(
-        modifier = modifier,
         text = "$title${if (essential) " *" else ""}",
         fontSize = 20.sp,
+        modifier = modifier,
     )
 }
 

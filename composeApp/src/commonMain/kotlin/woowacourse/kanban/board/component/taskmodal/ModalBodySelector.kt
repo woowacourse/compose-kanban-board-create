@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -26,8 +27,8 @@ fun ModalBodySelector(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier,
     ) {
         ModalInputTitle(
             title = title,
@@ -59,22 +60,25 @@ private fun ModalBodySelectorOptionPreview() {
     ModalBodySelector(
         title = "상태",
         essential = true,
-        items = TaskState.getStateNames(),
+        items = TaskState.entries.map { state ->
+            when (state) {
+                TaskState.TODO -> "To Do"
+                TaskState.IN_PROGRESS -> "In Progress"
+                TaskState.DONE -> "Done"
+            }
+        },
         content = @Composable { name, id ->
             ModalOptionButton(
-                onClick = {
-                    selectedId = id
-                },
-                modifier = Modifier,
-                content = {
-                    ModalOptionStatus(
-                        modifier = Modifier,
-                        text = name,
-                    )
-                },
                 isSelected = selectedId == id,
                 selectedContainerColor = Color(0xFFEFF6FF),
                 selectedBorderColor = Color(0xFF1447E6),
+                onClick = {
+                },
+                content = {
+                    Text(
+                        text = name,
+                    )
+                },
             )
         },
     )
@@ -96,6 +100,9 @@ private fun ModalOptionAssigneePreview() {
         items = assignees.map { it.name },
         content = @Composable { name, id ->
             ModalOptionButton(
+                isSelected = selectedId == id,
+                selectedContainerColor = Color(0xFFEFF6FF),
+                selectedBorderColor = Color(0xFF615FFF),
                 onClick = {
                     selectedId = id
                 },
@@ -105,9 +112,6 @@ private fun ModalOptionAssigneePreview() {
                         name = name,
                     )
                 },
-                isSelected = selectedId == id,
-                selectedContainerColor = Color(0xFFEFF6FF),
-                selectedBorderColor = Color(0xFF615FFF),
             )
         },
     )

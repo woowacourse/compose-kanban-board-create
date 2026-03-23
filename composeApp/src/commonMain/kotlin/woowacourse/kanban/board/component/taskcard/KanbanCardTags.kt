@@ -14,9 +14,9 @@ fun KanbanCardTags(
     modifier: Modifier = Modifier,
 ) {
     FlowRow(
-        modifier = modifier.semantics { contentDescription = "칸반 카드 태그 목록" },
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
+        modifier = modifier.semantics { contentDescription = "칸반 카드 태그 목록" },
     ) {
         tags.forEach { tag -> TagChip(name = tag) }
     }

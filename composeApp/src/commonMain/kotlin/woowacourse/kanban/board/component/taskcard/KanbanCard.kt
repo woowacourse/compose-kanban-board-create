@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.DrawableResource
 import woowacourse.kanban.board.component.common.KanbanAssigneeProfile
 import woowacourse.kanban.board.component.common.KanbanTitle
+import woowacourse.kanban.board.model.Assignee
 
 /**
  * @param tags 최대 5개까지만 표시되는 태그 리스트입니다. 5개를 초과하면 상위 5개만 렌더링됩니다.
@@ -66,7 +67,7 @@ fun KanbanCard(
         )
 
         KanbanAssigneeProfile(
-            crewName = kanbanCardForm.crewName,
+            crewName = kanbanCardForm.assignee.name,
             crewImage = crewImage,
             modifier = Modifier.padding(
                 end = 20.dp,
@@ -78,11 +79,10 @@ fun KanbanCard(
 
 data class KanbanCardInfo(
     val title: String,
-    val crewName: String,
     val modifier: Modifier = Modifier,
     val tags: List<String> = emptyList(),
     val content: String = "",
-    val crewImage: DrawableResource? = null,
+    val assignee: Assignee,
 )
 
 class KanbanCardPreviewParameterProvider : PreviewParameterProvider<KanbanCardInfo> {
@@ -93,24 +93,24 @@ class KanbanCardPreviewParameterProvider : PreviewParameterProvider<KanbanCardIn
     override val values = sequenceOf(
         KanbanCardInfo(
             title = "LazyColumn 컴포넌트 구현",
-            crewName = "바드",
+            assignee = Assignee("바드"),
             tags = tags,
             content = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
         ),
         KanbanCardInfo(
             title = "LazyColumn 컴포넌트 구현",
-            crewName = "바드",
+            assignee = Assignee("바드"),
             tags = tags,
             content = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
         ),
         KanbanCardInfo(
             title = "LazyColumn 컴포넌트 구현",
-            crewName = "바드",
+            assignee = Assignee("바드"),
             content = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
         ),
         KanbanCardInfo(
             title = "LazyColumn 컴포넌트 구현",
-            crewName = "바드",
+            assignee = Assignee("바드"),
         ),
     )
 }
@@ -122,12 +122,12 @@ private fun KanbanCardPreview(@PreviewParameter(KanbanCardPreviewParameterProvid
         KanbanCard(
             kanbanCardForm = KanbanCardForm(
                 title = kanbanCardInfo.title,
-                crewName = kanbanCardInfo.crewName,
                 tags = kanbanCardInfo.tags,
                 content = kanbanCardInfo.content,
+                assignee = Assignee("커비"),
             ),
             modifier = kanbanCardInfo.modifier,
-            crewImage = kanbanCardInfo.crewImage,
+            crewImage = kanbanCardInfo.assignee.profileImage,
         )
     }
 }
@@ -139,7 +139,7 @@ private fun KanbanCardMaxPreview() {
         KanbanCard(
             kanbanCardForm = KanbanCardForm(
                 title = "너무너무 긴 제목은 한 줄까지만 노출합니다. 그렇습니다. 감사합니다.",
-                crewName = "바드바드바드바드바드바드바드바드바드바드바드바드바드바드",
+                assignee = Assignee("바드바드바드바드바드바드바드바드바드바드바드바드바드바드"),
                 tags = listOf(
                     "컴포넌트",
                     "성능",

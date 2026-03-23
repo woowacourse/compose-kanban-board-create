@@ -24,9 +24,10 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ModalAction(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    onClickCancel: () -> Unit,
+    onClickConfirm: () -> Unit,
     enabled: Boolean,
+    modifier: Modifier = Modifier,
 ) {
     HorizontalDivider(
         thickness = Dp.Hairline,
@@ -39,18 +40,18 @@ fun ModalAction(
         horizontalArrangement = Arrangement.End,
     ) {
         Button(
-            modifier = Modifier
-                .height(44.dp)
-                .width(68.dp),
-            onClick = {},
+            contentPadding = PaddingValues(all = 0.dp),
+            shape = RoundedCornerShape(size = 10.dp),
+            onClick = { onClickCancel() },
             colors = ButtonColors(
                 containerColor = Color.White,
                 contentColor = Color.Black,
                 disabledContainerColor = Color.White,
                 disabledContentColor = Color.Black,
             ),
-            contentPadding = PaddingValues(all = 0.dp),
-            shape = RoundedCornerShape(size = 10.dp),
+            modifier = Modifier
+                .height(44.dp)
+                .width(68.dp),
         ) {
             Text(
                 text = "취소",
@@ -63,19 +64,19 @@ fun ModalAction(
         )
 
         Button(
-            modifier = Modifier
-                .height(44.dp)
-                .width(68.dp),
-            onClick = onClick,
+            enabled = enabled,
+            contentPadding = PaddingValues(all = 0.dp),
+            shape = RoundedCornerShape(size = 10.dp),
+            onClick = { onClickConfirm() },
             colors = ButtonColors(
                 containerColor = Color.Blue,
                 contentColor = Color.White,
                 disabledContainerColor = Color.Gray,
                 disabledContentColor = Color.White,
             ),
-            enabled = enabled,
-            contentPadding = PaddingValues(all = 0.dp),
-            shape = RoundedCornerShape(size = 10.dp),
+            modifier = Modifier
+                .height(44.dp)
+                .width(68.dp),
         ) {
             Text(
                 text = "생성",
@@ -90,8 +91,9 @@ fun ModalAction(
 private fun ModalActionPreview() {
     Box(modifier = Modifier.padding(all = 10.dp)) {
         ModalAction(
-            onClick = {},
             enabled = false,
+            onClickCancel = {},
+            onClickConfirm = {},
         )
     }
 }

@@ -22,7 +22,7 @@ fun ModalInputField(
     placeHolder: String,
     maxLines: Int,
     isValid: Boolean,
-    supportingText: String,
+    supportingText: String?,
     modifier: Modifier = Modifier,
 ) {
     val color = if (isValid) Color.Black else Color.Red
@@ -30,6 +30,23 @@ fun ModalInputField(
         modifier = modifier,
     ) {
         TextField(
+            value = value,
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedTextColor = color,
+                unfocusedTextColor = color,
+            ),
+            maxLines = maxLines,
+            onValueChange = onValueChange,
+            placeholder = {
+                Text(
+                    text = placeHolder,
+                    color = color,
+                )
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
@@ -41,34 +58,17 @@ fun ModalInputField(
                     color = color,
                     shape = RoundedCornerShape(size = 10.dp),
                 ),
-            value = value,
-            colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                focusedContainerColor = Color.Transparent,
-                unfocusedContainerColor = Color.Transparent,
-                focusedTextColor = color,
-                unfocusedTextColor = color,
-            ),
-            onValueChange = onValueChange,
-            placeholder = {
-                Text(
-                    text = placeHolder,
-                    color = color,
-                )
-            },
-            maxLines = maxLines,
         )
 
         Text(
+            text = supportingText ?: "",
+            fontSize = 12.sp,
+            color = color,
             modifier = Modifier.padding(
                 top = 4.dp,
                 start = 16.dp,
                 end = 16.dp,
             ),
-            text = supportingText,
-            fontSize = 12.sp,
-            color = color,
         )
     }
 }

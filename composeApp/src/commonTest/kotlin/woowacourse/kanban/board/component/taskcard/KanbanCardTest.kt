@@ -10,6 +10,7 @@ import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.text.TextLayoutResult
 import kotlin.test.assertEquals
 import org.junit.Test
+import woowacourse.kanban.board.model.Assignee
 
 @OptIn(ExperimentalTestApi::class)
 class KanbanCardTest {
@@ -18,7 +19,7 @@ class KanbanCardTest {
         // given
         val kanbanCardForm = KanbanCardForm(
             title = "LazyColumn 컴포넌트 구현",
-            crewName = "다이노",
+            assignee = Assignee("다이노"),
             tags = listOf("컴포넌트", "성능"),
             content = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
         )
@@ -43,7 +44,7 @@ class KanbanCardTest {
         // given
         val kanbanCardForm = KanbanCardForm(
             title = "LazyColumn 컴포넌트 구현",
-            crewName = "다이노",
+            assignee = Assignee("다이노"),
             tags = listOf("컴포넌트", "성능"),
         )
 
@@ -64,7 +65,7 @@ class KanbanCardTest {
         // given
         val kanbanCardForm = KanbanCardForm(
             title = "LazyColumn 컴포넌트 구현",
-            crewName = "다이노",
+            assignee = Assignee("바드"),
             tags = listOf("컴포넌트", "성능"),
             content = content,
         )
@@ -82,8 +83,8 @@ class KanbanCardTest {
 
     @Test
     fun `긴 담당자 말줄임표 발생 테스트`() = runComposeUiTest {
-        val crewName = "너무 긴 담당자 이름너무 긴 담당자 이름너무 긴 담당자 이름"
-        val kanbanCardForm = KanbanCardForm(title = "제목", crewName = crewName)
+        val assignee = Assignee("너무 긴 담당자 이름너무 긴 담당자 이름너무 긴 담당자 이름")
+        val kanbanCardForm = KanbanCardForm(title = "제목", assignee = assignee)
 
         setContent {
             KanbanCard(
@@ -92,7 +93,7 @@ class KanbanCardTest {
         }
 
         val textLayoutResult = mutableListOf<TextLayoutResult>()
-        onNodeWithText(crewName, useUnmergedTree = true).performSemanticsAction(GetTextLayoutResult) {
+        onNodeWithText(assignee.name, useUnmergedTree = true).performSemanticsAction(GetTextLayoutResult) {
             it(textLayoutResult)
         }
 
@@ -101,7 +102,8 @@ class KanbanCardTest {
 
     @Test
     fun `프로필 이미지가 없다면 기본 이미지 출력 테스트`() = runComposeUiTest {
-        val kanbanCardForm = KanbanCardForm(title = "LazyColumn 컴포넌트 구현", crewName = "다이노")
+        val assignee = Assignee("다이노")
+        val kanbanCardForm = KanbanCardForm(title = "LazyColumn 컴포넌트 구현", assignee = assignee)
 
         setContent {
             KanbanCard(

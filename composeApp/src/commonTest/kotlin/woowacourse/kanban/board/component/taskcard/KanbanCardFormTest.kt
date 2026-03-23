@@ -5,6 +5,7 @@ import androidx.compose.ui.test.runComposeUiTest
 import kotlin.test.assertFailsWith
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
+import woowacourse.kanban.board.model.Assignee
 
 @OptIn(ExperimentalTestApi::class)
 class KanbanCardFormTest {
@@ -12,8 +13,8 @@ class KanbanCardFormTest {
     fun `제목에 비어있거나 공백이 입력되면 에러가 발생`() = runComposeUiTest {
         // when & then
         assertFailsWith<IllegalArgumentException> {
-            KanbanCardForm("", "바드")
-            KanbanCardForm("      ", "바드")
+            KanbanCardForm(title = "", assignee = Assignee("바드"))
+            KanbanCardForm(title = "      ", assignee = Assignee("바드"))
         }
     }
 
@@ -21,8 +22,8 @@ class KanbanCardFormTest {
     fun `담당자가 비어있거나 공백이 입력되면 에러가 발생`() = runComposeUiTest {
         // when & then
         assertFailsWith<IllegalArgumentException> {
-            KanbanCardForm("제목 이름", "")
-            KanbanCardForm("제목 이름", "         ")
+            KanbanCardForm("제목 이름", assignee = Assignee(""))
+            KanbanCardForm("제목 이름", assignee = Assignee("  "))
         }
     }
 
@@ -31,7 +32,7 @@ class KanbanCardFormTest {
         assertFailsWith<IllegalArgumentException> {
             KanbanCardForm(
                 title = "제목이름",
-                crewName = "바드",
+                assignee = Assignee("바드"),
                 tags = listOf("태그1", "태그2", "태그3", "태그4", "태그5", "태그6"),
             )
         }
@@ -42,7 +43,7 @@ class KanbanCardFormTest {
         assertFailsWith<IllegalArgumentException> {
             KanbanCardForm(
                 title = "제목 이름",
-                crewName = "바드",
+                assignee = Assignee("바드"),
                 tags = listOf("긴 태그이름입니다."),
             )
         }
@@ -51,19 +52,19 @@ class KanbanCardFormTest {
     @Test
     fun `정상 테스트`() = runComposeUiTest {
         val title = "제목 이름"
-        val crewName = "바드"
+        val assignee = Assignee("바드")
         val tags = listOf("태그1", "태그2", "태그3")
         val content = "칸반 카드 내용"
 
         val formInfo = KanbanCardForm(
             title = title,
-            crewName = crewName,
+            assignee = assignee,
             tags = tags,
             content = content,
         )
 
         assertThat(formInfo.title).isEqualTo("제목 이름")
-        assertThat(formInfo.crewName).isEqualTo("바드")
+        assertThat(formInfo.assignee.name).isEqualTo("바드")
         assertThat(formInfo.tags).isEqualTo(listOf("태그1", "태그2", "태그3"))
         assertThat(formInfo.content).isEqualTo("칸반 카드 내용")
     }

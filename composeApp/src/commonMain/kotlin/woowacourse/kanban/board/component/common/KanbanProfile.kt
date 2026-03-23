@@ -32,16 +32,16 @@ fun KanbanAssigneeProfile(
         .clip(CircleShape)
 
     Row(
-        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier,
     ) {
         if (crewImage == null) {
             Icon(
                 imageVector = Icons.Default.AccountCircle,
                 contentDescription = "기본 이미지",
-                modifier = imageModifier,
                 tint = Color.Gray,
+                modifier = imageModifier,
             )
         } else {
             Image(

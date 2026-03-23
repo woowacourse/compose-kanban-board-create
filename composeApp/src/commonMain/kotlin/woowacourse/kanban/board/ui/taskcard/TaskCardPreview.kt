@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.ui
+package woowacourse.kanban.board.ui.taskcard
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -7,41 +7,46 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import woowacourse.kanban.board.domain.CardData
+import woowacourse.kanban.board.domain.TaskState
 
 /**
  * 여러 케이스에 따른 KanbanCard의 Preview를 모아볼 수 있습니다.
  */
-private class CardPreviewParameterProvider : PreviewParameterProvider<CardData> {
-    override val values: Sequence<CardData> = sequenceOf(
-        CardData.create(
+private class CardPreviewParameterProvider : PreviewParameterProvider<TaskCardUiState> {
+    override val values: Sequence<TaskCardUiState> = sequenceOf(
+        TaskCardUiState(
             title = "Lazy Column 컴포넌트 구현",
             description = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
             tags = listOf("컴포넌트", "성능"),
+            state = TaskState.TO_DO,
             managerName = "구름",
         ),
-        CardData.create(
+        TaskCardUiState(
             title = "Lazy Column 컴포넌트 구현",
             description = "",
             tags = listOf("컴포넌트", "성능"),
+            state = TaskState.TO_DO,
             managerName = "구름",
         ),
-        CardData.create(
+        TaskCardUiState(
             title = "Lazy Column 컴포넌트 구현",
             description = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
             tags = emptyList(),
+            state = TaskState.TO_DO,
             managerName = "구름",
         ),
-        CardData.create(
+        TaskCardUiState(
             title = "Lazy Column 컴포넌트 구현",
             description = "",
             tags = emptyList(),
+            state = TaskState.TO_DO,
             managerName = "구름",
         ),
-        CardData.create(
+        TaskCardUiState(
             title = "너무너무 긴 제목은 한 줄까지만 노출너무너무 긴 제목은 한 줄까지만 노출",
             description = "너무너무너무 긴 설명은 두 줄까지만 노출하고 말줄임표로 처리합니다 두 줄까지만 노너무너무너무 긴 설명은 두 줄까지만 노출하고 말줄임표로 처리합니다 두 줄까지만 노",
-            tags = listOf("너무너무", "긴 태그", "최대로", "5자까지진짜로", "5개제한임", "6개"),
+            tags = listOf("너무너무", "긴 태그", "최대로", "5자까지진", "5개제한임"),
+            state = TaskState.TO_DO,
             managerName = "너무너무너무 긴 담당자도 한 줄너무너무너무 긴 담당자도 한 줄",
         ),
     )
@@ -49,11 +54,11 @@ private class CardPreviewParameterProvider : PreviewParameterProvider<CardData> 
 
 @Preview(showBackground = true, name = "KanbanBoardCard")
 @Composable
-private fun CardPreview(
-    @PreviewParameter(CardPreviewParameterProvider::class) cardData: CardData,
+private fun TaskCardPreview(
+    @PreviewParameter(CardPreviewParameterProvider::class) taskCardUiState: TaskCardUiState,
 ) {
-    Card(
+    TaskCard(
         modifier = Modifier.width(286.dp),
-        cardData = cardData,
+        taskCardUiState = taskCardUiState
     )
 }

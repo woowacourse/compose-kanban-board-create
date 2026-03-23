@@ -1,0 +1,60 @@
+package woowacourse.kanban.board.domain
+
+import woowacourse.kanban.board.util.parseByComma
+
+class Task private constructor(
+    val title: String,
+    val state: TaskState,
+    val managerName: String,
+    val description: String,
+    val tags: List<String>,
+) {
+    companion object {
+        private const val MAX_TAG_COUNT = 5
+        private const val MAX_TAG_LENGTH = 5
+
+        fun create(
+            title: String,
+            state: TaskState,
+            managerName: String,
+            description: String = "",
+            tags: List<String> = emptyList(),
+        ): Task {
+            require(isValidTitle(title) == TitleError.NONE) { "[Card] 제목은 필수 입력 항목입니다." }
+            require(managerName.isNotBlank()) { "[Card] 계정명은 필수 입력 항목입니다." }
+
+            val normalizedTags = tags
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
+
+            require(normalizedTags.size <= MAX_TAG_COUNT) { "[Card] 태그는 최대 ${MAX_TAG_COUNT}개까지 가능합니다." }
+            require(normalizedTags.all { it.length <= MAX_TAG_LENGTH }) { "[Card] 태그는 최대 ${MAX_TAG_LENGTH}자까지 가능합니다." }
+
+            return Task(
+                title = title,
+                description = description,
+                tags = normalizedTags,
+                state = state,
+                managerName = managerName,
+            )
+        }
+
+        fun isValidTitle(rawText: String): TitleError {
+            if (rawText.isBlank()) return TitleError.EMPTY
+            return TitleError.NONE
+        }
+
+        fun isValidTag(rawText: String): TagError {
+            if (rawText.isBlank()) return TagError.NONE
+
+            val parsedText = rawText.parseByComma()
+
+            return when {
+                parsedText.any { it.isBlank() } -> TagError.INVALID_FORMAT
+                parsedText.any { it.length > MAX_TAG_LENGTH } -> TagError.TOO_LONG
+                parsedText.size > MAX_TAG_COUNT -> TagError.TOO_MANY
+                else -> TagError.NONE
+            }
+        }
+    }
+}

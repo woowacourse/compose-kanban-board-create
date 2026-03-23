@@ -1,8 +1,7 @@
-package woowacourse.kanban.board.ui
+package woowacourse.kanban.board.ui.taskcardform
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -27,43 +25,45 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.domain.CardData
 import woowacourse.kanban.board.domain.TagError
+import woowacourse.kanban.board.domain.Task
 import woowacourse.kanban.board.domain.TaskState
 import woowacourse.kanban.board.domain.TitleError
+import woowacourse.kanban.board.ui.components.ActionButton
+import woowacourse.kanban.board.ui.components.ActionButtonType
+import woowacourse.kanban.board.ui.util.getTaskStateLabel
 import woowacourse.kanban.board.util.parseByComma
 
 @Composable
-fun CardCreationPanel(
+fun TaskCardFormScreen(
     modifier: Modifier = Modifier,
-    onShowCardCreationPanel: (Boolean) -> Unit,
-    onAddItem: (CardData) -> Unit,
+    onClosePanelClick: () -> Unit,
+    onCreateCard: (Task) -> Unit,
 ) {
-    val uiState: CardCreationState = rememberCardCreationState()
+    val uiState: TaskCardFormState = rememberCardFormState()
 
-    CardCreationPanelContent(
+    TaskCardFormContent(
         modifier = modifier,
         uiState = uiState,
-        onCloseClick = { onShowCardCreationPanel(false) },
+        onCloseClick = onClosePanelClick,
         onCreateClick = {
-            onAddItem(
-                CardData.create(
-                    uiState.taskTitle,
-                    uiState.description,
-                    parseByComma(uiState.tempTags),
-                    uiState.manager,
+            onCreateCard(
+                Task.create(
+                    title = uiState.taskTitle,
+                    state = uiState.state,
+                    managerName = uiState.managerName,
+                    description = uiState.description,
+                    tags = uiState.tempTags.parseByComma(),
                 ),
             )
         },
@@ -71,27 +71,27 @@ fun CardCreationPanel(
 }
 
 @Composable
-fun CardCreationPanelContent(
-    modifier: Modifier = Modifier,
-    uiState: CardCreationState,
+fun TaskCardFormContent(
+    uiState: TaskCardFormState,
     onCloseClick: () -> Unit,
     onCreateClick: () -> Unit,
-) {
+    modifier: Modifier = Modifier,
+    ) {
     OutlinedCard(
         modifier = modifier,
     ) {
         Column(
             modifier = Modifier.background(Color.White).width(672.dp),
         ) {
-            CardCreationPanelHeaderSection(onCloseClick = onCloseClick)
+            TaskCardFormHeaderSection(onCloseClick = onCloseClick)
 
             HorizontalDivider(modifier = Modifier.fillMaxWidth())
 
-            CardCreationPanelBodySection(uiState = uiState)
+            TaskCardFormBodySection(uiState = uiState)
 
             HorizontalDivider(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp))
 
-            CardCreationPanelFooterSection(
+            TaskCardFormFooterSection(
                 uiState = uiState,
                 onCloseClick = onCloseClick,
                 onCreateClick = onCreateClick,
@@ -100,12 +100,26 @@ fun CardCreationPanelContent(
     }
 }
 
+@Preview(showBackground = true, name = "태스크 카드 생성창 뷰", device = Devices.DESKTOP)
 @Composable
-private fun CardCreationPanelHeaderSection(
+private fun TaskCardFormContentPreview() {
+    val uiState = rememberCardFormState()
+
+    TaskCardFormContent(
+        modifier = Modifier,
+        uiState = uiState,
+        onCloseClick = {},
+        onCreateClick = {},
+    )
+}
+
+@Composable
+private fun TaskCardFormHeaderSection(
     onCloseClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 28.dp, horizontal = 24.dp),
+        modifier = modifier.fillMaxWidth().padding(vertical = 28.dp, horizontal = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -130,14 +144,15 @@ private fun CardCreationPanelHeaderSection(
 }
 
 @Composable
-private fun CardCreationPanelBodySection(
-    uiState: CardCreationState,
+private fun TaskCardFormBodySection(
+    uiState: TaskCardFormState,
+    modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = Modifier.padding(24.dp),
+        modifier = modifier.padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp),
     ) {
-        CardCreationPanelSection(
+        TaskCardFormInputSection(
             title = "제목 *",
             placeholder = "태스크 제목을 입력하세요",
             value = uiState.taskTitle,
@@ -149,14 +164,14 @@ private fun CardCreationPanelBodySection(
             isError = uiState.titleError == TitleError.EMPTY,
         )
 
-        CardCreationPanelSection(
+        TaskCardFormInputSection(
             title = "설명",
             placeholder = "태스크에 대한 자세한 설명을 입력하세요",
             value = uiState.description,
             onTextChange = { uiState.description = it },
         )
 
-        CardCreationPanelSection(
+        TaskCardFormInputSection(
             title = "태그",
             placeholder = "태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)",
             value = uiState.tempTags,
@@ -168,26 +183,27 @@ private fun CardCreationPanelBodySection(
             isError = uiState.tagError != TagError.NONE,
         )
 
-        CardCreationPanelStateSection(
+        TaskCardFormStateSection(
             selectedState = uiState.state,
             onStateChange = { uiState.state = it },
         )
 
-        CardCreationPanelManagerSection(
-            selectedManager = uiState.manager,
-            onManagerChange = { uiState.manager = it },
+        TaskCardFormManagerSection(
+            selectedManager = uiState.managerName,
+            onManagerChange = { uiState.managerName = it },
         )
     }
 }
 
 @Composable
-private fun CardCreationPanelFooterSection(
-    uiState: CardCreationState,
+private fun TaskCardFormFooterSection(
+    uiState: TaskCardFormState,
     onCloseClick: () -> Unit,
     onCreateClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     ActionButtonSection(
-        modifier = Modifier.padding(horizontal = 24.dp).padding(bottom = 24.dp),
+        modifier = modifier.padding(horizontal = 24.dp).padding(bottom = 24.dp),
         createEnabled = uiState.createEnabled,
         onCancelClick = onCloseClick,
         onCreateClick = onCreateClick,
@@ -195,11 +211,11 @@ private fun CardCreationPanelFooterSection(
 }
 
 @Composable
-private fun CardCreationPanelSection(
+private fun TaskCardFormInputSection(
     title: String,
+    value: String,
     modifier: Modifier = Modifier,
     placeholder: String = "",
-    value: String,
     onTextChange: (String) -> Unit = {},
     showAdditionalInfo: Boolean = false,
     infoText: String = "",
@@ -254,11 +270,12 @@ private fun CardCreationPanelSection(
 
 
 @Composable
-private fun CardCreationPanelStateSection(
+private fun TaskCardFormStateSection(
     selectedState: TaskState,
     onStateChange: (TaskState) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column() {
+    Column(modifier = modifier) {
         TitleText("상태 *")
         Spacer(modifier = Modifier.height(8.dp))
         Row(
@@ -266,19 +283,19 @@ private fun CardCreationPanelStateSection(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             StateButton(
-                text = TaskState.TO_DO.label,
+                text = TaskState.TO_DO.getTaskStateLabel(),
                 isSelected = selectedState == TaskState.TO_DO,
                 onClick = { onStateChange(TaskState.TO_DO) },
                 modifier = Modifier.width(200.dp).height(52.dp),
             )
             StateButton(
-                text = TaskState.IN_PROGRESS.label,
+                text = TaskState.IN_PROGRESS.getTaskStateLabel(),
                 isSelected = selectedState == TaskState.IN_PROGRESS,
                 onClick = { onStateChange(TaskState.IN_PROGRESS) },
                 modifier = Modifier.width(200.dp).height(52.dp),
             )
             StateButton(
-                text = TaskState.DONE.label,
+                text = TaskState.DONE.getTaskStateLabel(),
                 isSelected = selectedState == TaskState.DONE,
                 onClick = { onStateChange(TaskState.DONE) },
                 modifier = Modifier.width(200.dp).height(52.dp),
@@ -319,11 +336,12 @@ private fun StateButton(
 }
 
 @Composable
-private fun CardCreationPanelManagerSection(
+private fun TaskCardFormManagerSection(
     selectedManager: String,
     onManagerChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column() {
+    Column(modifier = modifier) {
         TitleText("담당자 *")
         Spacer(modifier = Modifier.height(8.dp))
         Row(
@@ -403,12 +421,14 @@ private fun ActionButtonSection(
     ) {
         ActionButton(
             buttonText = "취소",
+            buttonType = ActionButtonType.SECONDARY,
             enabled = true,
             onClick = { onCancelClick() },
         )
         Spacer(modifier = Modifier.width(12.dp))
         ActionButton(
             buttonText = "생성",
+            buttonType = ActionButtonType.PRIMARY,
             enabled = createEnabled,
             onClick = {
                 onCancelClick()
@@ -419,41 +439,13 @@ private fun ActionButtonSection(
 }
 
 @Composable
-private fun ActionButton(
-    buttonText: String,
-    enabled: Boolean,
-    onClick: () -> Unit = {},
-) {
-    val contentColor = if (buttonText == "생성") Color.White else Color(0xFF364153)
-    val buttonColor = if (buttonText == "생성") Color(0xFF4F39F6) else Color.White
-
-    Button(
-        onClick = { onClick() },
-        enabled = enabled,
-        modifier = Modifier,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = buttonColor,
-            contentColor = contentColor,
-        ),
-        shape = RoundedCornerShape(20),
-    ) {
-        Text(
-            text = buttonText,
-            color = contentColor,
-            fontWeight = FontWeight.Medium,
-            fontSize = 16.sp,
-            letterSpacing = (-0.3).sp,
-            lineHeight = 24.sp,
-        )
-    }
-}
-
-@Composable
 private fun TitleText(
     title: String,
+    modifier: Modifier  = Modifier
 ) {
     Text(
         text = title,
+        modifier = modifier,
         fontSize = 14.sp,
         color = Color(0xFF364153),
         fontWeight = FontWeight.Medium,
@@ -462,31 +454,5 @@ private fun TitleText(
     )
 }
 
-private fun getTagInfoMessage(tagError: TagError): String {
-    return when (tagError) {
-        TagError.NONE -> "5자 이내의 태그를 최대 5개까지 등록할 수 있습니다."
-        TagError.INVALID_FORMAT -> "태그 형식이 올바르지 않습니다."
-        TagError.TOO_MANY, TagError.TOO_LONG -> "태그는 5자 이내로 5개까지만 등록할 수 있습니다."
-    }
-}
-
-class CardCreationState {
-    var taskTitle by mutableStateOf("")
-    var description by mutableStateOf("")
-    var tempTags by mutableStateOf("")
-    var state by mutableStateOf(TaskState.TO_DO)
-    var manager by mutableStateOf("다이노")
-    val titleError: TitleError
-        get() = CardData.isValidTitle(taskTitle)
-    val tagError: TagError
-        get() = CardData.isValidTag(tempTags)
-    val tagInfoText: String
-        get() = getTagInfoMessage(tagError)
-
-    val createEnabled by derivedStateOf {
-        titleError == TitleError.NONE && tagError == TagError.NONE
-    }
-}
-
 @Composable
-fun rememberCardCreationState(): CardCreationState = remember { CardCreationState() }
+fun rememberCardFormState(): TaskCardFormState = remember { TaskCardFormState() }

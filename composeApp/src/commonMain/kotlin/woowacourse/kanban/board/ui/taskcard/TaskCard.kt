@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.ui
+package woowacourse.kanban.board.ui.taskcard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,16 +30,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.domain.CardData
 
-/**
- * Card UI입니다.
- * @param cardData Card의 데이터입니다.
- * @param modifier Modifier
- */
 @Composable
-fun Card(
-    cardData: CardData,
+fun TaskCard(
+    taskCardUiState: TaskCardUiState,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -50,26 +44,26 @@ fun Card(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
 
-        CardTitle(
-            title = cardData.title,
+        TaskCardTitle(
+            title = taskCardUiState.title,
             modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Kanban Card Title" },
         )
 
-        if (cardData.hasDescription()) {
-            CardContent(
+        if (taskCardUiState.description.isNotBlank()) {
+            TaskCardContent(
                 modifier = Modifier.fillMaxWidth().semantics { contentDescription = "Kanban Card Content" },
-                content = cardData.description
+                content = taskCardUiState.description,
             )
         }
 
-        if (cardData.hasTag()) CardTagsSection(
-            tags = cardData.tags
+        if (taskCardUiState.tags.isNotEmpty()) TaskCardTagsSection(
+            tags = taskCardUiState.tags,
         )
 
         HorizontalDivider()
 
-        CardAccountInfo(
-            accountName = cardData.manager,
+        TaskCardManagerSection(
+            managerName = taskCardUiState.managerName,
             modifier = Modifier
                 .padding(vertical = 10.dp)
                 .fillMaxWidth()
@@ -85,7 +79,7 @@ fun Card(
  * @param title 카드 제목으로, 너무 길면...로 표시됩니다.
  */
 @Composable
-private fun CardTitle(title: String, modifier: Modifier = Modifier) {
+private fun TaskCardTitle(title: String, modifier: Modifier = Modifier) {
     Text(
         text = title,
         fontSize = 16.sp,
@@ -100,10 +94,9 @@ private fun CardTitle(title: String, modifier: Modifier = Modifier) {
 
 @Preview(backgroundColor = 0xffffffff, showBackground = true)
 @Composable
-fun CardTitlePreview() {
-    CardTitle(title = "Card Title")
+private fun TaskCardTitlePreview() {
+    TaskCardTitle(title = "Card Title")
 }
-
 
 /**
  * 최대 2줄까지 표시되는 Card의 Content입니다.
@@ -111,7 +104,7 @@ fun CardTitlePreview() {
  * @param content 카드 본문으로, 너무 길면 ...로 표시됩니다.
  */
 @Composable
-private fun CardContent(modifier: Modifier = Modifier, content: String) {
+private fun TaskCardContent(content: String, modifier: Modifier = Modifier) {
     Text(
         text = content,
         fontSize = 14.sp,
@@ -126,8 +119,8 @@ private fun CardContent(modifier: Modifier = Modifier, content: String) {
 
 @Preview(backgroundColor = 0xffffffff, showBackground = true)
 @Composable
-fun CardContentPreview() {
-    CardContent(content = "Card Content")
+fun TaskCardContentPreview() {
+    TaskCardContent(content = "Card Content")
 }
 
 /**
@@ -135,11 +128,12 @@ fun CardContentPreview() {
  * @param tags 카드 태그로, 최대 5개까지 입력할 수 있습니다.
  */
 @Composable
-private fun CardTagsSection(tags: List<String> = listOf()) {
+private fun TaskCardTagsSection(modifier: Modifier = Modifier, tags: List<String> = listOf()) {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
-    ) {/* TagModifer, SectionModifier로 분리할까 고민했으나, 우선 현 방식대로 수정. */
+        modifier = modifier,
+    ) {
         tags.forEach { TagChip(modifier = Modifier.semantics { contentDescription = "Kanban Card Tag" }, chipContent = it) }
     }
 }
@@ -150,7 +144,7 @@ private fun CardTagsSection(tags: List<String> = listOf()) {
  * @param chipContent TagChip의 내용입니다.
  */
 @Composable
-private fun TagChip(modifier: Modifier = Modifier, chipContent: String) {
+private fun TagChip(chipContent: String, modifier: Modifier = Modifier) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
@@ -163,7 +157,7 @@ private fun TagChip(modifier: Modifier = Modifier, chipContent: String) {
 
 @Preview(backgroundColor = 0xffffffff, showBackground = true)
 @Composable
-fun TagChipPreview() {
+private fun TagChipPreview() {
     TagChip(chipContent = "Tag")
 }
 
@@ -171,11 +165,11 @@ fun TagChipPreview() {
  * CardAccountInfo 섹션입니다.
  * @param modifier Modifier
  * @param accountImage 프로필 아이콘입니다. 기본 값은 Icons.Default.AccountCircle입니다.
- * @param accountName 카드 계정 이름으로, 너무 길면 ...로 표시됩니다.
+ * @param managerName 카드 계정 이름으로, 너무 길면 ...로 표시됩니다.
  */
 @Composable
-private fun CardAccountInfo(
-    accountName: String,
+private fun TaskCardManagerSection(
+    managerName: String,
     modifier: Modifier = Modifier,
     accountImage: ImageVector = Icons.Default.AccountCircle,
 ) {
@@ -190,7 +184,7 @@ private fun CardAccountInfo(
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = accountName,
+            text = managerName,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
@@ -199,6 +193,6 @@ private fun CardAccountInfo(
 
 @Preview(backgroundColor = 0xffffffff, showBackground = true)
 @Composable
-fun CardAccountInfoPreview() {
-    CardAccountInfo(accountName = "Test")
+private fun TaskCardManagerSectionPreview() {
+    TaskCardManagerSection(managerName = "Test")
 }

@@ -1,8 +1,7 @@
 package woowacourse.kanban.board.unittest
 
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import woowacourse.kanban.board.model.Title
+import woowacourse.kanban.board.taskcard.domain.Title
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 

@@ -11,4 +11,20 @@ object ColorPalette{
     val Blue50 = Color(0xFF1447E6)
     val Blue80 = Color(0xFFEEF2FF)
     val Red50 = Color(0xFFB3261E)
+
+    val TODO_HEADER = Color(0xFF155DFC)
+
+    val TODO_BODY = Color(0xFFBEDBFF)
+
+    val IN_PROGRESS_HEADER = Color(0xFFE17100)
+
+    val IN_PROGRESS_BODY = Color(0xFFFEE685)
+
+    val DONE_HEADER = Color(0xFF00A63E)
+
+    val DONE_BODY = Color(0xFFB9F8CF)
+
+    val TASK_ADD_BUTTON = Color(0xFF4F39F6)
+
+    val KANBAN_BOARD_BACKGROUND = Color(0xFFFFFFFF)
 }

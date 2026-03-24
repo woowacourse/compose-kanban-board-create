@@ -4,7 +4,7 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import woowacourse.kanban.board.testconstan.TestText
-import woowacourse.kanban.board.model.Tags
+import woowacourse.kanban.board.taskcard.domain.Tags
 
 class TagsTest {
     @Test

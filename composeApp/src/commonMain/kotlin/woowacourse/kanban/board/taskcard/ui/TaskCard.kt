@@ -1,0 +1,76 @@
+package woowacourse.kanban.board.ui.taskcard.ui
+
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import woowacourse.kanban.board.constant.ColorPalette
+import woowacourse.kanban.board.constant.TagsConst
+import woowacourse.kanban.board.taskcard.domain.TaskCardData
+import woowacourse.kanban.board.taskcard.domain.State
+import woowacourse.kanban.board.taskcard.domain.Manager
+import woowacourse.kanban.board.taskcard.domain.value
+import woowacourse.kanban.board.taskcard.ui.Profile
+
+@Composable
+fun TaskCard(
+    data: TaskCardData,
+    modifier: Modifier = Modifier,
+    maxTagCount: Int = TagsConst.MAX_TAGS,
+    maxTagTextLength: Int = TagsConst.TAG_MAX_TEXT_LENGTH,
+) {
+    Card(
+        modifier = modifier
+            .width(286.dp)
+            .testTag("태스크 카드"),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White,
+        ),
+        border = BorderStroke(1.dp, ColorPalette.Gray70),
+        shape = RoundedCornerShape(10.dp),
+    ) {
+        Column(
+            modifier = modifier
+                .padding(17.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Title(data.title)
+            Script(data.description)
+            Tags(
+                tags = data.tags,
+                maxTagCount = maxTagCount,
+                maxTagTextLength = maxTagTextLength,
+            )
+            HorizontalDivider(
+                thickness = 1.dp,
+                color = ColorPalette.Gray80,
+            )
+            Profile(data.manager.value())
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun TaskCardPreview() {
+    TaskCard(
+        data = TaskCardData(
+            title = "LazyColumn 컴포넌트 구현",
+            description = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
+            tags = listOf("컴포넌트", "성능"),
+            state = State.TODO,
+            manager = Manager.DINO
+        ),
+    )
+}

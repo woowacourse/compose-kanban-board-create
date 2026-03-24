@@ -5,8 +5,8 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runComposeUiTest
 import org.junit.Test
-import woowacourse.kanban.board.TaskUIMapper
-import woowacourse.kanban.board.data.Task
+import woowacourse.kanban.ui.TaskUIMapper
+import woowacourse.kanban.newTaskCreate.data.Task
 
 @OptIn(ExperimentalTestApi::class)
 class TaskUIMapperUiTest {
@@ -17,13 +17,13 @@ class TaskUIMapperUiTest {
                 taskTitle = "test1",
                 taskScript = "스크립트는 자바스크립트로 이루어져있는가",
                 tags = listOf("compose", "runTest"),
-                nickname = "Sam",
+                assigneeId = "Sam",
             ),
             Task(
                 taskTitle = "test2",
                 taskScript = "행성",
                 tags = listOf("compose", "coffee"),
-                nickname = "Sam",
+                assigneeId = "Sam",
             ),
         )
 

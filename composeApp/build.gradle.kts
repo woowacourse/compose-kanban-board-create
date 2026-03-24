@@ -1,5 +1,6 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.gradle.api.tasks.testing.Test
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -61,6 +62,16 @@ android {
     }
 }
 
+tasks.withType<Test>().configureEach {
+    if (name.endsWith("UnitTest")) {
+        // commonTest의 Compose UI 테스트는 JVM(jvmTest)에서 검증한다.
+        filter {
+            excludeTestsMatching("woowacourse.kanban.board.ui.*")
+            excludeTestsMatching("woowacourse.kanban.board.study.*")
+        }
+    }
+}
+
 dependencies {
     debugImplementation(libs.compose.uiTooling)
 }
@@ -70,7 +81,7 @@ ktlint {
         exclude { element ->
             val path = element.file.path
             path.contains("/build/") ||
-                (!path.contains("/src/commonMain/") && !path.contains("/src/commonTest/"))
+                    (!path.contains("/src/commonMain/") && !path.contains("/src/commonTest/"))
         }
     }
 }

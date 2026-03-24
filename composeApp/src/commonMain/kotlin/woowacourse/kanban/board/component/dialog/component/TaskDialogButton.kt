@@ -18,12 +18,10 @@ import androidx.compose.ui.unit.sp
 fun TaskDialogButton(
     text: String,
     onClick: () -> Unit,
+    containerColor: Color,
+    contentColor: Color,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    containerColor: Color = Color.White,
-    contentColor: Color = Color.Black,
-    disabledContainerColor: Color = Color.LightGray,
-    disabledContentColor: Color = Color.White,
 ) {
     Button(
         modifier = modifier,
@@ -33,8 +31,8 @@ fun TaskDialogButton(
         colors = ButtonColors(
             containerColor = containerColor,
             contentColor = contentColor,
-            disabledContainerColor = disabledContainerColor,
-            disabledContentColor = disabledContentColor,
+            disabledContainerColor = Color.LightGray,
+            disabledContentColor = Color.White,
         ),
         contentPadding = PaddingValues(vertical = 10.dp, horizontal = 20.dp),
     ) {
@@ -52,19 +50,6 @@ private fun TaskDialogButtonPreview() {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        TaskDialogButton(
-            text = "취소",
-            onClick = {},
-        )
-
-        TaskDialogButton(
-            text = "생성",
-            enabled = false,
-            containerColor = Color.Blue,
-            contentColor = Color.White,
-            onClick = {},
-        )
-
         TaskDialogButton(
             text = "생성",
             enabled = true,

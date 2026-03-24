@@ -13,15 +13,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun TagChip(name: String, modifier: Modifier = Modifier) {
+fun TagChip(
+    name: String,
+    modifier: Modifier = Modifier,
+) {
     Box(
         modifier = modifier
-            .background(Color.LightGray, CircleShape)
+            .background(
+                Color(0xFFF3F4F6),
+                CircleShape,
+            )
             .padding(vertical = 4.dp, horizontal = 8.dp),
     ) {
         Text(
-            text = name.take(5),
+            text = name,
             fontSize = 12.sp,
+            color = Color(0xFF364153),
         )
     }
 }

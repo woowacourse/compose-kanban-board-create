@@ -19,6 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,7 +33,7 @@ fun KanbanCard(
     crewName: String,
     modifier: Modifier = Modifier,
     tags: List<String> = emptyList(),
-    description: String? = null
+    description: String? = null,
 ) {
     Column(
         modifier = modifier
@@ -79,86 +81,51 @@ private fun KanbanCardTags(tags: List<String>) {
     }
 }
 
-@Preview(device = Devices.TABLET)
-@Composable
-private fun KanbanCardPreview_Optional() {
-    val commonTitle = "LazyColumn 컴포넌트 구현"
-    val commonDescription = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다."
-    val tags = listOf("컴포넌트", "성능")
-    val commonCrewName = "아키"
-
-    Row(
-        modifier = Modifier
-            .padding(12.dp)
-            .background(Color.White),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        val fullTask = KanbanTask(
-            title = commonTitle,
-            description = commonDescription,
-            tags = tags,
+private class KanbanCardPreviewParameterProvider : PreviewParameterProvider<KanbanTask> {
+    override val values = sequenceOf(
+        KanbanTask(
+            title = "너무너무 긴 제목은 한 줄까지만 노출합니다",
+            description = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
+            tags = listOf("컴포넌트", "성능", "긴 태그", "최대로", "5자까지"),
             status = Status.TO_DO,
-            assignee = commonCrewName,
-        )
-        KanbanCard(
-            title = fullTask.title,
-            crewName = fullTask.assignee,
-            tags = fullTask.tags,
-            description = fullTask.description,
-        )
-
-        val noDescriptionTask = KanbanTask(
-            title = commonTitle,
-            tags = tags,
+            assignee = "아키".repeat(10),
+        ),
+        KanbanTask(
+            title = "LazyColumn 컴포넌트 구현",
+            description = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
+            tags = listOf("컴포넌트", "성능"),
             status = Status.TO_DO,
-            assignee = commonCrewName,
-        )
-        KanbanCard(
-            title = noDescriptionTask.title,
-            crewName = noDescriptionTask.assignee,
-            tags = noDescriptionTask.tags,
-        )
-
-        val noTagsTask = KanbanTask(
-            title = commonTitle,
-            description = commonDescription,
+            assignee = "아키",
+        ),
+        KanbanTask(
+            title = "LazyColumn 컴포넌트 구현",
+            description = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
             status = Status.TO_DO,
-            assignee = commonCrewName,
-        )
-        KanbanCard(
-            title = noTagsTask.title,
-            crewName = noTagsTask.assignee,
-            description = noTagsTask.description,
-        )
-
-        val minimalTask = KanbanTask(
-            title = commonTitle,
+            assignee = "아키",
+        ),
+        KanbanTask(
+            title = "LazyColumn 컴포넌트 구현",
+            tags = listOf("컴포넌트", "성능"),
             status = Status.TO_DO,
-            assignee = commonCrewName,
-        )
-        KanbanCard(
-            title = minimalTask.title,
-            crewName = minimalTask.assignee,
-        )
-    }
+            assignee = "아키",
+        ),
+        KanbanTask(
+            title = "LazyColumn 컴포넌트 구현",
+            status = Status.TO_DO,
+            assignee = "아키",
+        ),
+    )
 }
 
 @Preview
 @Composable
-private fun KanbanCardPreview_Max() {
+private fun KanbanCardPreview(@PreviewParameter(KanbanCardPreviewParameterProvider::class) card: KanbanTask) {
     Box(modifier = Modifier.padding(12.dp)) {
-        val maxTask = KanbanTask(
-            title = "너무너무 긴 제목은 한 줄까지만 노출합니다".repeat(3),
-            description = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.".repeat(3),
-            tags = listOf("컴포넌트", "성능", "긴 태그", "최대로", "5자까지", "5개제한임.", "6개임"),
-            status = Status.TO_DO,
-            assignee = "아키".repeat(10),
-        )
         KanbanCard(
-            title = maxTask.title,
-            crewName = maxTask.assignee,
-            tags = maxTask.tags,
-            description = maxTask.description,
+            title = card.title,
+            crewName = card.assignee,
+            tags = card.tags,
+            description = card.description,
         )
     }
 }

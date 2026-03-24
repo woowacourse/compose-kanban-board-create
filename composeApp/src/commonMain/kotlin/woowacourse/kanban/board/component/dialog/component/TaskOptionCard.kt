@@ -5,9 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -29,7 +27,6 @@ fun TaskOptionCard(
     isSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    paddingValues: PaddingValues = PaddingValues(vertical = 14.dp, horizontal = 16.dp),
     content: @Composable BoxScope.() -> Unit,
 ) {
     val backgroundColor = if (isSelected) Color.Blue.copy(alpha = 0.1f) else Color.White
@@ -46,8 +43,7 @@ fun TaskOptionCard(
                 color = borderColor,
                 shape = cardShape,
             )
-            .width(200.dp)
-            .padding(paddingValues = paddingValues),
+            .width(200.dp),
     ) {
         content()
     }

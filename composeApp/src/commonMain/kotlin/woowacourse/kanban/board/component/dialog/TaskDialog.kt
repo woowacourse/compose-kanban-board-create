@@ -33,13 +33,13 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import woowacourse.kanban.board.component.dialog.component.AssigneeOptionCard
 import woowacourse.kanban.board.component.dialog.component.StatusOptionCard
-import woowacourse.kanban.board.component.dialog.component.TaskDialogButton
+import woowacourse.kanban.board.component.dialog.component.TaskDialogCancelButton
+import woowacourse.kanban.board.component.dialog.component.TaskDialogSubmitButton
 import woowacourse.kanban.board.component.dialog.component.TaskDialogTextField
 import woowacourse.kanban.board.component.dialog.component.TaskDialogTopAppBar
 import woowacourse.kanban.board.component.dialog.component.TaskFieldLabel
 import woowacourse.kanban.board.domain.KanbanTask
 import woowacourse.kanban.board.domain.dialog.Status
-import woowacourse.kanban.board.util.KanbanValidator
 
 @Composable
 fun TaskDialog(
@@ -51,7 +51,7 @@ fun TaskDialog(
     var isTitleDirty by remember { mutableStateOf(false) }
     val isTitleError by remember {
         derivedStateOf {
-            isTitleDirty && !KanbanValidator.isTitleValid(titleValue)
+            isTitleDirty && !KanbanTask.isTitleValid(titleValue)
         }
     }
 
@@ -60,17 +60,17 @@ fun TaskDialog(
     var tagValue by remember { mutableStateOf("") }
     val tags by remember {
         derivedStateOf {
-            if (tagValue.isBlank()) emptyList() else tagValue.split(",").map { it.trim() }
+            tagValue.split(",").map { it.trim() }
         }
     }
     val isTagCountError by remember {
         derivedStateOf {
-            tagValue.isNotBlank() && !KanbanValidator.isTagCountValid(tags)
+            tagValue.isNotBlank() && !KanbanTask.isTagCountValid(tags)
         }
     }
     val isTagFormatError by remember {
         derivedStateOf {
-            tagValue.isNotBlank() && !KanbanValidator.isTagFormatValid(tags)
+            tagValue.isNotBlank() && !KanbanTask.isTagFormatValid(tags)
         }
     }
 
@@ -82,7 +82,7 @@ fun TaskDialog(
 
     val enabled by remember {
         derivedStateOf {
-            KanbanValidator.isTitleValid(titleValue) && !isTagCountError && !isTagFormatError
+            KanbanTask.isTitleValid(titleValue) && !isTagCountError && !isTagFormatError
         }
     }
 
@@ -121,7 +121,7 @@ fun TaskDialog(
                     KanbanTask(
                         title = titleValue,
                         description = descriptionValue.takeIf { it.isNotBlank() },
-                        tags = tags,
+                        tags = if (tagValue.isEmpty()) emptyList() else tags,
                         status = selectedStatus,
                         assignee = assignees[selectedAssigneeIndex],
                     ),
@@ -219,17 +219,15 @@ private fun TaskDialogContent(
             horizontalArrangement = Arrangement.End,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            TaskDialogButton(
+            TaskDialogCancelButton(
                 text = "취소",
                 onClick = onDismissClick,
             )
             Spacer(Modifier.width(12.dp))
-            TaskDialogButton(
+            TaskDialogSubmitButton(
                 text = "생성",
                 onClick = onCreateClick,
                 enabled = enabled,
-                contentColor = Color.White,
-                containerColor = Color.Blue,
             )
         }
     }

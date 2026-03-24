@@ -1,4 +1,4 @@
-package woowacourse.kanban.board
+package woowacourse.kanban
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable

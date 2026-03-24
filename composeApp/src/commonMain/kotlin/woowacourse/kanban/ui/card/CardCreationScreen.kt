@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.ui.Card.CardCreationPanel
+package woowacourse.kanban.ui.card
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -23,7 +23,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,45 +30,71 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.domain.ActionButtonType
-import woowacourse.kanban.board.domain.CardData
-import woowacourse.kanban.board.domain.CardManagerState
-import woowacourse.kanban.board.domain.CardTaskState
+import androidx.compose.ui.window.Dialog
 import woowacourse.kanban.board.ui.theme.KanbanCardColor.DefaultBackground
 import woowacourse.kanban.board.ui.theme.KanbanCardColor.DefaultContent
 import woowacourse.kanban.board.ui.theme.KanbanCardColor.SelectedBackground
 import woowacourse.kanban.board.ui.theme.KanbanCardColor.SelectedContent
+import woowacourse.kanban.domain.board.CardFormState
+import woowacourse.kanban.domain.card.Card
+import woowacourse.kanban.domain.card.CardManagerState
+import woowacourse.kanban.domain.card.CardTaskState
+import woowacourse.kanban.ui.board.common.toDisplayText
+import woowacourse.kanban.ui.card.creation.ActionButton
+import woowacourse.kanban.ui.card.creation.ActionButtonType
+import woowacourse.kanban.ui.card.creation.CardCreationPanelFormSection
+import woowacourse.kanban.ui.card.creation.TitleText
+
+@Preview(widthDp = 672, heightDp = 909)
+@Composable
+fun CardCreationScreenRoot() {
+    CardCreationScreen(
+        onAddItem = {},
+        onDismiss = {},
+    )
+}
 
 @Composable
-fun CardCreationPanel(
+fun CardCreationScreen(
     modifier: Modifier = Modifier,
-    onAddItem: (CardData) -> Unit,
-    onShowCardCreationPanel: (Boolean) -> Unit,
+    onAddItem: (Card) -> Unit,
+    onDismiss: () -> Unit,
 ) {
-    var taskTitle by remember { mutableStateOf("") }
-    var contents by remember { mutableStateOf("") }
-    var tempTags by remember { mutableStateOf("") }
-    val tags = CardData.parseTag(tempTags)
-    var state by remember { mutableStateOf(CardTaskState.TODO) }
-    var manager by remember { mutableStateOf(CardManagerState.DINO) }
-    var tagInfoText by remember { mutableStateOf("5자 이내의 태그를 최대 5개까지 등록할 수 있습니다.") }
-    val createEnabled by remember {
-        derivedStateOf {
-            CardData.isValidText(taskTitle) && CardData.isValidTag(tempTags)
-        }
+    Dialog(
+        onDismissRequest = onDismiss,
+    ) {
+        CardCreationScreenContents(
+            modifier = modifier,
+            onAddItem = onAddItem,
+            onDismiss = onDismiss,
+        )
     }
+}
+
+@Composable
+private fun CardCreationScreenContents(
+    modifier: Modifier = Modifier,
+    onAddItem: (Card) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    var cardFormState by remember { mutableStateOf(CardFormState()) }
 
     OutlinedCard(
-        modifier = modifier,
+        modifier = modifier.testTag("생성 모달 열림"),
     ) {
         Column(
             modifier = Modifier.background(DefaultBackground).width(672.dp),
         ) {
             CardCreationPanelHeaderSection(
-                onShowCardCreationPanel = onShowCardCreationPanel,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 28.dp, horizontal = 24.dp),
+                onClose = onDismiss,
             )
 
             HorizontalDivider(modifier = Modifier.fillMaxWidth())
@@ -81,64 +106,62 @@ fun CardCreationPanel(
                 CardCreationPanelFormSection(
                     title = "제목 *",
                     placeholder = "태스크 제목을 입력하세요",
-                    value = taskTitle,
+                    value = cardFormState.title,
                     onTextChange = {
-                        taskTitle = it
+                        cardFormState = cardFormState.copy(title = it)
                     },
-                    showAdditionalInfo = !CardData.isValidText(taskTitle),
+                    showAdditionalInfo = !Card.isValidText(cardFormState.title),
                     testTag = "titleTextField",
-                    infoText = CardData.getTitleInfo(),
-                    isError = !CardData.isValidText(taskTitle),
+                    infoText = Card.getTitleInfo(),
+                    isError = !Card.isValidText(cardFormState.title),
                 )
 
                 CardCreationPanelFormSection(
                     title = "설명",
                     placeholder = "태스크에 대한 자세한 설명을 입력하세요",
-                    value = contents,
-                    onTextChange = { contents = it },
+                    value = cardFormState.content,
+                    onTextChange = { cardFormState = cardFormState.copy(content = it) },
                     testTag = "descriptionTextField",
-                    )
+                )
 
                 CardCreationPanelFormSection(
                     title = "태그",
                     placeholder = "태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)",
-                    value = tempTags,
+                    value = cardFormState.tagInput,
                     onTextChange = {
-                        tempTags = it
-                        tagInfoText = CardData.isValidTagInfo(tempTags)
+                        cardFormState = cardFormState.copy(tagInput = it)
                     },
                     showAdditionalInfo = true,
                     testTag = "tagTextField",
-                    infoText = tagInfoText,
-                    isError = !CardData.isValidTag(tempTags),
+                    infoText = cardFormState.tagInfoText,
+                    isError = !Card.isValidTag(cardFormState.tagInput),
                 )
 
                 CardCreationPanelStateSection(
-                    selectedState = state,
-                    onStateChange = { state = it },
+                    selectedState = cardFormState.taskState,
+                    onStateChange = { cardFormState = cardFormState.copy(taskState = it) },
                 )
 
                 CardCreationPanelManagerSection(
-                    selectedManager = manager,
-                    onManagerChange = { manager = it },
+                    selectedManager = cardFormState.managerState,
+                    onManagerChange = { cardFormState = cardFormState.copy(managerState = it) },
                 )
 
                 HorizontalDivider(modifier = Modifier.fillMaxWidth())
 
                 ActionButtonSection(
-                    createEnabled = createEnabled,
-                    onCancelClick = { onShowCardCreationPanel(false) },
+                    createEnabled = cardFormState.isCreateEnabled,
+                    onCancelClick = onDismiss,
                     onCreateClick = {
                         onAddItem(
-                            CardData.create(
-                                title = taskTitle,
-                                content = contents,
-                                tags = tags,
-                                manager = manager,
-                                state = state,
+                            Card.create(
+                                title = cardFormState.title,
+                                content = cardFormState.content,
+                                tags = cardFormState.tags,
+                                manager = cardFormState.managerState,
+                                state = cardFormState.taskState,
                             ),
                         )
-                        onShowCardCreationPanel(false)
                     },
                 )
             }
@@ -148,10 +171,11 @@ fun CardCreationPanel(
 
 @Composable
 private fun CardCreationPanelHeaderSection(
-    onShowCardCreationPanel: (Boolean) -> Unit,
+    modifier: Modifier,
+    onClose: () -> Unit,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 28.dp, horizontal = 24.dp),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -167,7 +191,7 @@ private fun CardCreationPanelHeaderSection(
         Icon(
             imageVector = Icons.Default.Close,
             contentDescription = "닫기 아이콘",
-            modifier = Modifier.clickable { onShowCardCreationPanel(false) },
+            modifier = Modifier.clickable { onClose() },
         )
     }
 }
@@ -186,7 +210,7 @@ private fun CardCreationPanelStateSection(
         ) {
             CardTaskState.entries.forEach { state ->
                 StateButton(
-                    text = state.taskState,
+                    text = state.toDisplayText(),
                     isSelected = selectedState == state,
                     onClick = { onStateChange(state) },
                     modifier = Modifier
@@ -217,7 +241,7 @@ private fun StateButton(
             containerColor = containerColor,
             contentColor = contentColor,
         ),
-        modifier = modifier,
+        modifier = modifier.testTag(text),
     ) {
         Text(
             text = text,
@@ -242,7 +266,7 @@ private fun CardCreationPanelManagerSection(
         ) {
             CardManagerState.entries.forEach { manager ->
                 ManagerButton(
-                    text = manager.managerName,
+                    text = manager.toDisplayText(),
                     isSelected = selectedManager == manager,
                     onClick = { onManagerChange(manager) },
                     modifier = Modifier

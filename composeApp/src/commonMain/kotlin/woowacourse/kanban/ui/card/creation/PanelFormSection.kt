@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.ui.Card.CardCreationPanel
+package woowacourse.kanban.ui.card.creation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

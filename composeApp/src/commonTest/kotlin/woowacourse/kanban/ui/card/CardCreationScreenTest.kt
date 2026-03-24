@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.ui
+package woowacourse.kanban.ui.card
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.assertIsNotEnabled
@@ -6,18 +6,17 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
-import woowacourse.kanban.board.ui.Card.CardCreationPanel.CardCreationPanel
 import kotlin.test.Test
 
 @OptIn(ExperimentalTestApi::class)
-class CardCreationPanelTest {
+class CardCreationScreenTest {
     @Test
     fun `초기 진입 시 기본 UI 상태가 올바르게 표시된다`() = runComposeUiTest {
         //when
         setContent {
-            CardCreationPanel(
+            CardCreationScreen(
                 onAddItem = {},
-                onShowCardCreationPanel = {},
+                onDismiss = {}
             )
         }
 
@@ -36,9 +35,9 @@ class CardCreationPanelTest {
         // given
         //when
         setContent {
-            CardCreationPanel(
+            CardCreationScreen(
                 onAddItem = {},
-                onShowCardCreationPanel = {},
+                onDismiss = {}
             )
         }
         onNodeWithTag("titleTextField").performTextInput(" ")
@@ -52,9 +51,9 @@ class CardCreationPanelTest {
         // given
         //when
         setContent {
-            CardCreationPanel(
+            CardCreationScreen(
                 onAddItem = {},
-                onShowCardCreationPanel = {},
+                onDismiss = {}
             )
         }
         onNodeWithTag("titleTextField").performTextInput("\t")
@@ -66,9 +65,9 @@ class CardCreationPanelTest {
     fun `제목을 입력하면 제목 에러메시지가 사라진다`() = runComposeUiTest {
         //when
         setContent {
-            CardCreationPanel(
+            CardCreationScreen(
                 onAddItem = {},
-                onShowCardCreationPanel = {},
+                onDismiss = {}
             )
         }
 
@@ -82,9 +81,9 @@ class CardCreationPanelTest {
     fun `올바른 태그를 입력하면 안내 문구가 유지된다`() = runComposeUiTest {
         //when
         setContent {
-            CardCreationPanel(
+            CardCreationScreen(
                 onAddItem = {},
-                onShowCardCreationPanel = {},
+                onDismiss = {}
             )
         }
 

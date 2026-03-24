@@ -1,21 +1,20 @@
-package woowacourse.kanban.board.domain
+package woowacourse.kanban.domain.card
 
 /**
  * Card 도메인 모델입니다.
  * 카드 생성 규칙을 적용합니다.
  * 생성은 [create] 팩토리 메서드로 수행합니다.
  */
-class CardData private constructor(
+class Card private constructor(
     val title: String,
     val content: String,
     val tags: List<String>,
-    val manager: CardManagerState,
-    val state: CardTaskState,
+    val managerState: CardManagerState,
+    val taskState: CardTaskState,
 ) {
     companion object {
         private const val MAX_TAG_COUNT = 5
         private const val MAX_TAG_LENGTH = 5
-
         private const val TITLE_INVALID_FORMAT_MSG = "제목을 입력해 주세요."
         private const val TAG_VALID_FORMAT_MSG = "5자 이내의 태그를 최대 5개까지 등록할 수 있습니다."
         private const val TAG_INVALID_FORMAT_MSG = "태그 형식이 올바르지 않습니다."
@@ -51,7 +50,7 @@ class CardData private constructor(
         }
 
         /**
-         * [CardData] 객체 생성 팩토리 메서드입니다.
+         * [Card] 객체 생성 팩토리 메서드입니다.
          * @param title 필수 | 제목
          * @param content 본문
          * @param tags 태그
@@ -65,7 +64,7 @@ class CardData private constructor(
             tags: List<String>,
             manager: CardManagerState,
             state: CardTaskState,
-        ): CardData {
+        ): Card {
             require(title.isNotBlank()) { "[Card] 제목은 필수 입력 항목입니다." }
 
             val normalizedTags = tags
@@ -75,12 +74,12 @@ class CardData private constructor(
             require(normalizedTags.size <= MAX_TAG_COUNT) { "[Card] 태그는 최대 ${MAX_TAG_COUNT}개까지 가능합니다." }
             require(normalizedTags.all { it.length <= MAX_TAG_LENGTH }) { "[Card] 태그는 최대 ${MAX_TAG_LENGTH}자까지 가능합니다." }
 
-            return CardData(
+            return Card(
                 title = title,
                 content = content,
                 tags = normalizedTags,
-                manager = manager,
-                state = state,
+                managerState = manager,
+                taskState = state,
             )
         }
     }

@@ -1,4 +1,4 @@
-package woowacourse.kanban.board.ui.Card
+package woowacourse.kanban.ui.card
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,16 +30,53 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.domain.CardData
+import woowacourse.kanban.domain.card.Card
+import woowacourse.kanban.domain.card.CardManagerState
+import woowacourse.kanban.domain.card.CardTaskState
+import woowacourse.kanban.ui.board.common.toDisplayText
+
+/**
+ * Card UI 출력을 위한 브릿지입니다.
+ * @param modifier Modifier
+ * @param cardData Card의 데이터입니다.
+ */
+@Composable
+fun CardScreen(
+    modifier: Modifier = Modifier,
+    cardData: Card,
+) {
+    CardScreen(
+        modifier = modifier,
+        title = cardData.title,
+        content = cardData.content,
+        tags = cardData.tags,
+        managerState = cardData.managerState,
+        taskState = cardData.taskState,
+        hasContent = cardData.hasContent(),
+        hasTag = cardData.hasTag(),
+    )
+}
 
 /**
  * Card UI입니다.
- * @param cardData Card의 데이터입니다.
+ * @param title 카드 제목으로, 너무 길면...로 표시됩니다.
+ * @param content 카드 본문으로, 너무 길면 ...로 표시됩니다.
+ * @param tags 카드 태그로, 최대 5개까지 입력할 수 있습니다.
+ * @param managerState 카드 계정입니다.
+ * @param taskState 카드 상태입니다.
+ * @param hasContent 카드 본문이 있는지 여부입니다.
+ * @param hasTag 카드 태그가 있는지 여부입니다.
  * @param modifier Modifier
  */
 @Composable
-fun Card(
-    cardData: CardData,
+fun CardScreen(
+    title: String,
+    content: String,
+    tags: List<String>,
+    managerState: CardManagerState,
+    taskState: CardTaskState,
+    hasContent: Boolean,
+    hasTag: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -58,7 +95,7 @@ fun Card(
     ) {
 
         CardTitle(
-            title = cardData.title,
+            title = title,
             modifier = Modifier
                 .fillMaxWidth()
                 .semantics {
@@ -66,25 +103,25 @@ fun Card(
                 },
         )
 
-        if (cardData.hasContent()) {
+        if (hasContent) {
             CardContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .semantics {
                         contentDescription = "Kanban Card Content"
                     },
-                content = cardData.content,
+                content = content,
             )
         }
 
-        if (cardData.hasTag()) CardTagsSection(
-            tags = cardData.tags,
+        if (hasTag) CardTagsSection(
+            tags = tags,
         )
 
         HorizontalDivider()
 
         CardAccountInfo(
-            accountName = cardData.manager.managerName,
+            accountName = managerState.toDisplayText(),
             modifier = Modifier
                 .padding(vertical = 10.dp)
                 .fillMaxWidth()

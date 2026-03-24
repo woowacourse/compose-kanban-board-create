@@ -19,17 +19,24 @@ import woowacourse.kanban.board.model.Description
 import woowacourse.kanban.board.model.Tag
 import woowacourse.kanban.board.model.TagGroup
 import woowacourse.kanban.board.model.TaskCard
+import woowacourse.kanban.board.model.TaskStatus
 import woowacourse.kanban.board.model.Title
 
 @Composable
-fun TaskCardSection(taskCard: TaskCard) {
+fun TaskCardSection(
+    taskCard: TaskCard,
+    modifier: Modifier = Modifier,
+    ) {
     Box(
-        modifier = Modifier.border(
+        modifier = Modifier.background(Color.White)
+            .border(
             border = BorderStroke(1.dp, Color.LightGray),
             shape = RoundedCornerShape(8.dp),
         ).width(250.dp).padding(8.dp),
     ) {
-        Column {
+        Column(
+            modifier = modifier
+        ) {
             TitleSection(title = taskCard.title)
             if (!taskCard.description.isBlank()) {
                 DescriptionSection(description = taskCard.description)
@@ -48,10 +55,11 @@ fun TaskCardSection(taskCard: TaskCard) {
 private fun TaskCardSectionPreview() {
     TaskCardSection(
         taskCard = TaskCard(
-            title = Title("LazyColumn 컴포넌트 구현"),
-            description = Description("세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다."),
-            tags = TagGroup(listOf(Tag("컴포넌트"), Tag("성능"))),
+            title = Title("제목입니다"),
+            status = TaskStatus.TODO,
             assignee = Assignee("다이노"),
-        ),
+            description = Description("설명입니다"),
+            tags = TagGroup(listOf(Tag("태그1"), Tag("태그2")))
+        )
     )
 }

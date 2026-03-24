@@ -11,6 +11,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
+import woowacourse.kanban.board.model.TagGroup
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -23,8 +24,9 @@ class TagInputSectionTest {
         setContent {
             MaterialTheme {
                 TagInputSection(
+                    tags = tags,
                     onTagsChange = { tags = it },
-                    onErrorChange = {},
+                    errorMessage = validateTagError(tags),
                 )
             }
         }
@@ -39,10 +41,12 @@ class TagInputSectionTest {
     @Test
     fun `태그 형식이 올바르지 않으면 에러 메시지와 아이콘을 표시한다`() = runComposeUiTest {
         setContent {
+            var tags by mutableStateOf("")
             MaterialTheme {
                 TagInputSection(
-                    onTagsChange = {},
-                    onErrorChange = {},
+                    tags = tags,
+                    onTagsChange = { tags = it },
+                    errorMessage = validateTagError(tags),
                 )
             }
         }
@@ -56,10 +60,12 @@ class TagInputSectionTest {
     @Test
     fun `태그 길이 제한을 넘으면 에러 메시지와 아이콘을 표시한다`() = runComposeUiTest {
         setContent {
+            var tags by mutableStateOf("")
             MaterialTheme {
                 TagInputSection(
-                    onTagsChange = {},
-                    onErrorChange = {},
+                    tags = tags,
+                    onTagsChange = { tags = it },
+                    errorMessage = validateTagError(tags),
                 )
             }
         }
@@ -72,10 +78,12 @@ class TagInputSectionTest {
     @Test
     fun `태그 갯수 제한을 넘으면 에러 메시지와 아이콘을 표시한다`() = runComposeUiTest {
         setContent {
+            var tags by mutableStateOf("")
             MaterialTheme {
                 TagInputSection(
-                    onTagsChange = {},
-                    onErrorChange = {},
+                    tags = tags,
+                    onTagsChange = { tags = it },
+                    errorMessage = validateTagError(tags),
                 )
             }
         }
@@ -83,5 +91,9 @@ class TagInputSectionTest {
         onNode(hasSetTextAction()).performTextInput("태그1,태그2,태그3,태그4,태그5,태그6")
 
         onNodeWithContentDescription("error").assertIsDisplayed()
+    }
+
+    private fun validateTagError(tags: String): String? {
+        return TagGroup.validate(tags)
     }
 }

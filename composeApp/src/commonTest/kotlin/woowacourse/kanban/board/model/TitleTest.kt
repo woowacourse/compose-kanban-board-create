@@ -16,4 +16,20 @@ class TitleTest {
         val title = Title("제대로 된 제목입니다.")
         assert(title.text == "제대로 된 제목입니다.")
     }
+
+    @Test
+    fun `제목이 비어있으면 제목 필수 예외가 발생한다`() {
+        val exception = assertFailsWith<ValidationException> {
+            Title("")
+        }
+        assert(exception.message == ValidationMessages.TITLE_REQUIRED)
+    }
+
+    @Test
+    fun `제목이 공백만 있으면 제목 필수 예외가 발생한다`() {
+        val exception = assertFailsWith<ValidationException> {
+            Title("   ")
+        }
+        assert(exception.message == ValidationMessages.TITLE_REQUIRED)
+    }
 }

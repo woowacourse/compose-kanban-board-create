@@ -21,9 +21,14 @@ import androidx.compose.ui.unit.sp
 import woowacourse.kanban.board.design.Font
 
 @Composable
-fun TaskCreateHeaderSection() {
+fun TaskCreateHeaderSection(
+    modifier: Modifier = Modifier,
+    onCloseClick: () -> Unit = {},
+) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(12.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(12.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -35,17 +40,17 @@ fun TaskCreateHeaderSection() {
         )
         IconButton(
             modifier = Modifier.size(20.dp),
-            onClick = {},
-
-            ) {
+            onClick = onCloseClick,
+        ) {
             Icon(
                 imageVector = Icons.Filled.Close,
                 contentDescription = "닫기",
                 tint = Color.Black,
+                modifier = Modifier,
             )
         }
     }
-    HorizontalDivider()
+    HorizontalDivider(modifier = modifier)
 }
 
 @Preview(showBackground = true)

@@ -11,7 +11,10 @@ import woowacourse.kanban.board.model.Tag
 import woowacourse.kanban.board.model.TagGroup
 
 @Composable
-fun TagGroupSection(tagGroup: TagGroup) {
+fun TagGroupSection(
+    tagGroup: TagGroup,
+    modifier: Modifier = Modifier,
+    ) {
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),

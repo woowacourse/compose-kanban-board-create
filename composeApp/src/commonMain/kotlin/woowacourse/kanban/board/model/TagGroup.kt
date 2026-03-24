@@ -1,13 +1,13 @@
 package woowacourse.kanban.board.model
 
-data class TagGroup(val tags: List<Tag>){
+data class TagGroup(val tags: List<Tag>) {
     init {
-        require(tags.size <= MAXIMUM_TAG_COUNT) { "[ERROR] 태그 개수는 ${MAXIMUM_TAG_COUNT}개 이하여야합니다." }
+        if (tags.size > MAXIMUM_TAG_COUNT) {
+            throw ValidationException(ValidationErrorCode.TAG_LIMIT_INVALID)
+        }
     }
 
-    fun isEmpty(): Boolean {
-        return tags.isEmpty()
-    }
+    fun isEmpty(): Boolean = tags.isEmpty()
 
     companion object {
         const val MAXIMUM_TAG_COUNT = 5

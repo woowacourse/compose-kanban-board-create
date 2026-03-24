@@ -56,34 +56,4 @@ class RecompositionTest {
             isError = usernameLengthError,
         )
     }
-
-//    @OptIn(ExperimentalTestApi::class)
-//    @Test
-//    fun 리컴포지션될때_매번_유효성_검사() = runComposeUiTest {
-//        setContent {
-//            UsernameTextField(username = username, label = label)
-//        }
-//        username = "김컴포즈"
-//        waitForIdle()
-//        assertThat(count).isEqualTo(1)
-//
-//        label = "바뀐 라벨"
-//        waitForIdle()
-//        assertThat(count).isEqualTo(2)
-//    }
-//
-//    @OptIn(ExperimentalTestApi::class)
-//    @Test
-//    fun 특정_값_변경시만_유효성_검사() = runComposeUiTest {
-//        setContent {
-//            UsernameTextFieldWithRemember(username = username, label = label)
-//        }
-//        username = "김컴포즈"
-//        waitForIdle()
-//        assertThat(count).isEqualTo(1)
-//
-//        label = "바뀐 라벨"
-//        waitForIdle()
-//        assertThat(count).isEqualTo(1)
-//    }
 }

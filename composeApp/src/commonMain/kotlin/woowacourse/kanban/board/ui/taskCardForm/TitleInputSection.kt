@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.design.Font
@@ -22,20 +23,23 @@ import woowacourse.kanban.board.design.Font
 @Composable
 fun TitleInputSection(
     title: String,
+    modifier: Modifier = Modifier,
     onTitleChange: (String) -> Unit = {},
-    onErrorChange: (Boolean) -> Unit = {},
+    errorMessage: String? = null,
 ) {
-    Column {
+    Column(modifier = modifier) {
         Text(
             text = "제목 *",
             fontSize = Font.FORMTITLE.size,
             fontWeight = Font.FORMTITLE.weight,
-            modifier = Modifier.padding(8.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
         )
         TitleInputField(
             title = title,
             onTitleChange = onTitleChange,
-            onErrorChange = onErrorChange,
+            errorMessage = errorMessage,
         )
     }
 }
@@ -44,24 +48,29 @@ fun TitleInputSection(
 private fun TitleInputField(
     title: String,
     onTitleChange: (String) -> Unit,
-    onErrorChange: (Boolean) -> Unit,
+    errorMessage: String?,
+    modifier: Modifier = Modifier,
 ) {
-    var isEmptyError by remember { mutableStateOf(false) }
     var isFocused by remember { mutableStateOf(false) }
-    val supportingText by remember {
+
+    val isError by remember(title, isFocused, errorMessage) {
         derivedStateOf {
-            if (isEmptyError) "제목을 입력해주세요"
-            else ""
+            (isFocused || title.isNotEmpty()) && errorMessage != null
         }
     }
+
+    val supportingText by remember(title, isFocused, errorMessage) {
+        derivedStateOf {
+            if ((isFocused || title.isNotEmpty()) && errorMessage != null) errorMessage else ""
+        }
+    }
+
     OutlinedTextField(
         value = title,
         onValueChange = {
             onTitleChange(it)
-            isEmptyError = it.isEmpty()
-            onErrorChange(isEmptyError)
         },
-        isError = isEmptyError,
+        isError = isError,
         placeholder = {
             Text(
                 text = "태스크 제목을 입력하세요",
@@ -71,23 +80,25 @@ private fun TitleInputField(
             )
         },
         modifier = Modifier
+            .testTag("titleInput")
             .fillMaxWidth()
             .onFocusChanged { focusState ->
                 isFocused = focusState.isFocused
-                if (isFocused && title.isEmpty()) isEmptyError = true else isEmptyError = false
-                onErrorChange(isEmptyError)
             },
         supportingText = { TitleSupportingText(supportingText) },
-
-        )
+    )
 }
 
 @Composable
-private fun TitleSupportingText(text: String) {
+private fun TitleSupportingText(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
     Text(
         text = text,
         fontSize = Font.FORMEXPLAIN.size,
         fontWeight = Font.FORMEXPLAIN.weight,
+        modifier = modifier,
     )
 }
 
@@ -99,7 +110,6 @@ private fun TitleInputSectionPreview() {
         TitleInputSection(
             title = title,
             onTitleChange = { title = it },
-            onErrorChange = {},
         )
     }
 }

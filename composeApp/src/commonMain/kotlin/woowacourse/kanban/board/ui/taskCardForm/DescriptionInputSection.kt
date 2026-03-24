@@ -21,14 +21,19 @@ import woowacourse.kanban.board.design.Font
 @Composable
 fun DescriptionInputSection(
     description: String,
+    modifier: Modifier = Modifier,
     onDescriptionChange: (String) -> Unit = {},
 ) {
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         Text(
             text = "설명",
             fontSize = Font.FORMTITLE.size,
             fontWeight = Font.FORMTITLE.weight,
-            modifier = Modifier.padding(8.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
         )
         DescriptionInputField(
             description = description,
@@ -41,6 +46,7 @@ fun DescriptionInputSection(
 private fun DescriptionInputField(
     description: String,
     onDescriptionChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
         value = description,

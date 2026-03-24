@@ -12,7 +12,10 @@ import woowacourse.kanban.board.design.Font
 import woowacourse.kanban.board.model.Description
 
 @Composable
-fun DescriptionSection(description: Description) {
+fun DescriptionSection(
+    description: Description,
+    modifier: Modifier = Modifier,
+) {
     Text(
         text = description.text,
         fontSize = Font.DESCRIPTION.size,

@@ -11,7 +11,10 @@ import woowacourse.kanban.board.design.Font
 import woowacourse.kanban.board.model.Title
 
 @Composable
-fun TitleSection(title: Title) {
+fun TitleSection(
+    title: Title,
+    modifier: Modifier = Modifier,
+    ) {
     Text(
         text = title.text,
         fontSize = Font.TITLE.size,

@@ -13,6 +13,7 @@ import woowacourse.kanban.board.model.Description
 import woowacourse.kanban.board.model.Tag
 import woowacourse.kanban.board.model.TagGroup
 import woowacourse.kanban.board.model.TaskCard
+import woowacourse.kanban.board.model.TaskStatus
 import woowacourse.kanban.board.model.Title
 
 @OptIn(ExperimentalTestApi::class)
@@ -22,14 +23,13 @@ class TaskCardSectionTest {
     fun `태스크 카드는 제목을 표시한다`() = runComposeUiTest {
         val taskCard = TaskCard(
             title = Title("제목입니다"),
+            status = TaskStatus.TODO,
+            assignee = Assignee("다이노"),
             description = Description("설명입니다"),
             tags = TagGroup(emptyList()),
-            assignee = Assignee("다이노")
         )
 
-        setContent {
-            TaskCardSection(taskCard = taskCard)
-        }
+        setContent { TaskCardSection(taskCard = taskCard) }
 
         onNodeWithText("제목입니다").assertIsDisplayed()
     }
@@ -38,14 +38,13 @@ class TaskCardSectionTest {
     fun `태스크 카드는 담당자를 표시한다`() = runComposeUiTest {
         val taskCard = TaskCard(
             title = Title("제목입니다"),
+            status = TaskStatus.TODO,
+            assignee = Assignee("다이노"),
             description = Description("설명입니다"),
             tags = TagGroup(emptyList()),
-            assignee = Assignee("다이노")
         )
 
-        setContent {
-            TaskCardSection(taskCard = taskCard)
-        }
+        setContent { TaskCardSection(taskCard = taskCard) }
 
         onNodeWithText("다이노").assertIsDisplayed()
         onNodeWithContentDescription("사용자 기본 이미지").assertIsDisplayed()
@@ -55,14 +54,13 @@ class TaskCardSectionTest {
     fun `태스크 카드는 비어있지 않은 설명을 표시한다`() = runComposeUiTest {
         val taskCard = TaskCard(
             title = Title("제목입니다"),
+            status = TaskStatus.TODO,
+            assignee = Assignee("다이노"),
             description = Description("설명입니다"),
             tags = TagGroup(emptyList()),
-            assignee = Assignee("다이노")
         )
 
-        setContent {
-            TaskCardSection(taskCard = taskCard)
-        }
+        setContent { TaskCardSection(taskCard = taskCard) }
 
         onNodeWithText("설명입니다").assertIsDisplayed()
     }
@@ -71,14 +69,13 @@ class TaskCardSectionTest {
     fun `태스크 카드는 비어있는 설명을 숨긴다`() = runComposeUiTest {
         val taskCard = TaskCard(
             title = Title("제목입니다"),
+            status = TaskStatus.TODO,
+            assignee = Assignee("다이노"),
             description = Description(" "),
             tags = TagGroup(emptyList()),
-            assignee = Assignee("다이노")
         )
 
-        setContent {
-            TaskCardSection(taskCard = taskCard)
-        }
+        setContent { TaskCardSection(taskCard = taskCard) }
 
         onNodeWithText("제목입니다").assertIsDisplayed()
         onNodeWithText("다이노").assertIsDisplayed()
@@ -89,14 +86,13 @@ class TaskCardSectionTest {
     fun `태스크 카드는 태그를 표시한다`() = runComposeUiTest {
         val taskCard = TaskCard(
             title = Title("제목입니다"),
+            status = TaskStatus.TODO,
+            assignee = Assignee("다이노"),
             description = Description("설명입니다"),
             tags = TagGroup(listOf(Tag("태그1"), Tag("태그2"))),
-            assignee = Assignee("다이노")
         )
 
-        setContent {
-            TaskCardSection(taskCard = taskCard)
-        }
+        setContent { TaskCardSection(taskCard = taskCard) }
 
         onNodeWithText("태그1").assertIsDisplayed()
         onNodeWithText("태그2").assertIsDisplayed()
@@ -106,14 +102,13 @@ class TaskCardSectionTest {
     fun `태스크 카드는 제목, 설명, 태그, 담당자를 모두 표시한다`() = runComposeUiTest {
         val taskCard = TaskCard(
             title = Title("제목입니다"),
+            status = TaskStatus.TODO,
+            assignee = Assignee("다이노"),
             description = Description("설명입니다"),
             tags = TagGroup(listOf(Tag("태그1"), Tag("태그2"))),
-            assignee = Assignee("다이노")
         )
 
-        setContent {
-            TaskCardSection(taskCard = taskCard)
-        }
+        setContent { TaskCardSection(taskCard = taskCard) }
 
         onNodeWithText("제목입니다").assertIsDisplayed()
         onNodeWithText("설명입니다").assertIsDisplayed()
